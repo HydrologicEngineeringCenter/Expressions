@@ -17,7 +17,7 @@ public class DivideNode extends BinaryExpressionNode<Double,Double,Double> {
     }
     @Override
     public String OpName() {
-        return "Divide";
+        return "DIVIDE";
     }
     @Override
     public String InfixOpName() {

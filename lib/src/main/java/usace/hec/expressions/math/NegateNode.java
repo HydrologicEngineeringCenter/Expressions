@@ -20,6 +20,8 @@ public class NegateNode extends UnaryExpressionNode<Double> {
 
     @Override
     public Double evaluate() {
-        return -(child.evaluate());
+        Double value = child.evaluate();
+        Double result = -value;
+        return result;
     }
 }
