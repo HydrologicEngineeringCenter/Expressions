@@ -40,4 +40,9 @@ public class UpdateableLeafNode<T> implements ExpressionNode<T>, DataListener<T>
     public String stringifyInFix(){
         return "[" + this.name + "]";
     }
+
+    @Override
+    public ExpressionNode<T> owner() {
+        return this;
+    }
 }
