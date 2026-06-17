@@ -37,6 +37,6 @@ public class IfNode<T> implements ExpressionNode<T>{
     }
     @Override
     public String stringifyInFix(){
-        return "IF(" + conditionNode.stringify() + "," + thenNode.stringify() + "," + elseNode.stringify() + ")";
+        return "IF(" + conditionNode.stringifyInFix() + "," + thenNode.stringifyInFix() + "," + elseNode.stringifyInFix() + ")";
     }
 }

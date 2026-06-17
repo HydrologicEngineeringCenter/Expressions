@@ -30,7 +30,9 @@ public class IfNodeTest {
         ExpressionNode<Double> ifNode = new IfNode<>(condition, Add, Multiply);
 
         String expression = ifNode.stringify();
-
+        System.out.print(expression + "\n");
+        String expressionInfix = ifNode.stringifyInFix();
+        System.out.print(expressionInfix+ "\n");
         List<DataListener<?>> list = ifNode.fetchListeners();
         for(DataListener<?> d : list){
             adu.register(d);
