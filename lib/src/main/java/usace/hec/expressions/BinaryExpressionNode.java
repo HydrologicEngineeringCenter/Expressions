@@ -21,7 +21,7 @@ public abstract class BinaryExpressionNode<T,R,L> implements ExpressionNode<T>{
     }
     @Override
     public String stringifyInFix(){
-        return leftnode.stringify() + InfixOpName() + rightnode.stringify();
+        return leftnode.stringifyInFix() + InfixOpName() + rightnode.stringifyInFix();
     }
     public abstract String OpName();
     public abstract String InfixOpName();
