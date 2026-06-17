@@ -2,6 +2,7 @@ package usace.hec.expressions.logical;
 
 import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
+import usace.hec.expressions.ExpressionOperator;
 
 public class AndNode extends BinaryExpressionNode<Boolean,Boolean,Boolean> {
     public AndNode(ExpressionNode<Boolean> left, ExpressionNode<Boolean> right) {
@@ -17,11 +18,15 @@ public class AndNode extends BinaryExpressionNode<Boolean,Boolean,Boolean> {
     }
     @Override
     public String OpName() {
-        return "AND";
+        return Operator().getPrefixName();
     }
     @Override
     public String InfixOpName() {
-        return "&&";
+        return Operator().getInfixName();
+    }
+    @Override
+    public ExpressionOperator Operator() {
+        return ExpressionOperator.AND;
     }
 }
 

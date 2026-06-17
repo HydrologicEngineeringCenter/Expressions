@@ -2,6 +2,7 @@ package usace.hec.expressions.comparison;
 
 import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
+import usace.hec.expressions.ExpressionOperator;
 
 public class GreaterThanNode<R extends Number,L extends Number> extends BinaryExpressionNode<Boolean,R, L> {
     public GreaterThanNode(ExpressionNode<L> left, ExpressionNode<R> right) {
@@ -17,10 +18,14 @@ public class GreaterThanNode<R extends Number,L extends Number> extends BinaryEx
     }
     @Override
     public String OpName() {
-        return "GT";
+        return Operator().getPrefixName();
     }
     @Override
     public String InfixOpName() {
-        return ">=";
+        return Operator().getInfixName();
+    }
+    @Override
+    public ExpressionOperator Operator() {
+        return ExpressionOperator.GT;
     }
 }

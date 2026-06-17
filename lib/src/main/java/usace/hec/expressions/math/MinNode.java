@@ -2,23 +2,13 @@ package usace.hec.expressions.math;
 
 import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
+import usace.hec.expressions.ExpressionOperator;
 
 public class MinNode extends BinaryExpressionNode<Double, Double, Double> {
 
     public MinNode(ExpressionNode<Double> left, ExpressionNode<Double> right) {
         super(left, right);
     }
-
-    @Override
-    public String OpName() {
-        return "MIN";
-    }
-
-    @Override
-    public String InfixOpName() {
-        return "min";
-    }
-
     @Override
     public Double evaluate() {
         Double left = leftnode.evaluate();
@@ -26,4 +16,18 @@ public class MinNode extends BinaryExpressionNode<Double, Double, Double> {
         Double result = Math.min(left.doubleValue(), right.doubleValue());
         return result;
     }
+    @Override
+    public String OpName() {
+        return Operator().getPrefixName();
+    }
+    @Override
+    public String InfixOpName() {
+        return Operator().getInfixName();
+    }
+    @Override
+    public ExpressionOperator Operator() {
+        return ExpressionOperator.MIN;
+    }
+
+
 }

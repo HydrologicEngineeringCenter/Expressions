@@ -2,6 +2,7 @@ package usace.hec.expressions.math;
 
 import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
+import usace.hec.expressions.ExpressionOperator;
 
 public class DivideNode extends BinaryExpressionNode<Double,Double,Double> {
     public DivideNode(ExpressionNode<Double> left, ExpressionNode<Double> right) {
@@ -17,10 +18,14 @@ public class DivideNode extends BinaryExpressionNode<Double,Double,Double> {
     }
     @Override
     public String OpName() {
-        return "DIVIDE";
+        return Operator().getPrefixName();
     }
     @Override
     public String InfixOpName() {
-        return "/";
+        return Operator().getInfixName();
+    }
+    @Override
+    public ExpressionOperator Operator() {
+        return ExpressionOperator.DIVIDE;
     }
 }

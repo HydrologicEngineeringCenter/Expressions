@@ -2,6 +2,7 @@ package usace.hec.expressions.comparison;
 
 import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
+import usace.hec.expressions.ExpressionOperator;
 
 public class EqualToNode<R extends Number,L extends Number> extends BinaryExpressionNode<Boolean,R, L> {
     public EqualToNode(ExpressionNode<L> left, ExpressionNode<R> right) {
@@ -17,10 +18,14 @@ public class EqualToNode<R extends Number,L extends Number> extends BinaryExpres
     }
     @Override
     public String OpName() {
-        return "EQ";
+        return Operator().getPrefixName();
     }
     @Override
     public String InfixOpName() {
-        return "==";
+        return Operator().getInfixName();
+    }
+    @Override
+    public ExpressionOperator Operator() {
+        return ExpressionOperator.EQ;
     }
 }

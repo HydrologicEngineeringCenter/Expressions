@@ -24,5 +24,6 @@ public abstract class UnaryExpressionNode<T> implements ExpressionNode<T>{
     }
     public abstract String OpName();
     public abstract String InfixOpName();
+    public abstract ExpressionOperator Operator();
 
 }

@@ -25,4 +25,5 @@ public abstract class BinaryExpressionNode<T,R,L> implements ExpressionNode<T>{
     }
     public abstract String OpName();
     public abstract String InfixOpName();
+    public abstract ExpressionOperator Operator();
 }
