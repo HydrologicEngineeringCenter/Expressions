@@ -6,6 +6,7 @@ import java.util.List;
 
 import usace.hec.expressions.DataListener;
 import usace.hec.expressions.ExpressionNode;
+import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.LeafNode;
 
 public class TodayNode implements ExpressionNode<Date>, LeafNode<Date> {
@@ -33,10 +34,10 @@ public class TodayNode implements ExpressionNode<Date>, LeafNode<Date> {
 
     @Override
     public String PreFixSyntax(){
-        return "TODAY()";
+        return ExpressionOperator.TODAY.getInfixName();
     }
     @Override
     public String ExcelSyntax(){
-        return "TODAY()";
+        return ExpressionOperator.TODAY.getInfixName();
     }
 }

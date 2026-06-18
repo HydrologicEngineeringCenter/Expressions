@@ -35,8 +35,8 @@ public abstract class UnaryExpressionNode<T> implements ExpressionNode<T>{
     }
 
     public void excelAppend(StringBuilder sb) {
-        sb.append(InfixOpName());
         sb.append('(');
+        sb.append(InfixOpName());
         child.excelAppend(sb);
         sb.append(')');
     }

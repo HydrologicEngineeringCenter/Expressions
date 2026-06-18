@@ -11,7 +11,7 @@ import usace.hec.expressions.DataListener;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.UpdateableLeafNode;
 
-public class AddNodeTest {
+public class AddSubNodeTest {
     @Test
     public void testEvaluate() {
         UpdateableLeafNode<Double> X = new UpdateableLeafNode<>("X");
@@ -19,6 +19,7 @@ public class AddNodeTest {
 
         BaseDataUpdater adu = new BaseDataUpdater();
         ExpressionNode<Double> Add = new AddNode(X, Y);
+        ExpressionNode<Double> Minus = new MinusNode(X, Y);
         List<DataListener<?>> list = Add.fetchListeners();
         for(DataListener<?> d : list){
             adu.register(d);
@@ -26,10 +27,14 @@ public class AddNodeTest {
         adu.publish("X",1.0);
         adu.publish("Y",1.0);
         Double result = Add.evaluate();
+        Double result2 = Minus.evaluate();
         assertEquals(2.0, result, 0.0);
+        assertEquals(0.0, result2, 0.0);
         adu.publish("X",2.0);
         result = Add.evaluate();
+        result2 = Minus.evaluate();
         assertEquals(3.0, result, 0.0);
+        assertEquals(1.0, result2, 0.0);
         adu.publish("Y", 2.0);
         result = Add.evaluate();
         assertEquals(4.0, result, 0.0);
@@ -37,5 +42,29 @@ public class AddNodeTest {
         adu.publish("Y",3.0);
         result = Add.evaluate();
         assertEquals(6.0, result, 0.0);
+        adu.publish("Y", 1000.0);
+        result2 = Minus.evaluate();
+        assertEquals(-997.0, result2, 0.0);
+    }
+
+    @Test
+    public void testSyntax(){ //You will have to examine the print statements, it will automatically return test passed.
+        UpdateableLeafNode<Double> X = new UpdateableLeafNode<>("X");
+        UpdateableLeafNode<Double> Y = new UpdateableLeafNode<>("Y");
+
+        BaseDataUpdater adu = new BaseDataUpdater();
+        ExpressionNode<Double> Add = new AddNode(X, Y);
+        ExpressionNode<Double> Minus = new MinusNode(X, Y);
+
+        String expression = Add.PreFixSyntax();
+        System.out.print(expression + "\n");
+        String expressionInfix = Add.ExcelSyntax();
+        System.out.print(expressionInfix+ "\n");
+
+        String expression2 = Minus.PreFixSyntax();
+        System.out.print(expression2 + "\n");
+        String expression2Infix = Minus.ExcelSyntax();
+        System.out.print(expression2Infix+ "\n");
+
     }
 }

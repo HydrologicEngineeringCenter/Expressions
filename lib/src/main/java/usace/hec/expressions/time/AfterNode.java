@@ -17,15 +17,15 @@ public class AfterNode extends BinaryExpressionNode<Boolean, Date, Date> {
     }
     @Override
     public String OpName() {
-        return "AFTER";
+        return Operator().getPrefixName();
     }
     @Override
     public String InfixOpName() {
-        return "AFTER";
+        return Operator().getPrefixName();
     }
 
     @Override
     public ExpressionOperator Operator() {
-        return null;
+        return ExpressionOperator.AFTER;
     }
 }

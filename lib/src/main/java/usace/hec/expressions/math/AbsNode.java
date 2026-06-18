@@ -29,4 +29,11 @@ public class AbsNode extends UnaryExpressionNode<Double> {
     public ExpressionOperator Operator() {
         return ExpressionOperator.ABS;
     }
+
+    @Override
+    public void excelAppend(StringBuilder sb) {
+        sb.append(Operator().getInfixName());
+        child.excelAppend(sb);
+        sb.append(Operator().getInfixName());
+    }
 }
