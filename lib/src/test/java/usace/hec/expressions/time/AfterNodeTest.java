@@ -2,8 +2,7 @@ package usace.hec.expressions.time;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Date;
-
+import java.time.LocalDate;
 import org.junit.Test;
 
 import usace.hec.expressions.ConstantLeafNode;
@@ -14,10 +13,10 @@ import usace.hec.expressions.math.MultiplyNode;
 public class AfterNodeTest {
     @Test
     public void testEvaluate() {
-        Date dayOne = new Date(2026,6 , 16);
-        ConstantLeafNode<Date> a = new ConstantLeafNode<Date>(dayOne);
-        Date dayTwo = new Date(2026,6 , 18);
-        ConstantLeafNode<Date> b = new ConstantLeafNode<Date>(dayTwo);
+        LocalDate dayOne = LocalDate.of(2026, 6, 16);
+        ConstantLeafNode<LocalDate> a = new ConstantLeafNode<LocalDate>(dayOne);
+        LocalDate dayTwo = LocalDate.of(2026,6 , 18);
+        ConstantLeafNode<LocalDate> b = new ConstantLeafNode<LocalDate>(dayTwo);
         AfterNode after = new AfterNode(a, b);
         BeforeNode before = new BeforeNode(a, b);
         ConstantLeafNode<Double> one = new ConstantLeafNode<Double>(1.0);
