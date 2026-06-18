@@ -16,7 +16,8 @@ public enum ExpressionOperator {
     GT(">"),
     GTE(">="),
     LT("<"),
-    LTE("<=");
+    LTE("<="),
+    ABS("abs");
 
     private final String op;
 

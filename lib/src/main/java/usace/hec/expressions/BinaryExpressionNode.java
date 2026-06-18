@@ -16,13 +16,36 @@ public abstract class BinaryExpressionNode<T,R,L> implements ExpressionNode<T>{
        return list;
     }
     @Override
-    public String stringify(){
-        return OpName() +"(" + leftnode.stringify() + "," + rightnode.stringify() + ")";
+    public String stringify() {
+        StringBuilder sb = new StringBuilder();
+        prefixAppend(sb);
+        return sb.toString();
     }
+
+    public void prefixAppend(StringBuilder sb) {
+        sb.append(OpName());
+        sb.append('(');
+        leftnode.prefixAppend(sb);
+        sb.append(',');
+        rightnode.prefixAppend(sb);
+        sb.append(')');
+    }
+
     @Override
     public String stringifyInFix(){
-        return leftnode.stringifyInFix() + InfixOpName() + rightnode.stringifyInFix();
+        StringBuilder sb = new StringBuilder();
+        excelAppend(sb);
+        return sb.toString();
     }
+
+    public void excelAppend(StringBuilder sb) {
+        sb.append('(');
+        leftnode.excelAppend(sb);
+        sb.append(InfixOpName());
+        rightnode.excelAppend(sb);
+        sb.append(')');
+    }
+
     public abstract String OpName();
     public abstract String InfixOpName();
     public abstract ExpressionOperator Operator();

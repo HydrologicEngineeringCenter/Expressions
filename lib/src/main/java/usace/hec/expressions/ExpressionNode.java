@@ -7,4 +7,6 @@ public interface ExpressionNode<T> {
     String stringify();
     String stringifyInFix();
     List<DataListener<?>> fetchListeners();
+    void prefixAppend(StringBuilder sb);
+    void excelAppend(StringBuilder sb);
 }
