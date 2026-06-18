@@ -4,6 +4,7 @@ import java.util.Date;
 
 import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
+import usace.hec.expressions.ExpressionOperator;
 
 
 public class BeforeNode extends BinaryExpressionNode<Boolean, Date, Date> {
@@ -21,5 +22,9 @@ public class BeforeNode extends BinaryExpressionNode<Boolean, Date, Date> {
     @Override
     public String InfixOpName() {
         return "BEFORE";
+    }
+    @Override
+    public ExpressionOperator Operator() {
+        return null;
     }
 }

@@ -20,12 +20,23 @@ public class TodayNode implements ExpressionNode<Date>, LeafNode<Date> {
     public List<DataListener<?>> fetchListeners() {
         return new ArrayList<>();
     }
+
     @Override
-    public String stringify(){
+    public void prefixAppend(StringBuilder sb) {
+        sb.append(PreFixSyntax());
+    }
+
+    @Override
+    public void excelAppend(StringBuilder sb) {
+        sb.append(PreFixSyntax());
+    }
+
+    @Override
+    public String PreFixSyntax(){
         return "TODAY()";
     }
-        @Override
-    public String stringifyInFix(){
+    @Override
+    public String ExcelSyntax(){
         return "TODAY()";
     }
 }

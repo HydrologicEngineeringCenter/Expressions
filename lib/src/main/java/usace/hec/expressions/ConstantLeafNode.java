@@ -19,12 +19,23 @@ public class ConstantLeafNode<T> implements ExpressionNode<T>, LeafNode<T>{
     public List<DataListener<?>> fetchListeners() {
         return new ArrayList<>();
     }
+
     @Override
-    public String stringify(){
+    public void prefixAppend(StringBuilder sb) {
+        sb.append(PreFixSyntax());
+    }
+
+    @Override
+    public void excelAppend(StringBuilder sb) {
+        sb.append(PreFixSyntax());
+    }
+
+    @Override
+    public String PreFixSyntax(){
         return value.toString();
     }
         @Override
-    public String stringifyInFix(){
+    public String ExcelSyntax(){
         return value.toString();
     }
 }

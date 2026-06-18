@@ -16,7 +16,7 @@ public abstract class BinaryExpressionNode<T,R,L> implements ExpressionNode<T>{
        return list;
     }
     @Override
-    public String stringify() {
+    public String PreFixSyntax() {
         StringBuilder sb = new StringBuilder();
         prefixAppend(sb);
         return sb.toString();
@@ -32,7 +32,7 @@ public abstract class BinaryExpressionNode<T,R,L> implements ExpressionNode<T>{
     }
 
     @Override
-    public String stringifyInFix(){
+    public String ExcelSyntax(){
         StringBuilder sb = new StringBuilder();
         excelAppend(sb);
         return sb.toString();

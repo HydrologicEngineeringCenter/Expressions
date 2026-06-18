@@ -32,12 +32,23 @@ public class UpdateableLeafNode<T> implements ExpressionNode<T>, DataListener<T>
         return list;
         
     }
+
     @Override
-    public String stringify(){
+    public void prefixAppend(StringBuilder sb) {
+        sb.append(PreFixSyntax());
+    }
+
+    @Override
+    public void excelAppend(StringBuilder sb) {
+        sb.append(PreFixSyntax());
+    }
+
+    @Override
+    public String PreFixSyntax(){
         return "[" + this.name + "]";
     }
         @Override
-    public String stringifyInFix(){
+    public String ExcelSyntax(){
         return "[" + this.name + "]";
     }
 
