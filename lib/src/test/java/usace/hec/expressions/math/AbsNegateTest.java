@@ -17,27 +17,35 @@ public class AbsNegateTest {
         UpdateableLeafNode<Double> X = new UpdateableLeafNode<>("X");
 
         BaseDataUpdater adu = new BaseDataUpdater();
-        ExpressionNode<Double> neg = new NegateNode(X);
-        ExpressionNode<Double> abs = new AbsNode(neg);
+        ExpressionNode<Double> neg = new NegateNode(X); // -X
+        ExpressionNode<Double> abs = new AbsNode(neg); // |-X|
         List<DataListener<?>> list = abs.fetchListeners();
         for(DataListener<?> d : list){
             adu.register(d);
         }
         adu.publish("X",1.0);
-        Double result = neg.evaluate();
+        Double result = neg.evaluate(); // -1
         assertEquals(-1.0, result, 0.0);
-        result = abs.evaluate();
+        result = abs.evaluate(); // |-1|
         assertEquals(1.0, result, 0.0);
         adu.publish("X",-2.0);
-        result = neg.evaluate();
+        result = neg.evaluate(); // -(-2)
         assertEquals(2.0, result, 0.0);
-        result = abs.evaluate();
+        result = abs.evaluate(); // |-2|
         assertEquals(2.0, result, 0.0);
         adu.publish("X",0.0);
-        result = neg.evaluate();
+        result = neg.evaluate(); //-0 = 0
         assertEquals(0.0, result, 0.0);
-        result = abs.evaluate();
+        result = abs.evaluate();//|0| = 0
         assertEquals(0.0, result, 0.0);
+        ExpressionNode<Double> doubleNeg = new NegateNode(neg); // -(-X)
+        adu.publish("X",500.0);
+        result = doubleNeg.evaluate(); //-(-500)
+        assertEquals(500.0, result, 0.0);
+        adu.publish("X",-500.0);
+        result = doubleNeg.evaluate();//-(-(-500))
+        assertEquals(-500.0, result, 0.0);
+
     }
 
     @Test
@@ -58,5 +66,11 @@ public class AbsNegateTest {
         String expression2Infix = abs.ExcelSyntax();
         System.out.print(expression2Infix+ "\n");
 
+        ExpressionNode<Double> doubleNeg = new NegateNode(neg);
+
+        String expression3 = doubleNeg.PreFixSyntax();
+        System.out.print(expression3 + "\n");
+        String expression3Infix = doubleNeg.ExcelSyntax();
+        System.out.print(expression3Infix+ "\n");
     }
 }
