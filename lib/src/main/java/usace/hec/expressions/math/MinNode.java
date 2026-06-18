@@ -4,16 +4,16 @@ import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 
-public class DivideNode extends BinaryExpressionNode<Double,Double,Double> {
-    public DivideNode(ExpressionNode<Double> left, ExpressionNode<Double> right) {
+public class MinNode extends BinaryExpressionNode<Double, Double, Double> {
+
+    public MinNode(ExpressionNode<Double> left, ExpressionNode<Double> right) {
         super(left, right);
-        
     }
     @Override
     public Double evaluate() {
         Double left = leftnode.evaluate();
         Double right = rightnode.evaluate();
-        Double result = left.doubleValue() / right.doubleValue();
+        Double result = Math.min(left.doubleValue(), right.doubleValue());
         return result;
     }
     @Override
@@ -26,6 +26,8 @@ public class DivideNode extends BinaryExpressionNode<Double,Double,Double> {
     }
     @Override
     public ExpressionOperator Operator() {
-        return ExpressionOperator.DIVIDE;
+        return ExpressionOperator.MIN;
     }
+
+
 }

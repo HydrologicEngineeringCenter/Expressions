@@ -2,6 +2,7 @@ package usace.hec.expressions.comparison;
 
 import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
+import usace.hec.expressions.ExpressionOperator;
 
 public class LessThanNode<R extends Number,L extends Number> extends BinaryExpressionNode<Boolean,R, L> {
     public LessThanNode(ExpressionNode<L> left, ExpressionNode<R> right) {
@@ -17,10 +18,14 @@ public class LessThanNode<R extends Number,L extends Number> extends BinaryExpre
     }
     @Override
     public String OpName() {
-        return "LT";
+        return Operator().getPrefixName();
     }
     @Override
     public String InfixOpName() {
-        return "<";
+        return Operator().getInfixName();
+    }
+    @Override
+    public ExpressionOperator Operator() {
+        return ExpressionOperator.LT;
     }
 }

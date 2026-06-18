@@ -1,19 +1,19 @@
 package usace.hec.expressions.math;
 
-import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.UnaryExpressionNode;
 
-public class DivideNode extends BinaryExpressionNode<Double,Double,Double> {
-    public DivideNode(ExpressionNode<Double> left, ExpressionNode<Double> right) {
-        super(left, right);
-        
+public class AbsNode extends UnaryExpressionNode<Double> {
+
+    public AbsNode(ExpressionNode<Double> child) {
+        super(child);
     }
+
     @Override
     public Double evaluate() {
-        Double left = leftnode.evaluate();
-        Double right = rightnode.evaluate();
-        Double result = left.doubleValue() / right.doubleValue();
+        Double value = child.evaluate();
+        Double result = Math.abs(value);
         return result;
     }
     @Override
@@ -24,8 +24,9 @@ public class DivideNode extends BinaryExpressionNode<Double,Double,Double> {
     public String InfixOpName() {
         return Operator().getInfixName();
     }
+
     @Override
     public ExpressionOperator Operator() {
-        return ExpressionOperator.DIVIDE;
+        return ExpressionOperator.ABS;
     }
 }

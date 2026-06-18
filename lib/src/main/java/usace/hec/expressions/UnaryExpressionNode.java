@@ -2,19 +2,17 @@ package usace.hec.expressions;
 
 import java.util.List;
 
-public abstract class BinaryExpressionNode<T,R,L> implements ExpressionNode<T>{
-    protected ExpressionNode<L> leftnode;
-    protected ExpressionNode<R> rightnode;
-    public BinaryExpressionNode(ExpressionNode<L> left, ExpressionNode<R> right){
-        leftnode = left;
-        rightnode = right;
+public abstract class UnaryExpressionNode<T> implements ExpressionNode<T>{
+    protected ExpressionNode<T> child;
+    public UnaryExpressionNode(ExpressionNode<T> child){
+        this.child = child;
     }
+
     @Override
     public List<DataListener<?>> fetchListeners() {
-       List<DataListener<?>> list = leftnode.fetchListeners();
-       list.addAll(rightnode.fetchListeners());
-       return list;
+        return child.fetchListeners();
     }
+
     @Override
     public String PreFixSyntax() {
         StringBuilder sb = new StringBuilder();
@@ -25,28 +23,25 @@ public abstract class BinaryExpressionNode<T,R,L> implements ExpressionNode<T>{
     public void prefixAppend(StringBuilder sb) {
         sb.append(OpName());
         sb.append('(');
-        leftnode.prefixAppend(sb);
-        sb.append(',');
-        rightnode.prefixAppend(sb);
+        child.prefixAppend(sb);
         sb.append(')');
     }
 
     @Override
-    public String ExcelSyntax(){
+    public String ExcelSyntax() {
         StringBuilder sb = new StringBuilder();
         excelAppend(sb);
         return sb.toString();
     }
 
     public void excelAppend(StringBuilder sb) {
-        sb.append('(');
-        leftnode.excelAppend(sb);
         sb.append(InfixOpName());
-        rightnode.excelAppend(sb);
+        sb.append('(');
+        child.excelAppend(sb);
         sb.append(')');
     }
-
     public abstract String OpName();
     public abstract String InfixOpName();
     public abstract ExpressionOperator Operator();
+
 }

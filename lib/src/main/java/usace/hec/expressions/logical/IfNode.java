@@ -31,12 +31,42 @@ public class IfNode<T> implements ExpressionNode<T>{
        list.addAll(elseNode.fetchListeners());
        return list;  
     }
+
     @Override
-    public String stringify(){
-        return "IF(" + conditionNode.stringify() + "," + thenNode.stringify() + "," + elseNode.stringify() + ")";
+    public String PreFixSyntax() {
+        StringBuilder sb = new StringBuilder();
+        prefixAppend(sb);
+        return sb.toString();
     }
+
+
     @Override
-    public String stringifyInFix(){
-        return "IF(" + conditionNode.stringifyInFix() + "," + thenNode.stringifyInFix() + "," + elseNode.stringifyInFix() + ")";
+    public void prefixAppend(StringBuilder sb) {
+        sb.append("IF(");
+        conditionNode.prefixAppend(sb);
+        sb.append(',');
+        thenNode.prefixAppend(sb);
+        sb.append(',');
+        elseNode.prefixAppend(sb);
+        sb.append(')');
+    }
+
+    @Override
+    public void excelAppend(StringBuilder sb) {
+        sb.append("IF(");
+        conditionNode.excelAppend(sb);
+        sb.append(',');
+        thenNode.excelAppend(sb);
+        sb.append(',');
+        elseNode.excelAppend(sb);
+        sb.append(')');
+    }
+
+
+    @Override
+    public String ExcelSyntax(){
+        StringBuilder sb = new StringBuilder();
+        excelAppend(sb);
+        return sb.toString();
     }
 }

@@ -4,7 +4,9 @@ import java.util.List;
 
 public interface ExpressionNode<T> {
     T evaluate();
-    String stringify();
-    String stringifyInFix();
+    String PreFixSyntax();
+    String ExcelSyntax();
     List<DataListener<?>> fetchListeners();
+    void prefixAppend(StringBuilder sb);
+    void excelAppend(StringBuilder sb);
 }

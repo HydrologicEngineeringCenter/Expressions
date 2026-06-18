@@ -29,9 +29,9 @@ public class IfNodeTest {
 
         ExpressionNode<Double> ifNode = new IfNode<>(condition, Add, Multiply);
 
-        String expression = ifNode.stringify();
+        String expression = ifNode.PreFixSyntax();
         System.out.print(expression + "\n");
-        String expressionInfix = ifNode.stringifyInFix();
+        String expressionInfix = ifNode.ExcelSyntax();
         System.out.print(expressionInfix+ "\n");
         List<DataListener<?>> list = ifNode.fetchListeners();
         for(DataListener<?> d : list){
