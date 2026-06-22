@@ -4,7 +4,7 @@ import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.UnaryExpressionNode;
 
-public class AbsNode extends UnaryExpressionNode<Double> {
+public class AbsNode extends UnaryExpressionNode<Double, Double> {
 
     public AbsNode(ExpressionNode<Double> child) {
         super(child);

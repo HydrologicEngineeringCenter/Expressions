@@ -20,7 +20,8 @@ public enum ExpressionOperator {
     ABS("|"),
     AFTER,
     BEFORE,
-    TODAY("TODAY()");
+    TODAY("TODAY()"),
+    DAY("Day");
 
     private final String op;
     ExpressionOperator(){ //used for time nodes

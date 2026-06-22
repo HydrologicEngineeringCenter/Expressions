@@ -4,15 +4,19 @@ import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.UnaryExpressionNode;
 
-public class DayOfYearNode extends UnaryExpressionNode<Double> {
-    public DayOfYearNode(ExpressionNode<Double> child) {
+import java.time.LocalDate;
+
+public class DayOfYearNode extends UnaryExpressionNode<Integer, LocalDate> {
+    public DayOfYearNode(ExpressionNode<LocalDate> child) {
         super(child);
     }
 
     @Override
-    public Double evaluate() {
+    public Integer evaluate() {
         //return the day of year
-        return 0.0;
+        LocalDate childDate = child.evaluate();
+        Integer dayOfTheYear = childDate.getDayOfYear();
+        return dayOfTheYear.intValue();
     }
     @Override
     public String OpName() {
@@ -24,6 +28,14 @@ public class DayOfYearNode extends UnaryExpressionNode<Double> {
     }
     @Override
     public ExpressionOperator Operator() {
-        return ExpressionOperator.NEGATE;
+        return ExpressionOperator.DAY;
+    }
+
+    @Override
+    public void excelAppend(StringBuilder sb) {
+        sb.append(InfixOpName());
+        sb.append('(');
+        child.excelAppend(sb);
+        sb.append(')');
     }
 }
