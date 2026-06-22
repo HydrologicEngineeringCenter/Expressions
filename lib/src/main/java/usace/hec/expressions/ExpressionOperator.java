@@ -18,8 +18,8 @@ public enum ExpressionOperator {
     LT("<"),
     LTE("<="),
     ABS("|"),
-    AFTER,
-    BEFORE,
+    AFTER("is after?"),
+    BEFORE("is before?"),
     TODAY("TODAY()"),
     DAY("Day");
 

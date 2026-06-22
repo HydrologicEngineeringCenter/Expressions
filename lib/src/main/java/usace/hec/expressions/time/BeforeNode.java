@@ -22,7 +22,7 @@ public class BeforeNode extends BinaryExpressionNode<Boolean, LocalDate, LocalDa
     }
     @Override
     public String InfixOpName() {
-        return Operator().getPrefixName();
+        return Operator().getInfixName();
     }
     @Override
     public ExpressionOperator Operator() {

@@ -22,9 +22,8 @@ public class AfterNode extends BinaryExpressionNode<Boolean, LocalDate, LocalDat
     }
     @Override
     public String InfixOpName() {
-        return Operator().getPrefixName();
+        return Operator().getInfixName();
     }
-
     @Override
     public ExpressionOperator Operator() {
         return ExpressionOperator.AFTER;
