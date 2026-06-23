@@ -41,7 +41,9 @@ public abstract class BinaryExpressionNode<T,R,L> implements ExpressionNode<T>{
     public void excelAppend(StringBuilder sb) {
         sb.append('(');
         leftnode.excelAppend(sb);
+        sb.append(' ');
         sb.append(InfixOpName());
+        sb.append(' ');
         rightnode.excelAppend(sb);
         sb.append(')');
     }

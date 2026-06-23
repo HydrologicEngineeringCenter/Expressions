@@ -13,6 +13,9 @@ public class ExponentNode extends BinaryExpressionNode<Double,Double,Double> {
     public Double evaluate() {
         Double left = leftnode.evaluate();
         Double right = rightnode.evaluate();
+        if (left.doubleValue() < 0 && right.doubleValue() == 0.5){
+            throw new UnsupportedOperationException("Imaginary number unsupported");
+        }
         Double result = Math.pow(left.doubleValue(), right.doubleValue());
         return result;
     }

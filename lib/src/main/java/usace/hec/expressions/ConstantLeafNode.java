@@ -6,7 +6,7 @@ import java.util.List;
 public class ConstantLeafNode<T> implements ExpressionNode<T>, LeafNode<T>{
     private final T value;
 
-    public ConstantLeafNode( T value) {
+    public ConstantLeafNode(T value) {
         this.value = value;
     }
 

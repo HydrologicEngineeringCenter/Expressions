@@ -2,9 +2,9 @@ package usace.hec.expressions;
 
 import java.util.List;
 
-public abstract class UnaryExpressionNode<T> implements ExpressionNode<T>{
-    protected ExpressionNode<T> child;
-    public UnaryExpressionNode(ExpressionNode<T> child){
+public abstract class UnaryExpressionNode<T, C> implements ExpressionNode<T>{
+    protected ExpressionNode<C> child;
+    public UnaryExpressionNode(ExpressionNode<C> child){
         this.child = child;
     }
 
@@ -35,8 +35,8 @@ public abstract class UnaryExpressionNode<T> implements ExpressionNode<T>{
     }
 
     public void excelAppend(StringBuilder sb) {
-        sb.append(InfixOpName());
         sb.append('(');
+        sb.append(InfixOpName());
         child.excelAppend(sb);
         sb.append(')');
     }

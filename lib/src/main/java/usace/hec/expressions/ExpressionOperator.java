@@ -17,9 +17,16 @@ public enum ExpressionOperator {
     GTE(">="),
     LT("<"),
     LTE("<="),
-    ABS("abs");
+    ABS("|"),
+    AFTER("is after?"),
+    BEFORE("is before?"),
+    TODAY("TODAY()"),
+    DAY("Day");
 
     private final String op;
+    ExpressionOperator(){ //used for time nodes
+        this.op = null;
+    }
 
     ExpressionOperator(String op){
         this.op = op;

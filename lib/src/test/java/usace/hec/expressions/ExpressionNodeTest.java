@@ -16,6 +16,10 @@ public class ExpressionNodeTest {
         ExpressionNode<Double> Add = new AddNode(new ConstantLeafNode<Double>(2.0), new ConstantLeafNode<Double>(3.4));
         Double result = Add.evaluate();
         assertEquals(5.4, result, 0.0);
+        String expression = Add.PreFixSyntax();
+        System.out.print(expression + "\n");
+        String expressionInfix = Add.ExcelSyntax();
+        System.out.print(expressionInfix+ "\n");
     }
 
     @Test

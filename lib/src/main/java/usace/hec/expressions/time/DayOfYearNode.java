@@ -1,20 +1,22 @@
-package usace.hec.expressions.math;
+package usace.hec.expressions.time;
 
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.UnaryExpressionNode;
 
-public class AbsNode extends UnaryExpressionNode<Double, Double> {
+import java.time.LocalDate;
 
-    public AbsNode(ExpressionNode<Double> child) {
+public class DayOfYearNode extends UnaryExpressionNode<Integer, LocalDate> {
+    public DayOfYearNode(ExpressionNode<LocalDate> child) {
         super(child);
     }
 
     @Override
-    public Double evaluate() {
-        Double value = child.evaluate();
-        Double result = Math.abs(value);
-        return result;
+    public Integer evaluate() {
+        //return the day of year
+        LocalDate childDate = child.evaluate();
+        Integer dayOfTheYear = childDate.getDayOfYear();
+        return dayOfTheYear.intValue();
     }
     @Override
     public String OpName() {
@@ -24,16 +26,16 @@ public class AbsNode extends UnaryExpressionNode<Double, Double> {
     public String InfixOpName() {
         return Operator().getInfixName();
     }
-
     @Override
     public ExpressionOperator Operator() {
-        return ExpressionOperator.ABS;
+        return ExpressionOperator.DAY;
     }
 
     @Override
     public void excelAppend(StringBuilder sb) {
-        sb.append(Operator().getInfixName());
+        sb.append(InfixOpName());
+        sb.append('(');
         child.excelAppend(sb);
-        sb.append(Operator().getInfixName());
+        sb.append(')');
     }
 }

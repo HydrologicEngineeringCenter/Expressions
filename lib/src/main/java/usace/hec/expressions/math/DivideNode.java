@@ -13,6 +13,9 @@ public class DivideNode extends BinaryExpressionNode<Double,Double,Double> {
     public Double evaluate() {
         Double left = leftnode.evaluate();
         Double right = rightnode.evaluate();
+        if (right.doubleValue() == 0.0){
+            throw new ArithmeticException("Division by zero");
+        }
         Double result = left.doubleValue() / right.doubleValue();
         return result;
     }

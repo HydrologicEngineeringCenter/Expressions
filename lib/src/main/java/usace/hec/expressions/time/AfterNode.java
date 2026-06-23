@@ -1,31 +1,31 @@
 package usace.hec.expressions.time;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import usace.hec.expressions.BinaryExpressionNode;
-import usace.hec.expressions.ExpressionNode;
+import usace.hec.expressions.ConstantLeafNode;
 import usace.hec.expressions.ExpressionOperator;
 
 
-public class AfterNode extends BinaryExpressionNode<Boolean, Date, Date> {
-    public AfterNode(ExpressionNode<Date> left, ExpressionNode<Date> right){
+public class AfterNode extends BinaryExpressionNode<Boolean, LocalDate, LocalDate> {
+    public AfterNode(ConstantLeafNode<LocalDate> left, ConstantLeafNode<LocalDate> right){
         super(left, right);
     }
     @Override
     public Boolean evaluate() {
-        return leftnode.evaluate().after(rightnode.evaluate());
+        return leftnode.evaluate().isAfter(rightnode.evaluate());
     }
     @Override
     public String OpName() {
-        return "AFTER";
+        return Operator().getPrefixName();
     }
     @Override
     public String InfixOpName() {
-        return "AFTER";
+        return Operator().getInfixName();
     }
-
     @Override
     public ExpressionOperator Operator() {
-        return null;
+        return ExpressionOperator.AFTER;
     }
 }

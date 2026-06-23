@@ -28,5 +28,14 @@ public class MaxNode extends BinaryExpressionNode<Double, Double, Double>{
         return ExpressionOperator.MAX;
     }
 
+    @Override
+    public void excelAppend(StringBuilder sb) {
+        sb.append(InfixOpName());
+        sb.append('(');
+        leftnode.excelAppend(sb);
+        sb.append(',');
+        rightnode.excelAppend(sb);
+        sb.append(')');
+    }
 
 }
