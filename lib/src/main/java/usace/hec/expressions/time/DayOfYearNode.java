@@ -28,7 +28,7 @@ public class DayOfYearNode extends UnaryExpressionNode<Integer, LocalDate> {
     }
     @Override
     public ExpressionOperator Operator() {
-        return ExpressionOperator.DAY;
+        return ExpressionOperator.DOY;
     }
 
     @Override
