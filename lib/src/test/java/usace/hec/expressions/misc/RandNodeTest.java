@@ -1,6 +1,7 @@
 package usace.hec.expressions.misc;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Random;
@@ -29,6 +30,8 @@ public class RandNodeTest {
         for (int i = 0; i < 33550336; i++) {
             Double result = randNode.evaluate();
             assertEquals(check.nextDouble(), result, 0.0);
+            assertTrue(result < 1);
+            assertTrue(result >= 0);
         }
 
         String expression = randNode.PreFixSyntax();
