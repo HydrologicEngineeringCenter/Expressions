@@ -21,7 +21,9 @@ public enum ExpressionOperator {
     AFTER("is after?"),
     BEFORE("is before?"),
     TODAY("TODAY()"),
-    DAY("Day");
+    DOY("Day"),
+    LAG("Lagged"),
+    RAND("Random");
 
     private final String op;
     ExpressionOperator(){ //used for time nodes
