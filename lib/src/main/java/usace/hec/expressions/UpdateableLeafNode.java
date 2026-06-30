@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UpdateableLeafNode<T> implements ExpressionNode<T>, DataListener<T>{
-    private final String name;
-    private T value;
+    protected final String name;
+    protected T value;
 
     public UpdateableLeafNode(String name) {
         this.name = name;
