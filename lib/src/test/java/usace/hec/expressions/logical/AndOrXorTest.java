@@ -25,8 +25,8 @@ public class AndOrXorTest {
         System.out.print(expression + "\n");
         String expressionInfix = andNode.ExcelSyntax();
         System.out.print(expressionInfix+ "\n");
-        List<DataListener<?, ?>> list = andNode.fetchListeners();
-        for(DataListener<?, ?> d : list){
+        List<DataListener<?>> list = andNode.fetchListeners();
+        for(DataListener<?> d : list){
             adu.register(d);
         }
         adu.publish("X",true);
@@ -56,8 +56,8 @@ public class AndOrXorTest {
         System.out.print(expression + "\n");
         String expressionInfix = orNode.ExcelSyntax();
         System.out.print(expressionInfix+ "\n");
-        List<DataListener<?, ?>> list = orNode.fetchListeners();
-        for(DataListener<?, ?> d : list){
+        List<DataListener<?>> list = orNode.fetchListeners();
+        for(DataListener<?> d : list){
             adu.register(d);
         }
         adu.publish("X",true);
@@ -87,8 +87,8 @@ public class AndOrXorTest {
         System.out.print(expression + "\n");
         String expressionInfix = XorNode.ExcelSyntax();
         System.out.print(expressionInfix+ "\n");
-        List<DataListener<?, ?>> list = XorNode.fetchListeners();
-        for(DataListener<?, ?> d : list){
+        List<DataListener<?>> list = XorNode.fetchListeners();
+        for(DataListener<?> d : list){
             adu.register(d);
         }
         adu.publish("X",true);

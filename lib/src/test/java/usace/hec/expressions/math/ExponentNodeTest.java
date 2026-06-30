@@ -20,8 +20,8 @@ public class ExponentNodeTest {
 
         BaseDataUpdater adu = new BaseDataUpdater();
         ExpressionNode<Double> Exp = new ExponentNode(X, Y);
-        List<DataListener<?, ?>> list = Exp.fetchListeners();
-        for(DataListener<?, ?> d : list){
+        List<DataListener<?>> list = Exp.fetchListeners();
+        for(DataListener<?> d : list){
             adu.register(d);
         }
         adu.publish("X",1.0);

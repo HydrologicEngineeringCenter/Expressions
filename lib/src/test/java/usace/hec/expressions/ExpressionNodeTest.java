@@ -25,7 +25,7 @@ public class ExpressionNodeTest {
     @Test
     public void testFetchListeners() {
         ExpressionNode<Double> Add = new AddNode(new ConstantLeafNode<Double>(2.0), new ConstantLeafNode<Double>(3.4));
-        List<DataListener<?, ?>> list = Add.fetchListeners();
+        List<DataListener<?>> list = Add.fetchListeners();
         if (list.size()!=0){
             assertFalse(true);
         }

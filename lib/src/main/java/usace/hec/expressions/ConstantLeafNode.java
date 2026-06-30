@@ -16,7 +16,7 @@ public class ConstantLeafNode<T> implements ExpressionNode<T>, LeafNode<T>{
     }
 
     @Override
-    public List<DataListener<?, ?>> fetchListeners() {
+    public List<DataListener<?>> fetchListeners() {
         return new ArrayList<>();
     }
 

@@ -39,8 +39,8 @@ public class IfNodeTest {
         System.out.print(expression + "\n");
         String expressionInfix = ifNode.ExcelSyntax();
         System.out.print(expressionInfix+ "\n");
-        List<DataListener<?, ?>> list = ifNode.fetchListeners();
-        for(DataListener<?, ?> d : list){
+        List<DataListener<?>> list = ifNode.fetchListeners();
+        for(DataListener<?> d : list){
             adu.register(d);
         }
         adu.publishNext("X");
@@ -99,8 +99,8 @@ public class IfNodeTest {
         System.out.print(expression + "\n");
         String expressionInfix = outerIfNode.ExcelSyntax();
         System.out.print(expressionInfix+ "\n");
-        List<DataListener<?, ?>> list = outerIfNode.fetchListeners();
-        for(DataListener<?, ?> d : list){
+        List<DataListener<?>> list = outerIfNode.fetchListeners();
+        for(DataListener<?> d : list){
             adu.register(d);
         }
         adu.publishNext("X");
@@ -152,8 +152,8 @@ public class IfNodeTest {
         System.out.print(expression + "\n");
         String expressionInfix = outerIfNode.ExcelSyntax();
         System.out.print(expressionInfix+ "\n");
-        List<DataListener<?, ?>> list = outerIfNode.fetchListeners();
-        for(DataListener<?, ?> d : list){
+        List<DataListener<?>> list = outerIfNode.fetchListeners();
+        for(DataListener<?> d : list){
             adu.register(d);
         }
         adu.publish("X", 200.0);

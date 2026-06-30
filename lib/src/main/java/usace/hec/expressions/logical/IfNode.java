@@ -25,7 +25,7 @@ public class IfNode<T> implements ExpressionNode<T>{
        }
     }
     @Override
-    public List<DataListener<?, ?>> fetchListeners() {
+    public List<DataListener<?>> fetchListeners() {
         List<DataListener<?>> list = conditionNode.fetchListeners();
        list.addAll(thenNode.fetchListeners());
        list.addAll(elseNode.fetchListeners());

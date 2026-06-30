@@ -19,8 +19,8 @@ public class LagNodeTest {
 
         BaseDataUpdater adu = new BaseDataUpdater();
 
-        List<DataListener<?, ?>> list = lagNode.fetchListeners();
-        for(DataListener<?, ?> d : list) {
+        List<DataListener<?>> list = lagNode.fetchListeners();
+        for(DataListener<?> d : list) {
             adu.register(d);
         }
         adu.publish("X", 1.0);

@@ -10,8 +10,8 @@ public abstract class BinaryExpressionNode<T,R,L> implements ExpressionNode<T>{
         rightnode = right;
     }
     @Override
-    public List<DataListener<?, ?>> fetchListeners() {
-       List<DataListener<?, ?>> list = leftnode.fetchListeners();
+    public List<DataListener<?>> fetchListeners() {
+       List<DataListener<?>> list = leftnode.fetchListeners();
        list.addAll(rightnode.fetchListeners());
        return list;
     }

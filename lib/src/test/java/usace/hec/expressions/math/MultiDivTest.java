@@ -21,8 +21,8 @@ public class MultiDivTest {
         BaseDataUpdater adu = new BaseDataUpdater();
         ExpressionNode<Double> Multi = new MultiplyNode(X, Y);
         ExpressionNode<Double> Div = new DivideNode(X, Y);
-        List<DataListener<?, ?>> list = Multi.fetchListeners();
-        for(DataListener<?, ?> d : list){
+        List<DataListener<?>> list = Multi.fetchListeners();
+        for(DataListener<?> d : list){
             adu.register(d);
         }
         adu.publish("X",1.0);
