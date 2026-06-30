@@ -1,6 +1,6 @@
 package usace.hec.expressions;
 
-public interface DataListener<T> {
-    ExpressionNode<T> owner();
-    void onDataUpdate(DataUpdate<T> update);
+public interface DataListener<U, V> {
+    ExpressionNode<U> owner();
+    void onDataUpdate(DataUpdate<V> update);
 }

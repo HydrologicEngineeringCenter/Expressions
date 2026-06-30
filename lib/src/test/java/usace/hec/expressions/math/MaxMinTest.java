@@ -23,8 +23,8 @@ public class MaxMinTest {
 
 
 
-        List<DataListener<?>> list = Max.fetchListeners();
-        for(DataListener<?> d : list){
+        List<DataListener<?, ?>> list = Max.fetchListeners();
+        for(DataListener<?, ?> d : list){
             adu.register(d);
         }
         adu.publish("X",1.0);

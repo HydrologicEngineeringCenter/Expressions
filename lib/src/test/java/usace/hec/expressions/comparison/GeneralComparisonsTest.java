@@ -37,8 +37,8 @@ public class GeneralComparisonsTest {
         expressionInfix = lteNode.ExcelSyntax();
         System.out.print(expressionInfix+ "\n");
 
-        List<DataListener<?>> list = ltNode.fetchListeners();
-        for(DataListener<?> d : list){
+        List<DataListener<?, ?>> list = ltNode.fetchListeners();
+        for(DataListener<?, ?> d : list){
             adu.register(d);
         }
         adu.publish("X",1.0);
@@ -78,8 +78,8 @@ public class GeneralComparisonsTest {
         System.out.print(expression + "\n");
         expressionInfix = gteNode.ExcelSyntax();
         System.out.print(expressionInfix+ "\n");
-        List<DataListener<?>> list = gtNode.fetchListeners();
-        for(DataListener<?> d : list){
+        List<DataListener<?, ?>> list = gtNode.fetchListeners();
+        for(DataListener<?, ?> d : list){
             adu.register(d);
         }
 
@@ -114,8 +114,8 @@ public class GeneralComparisonsTest {
         System.out.print(expression + "\n");
         String expressionInfix = eqNode.ExcelSyntax();
         System.out.print(expressionInfix+ "\n");
-        List<DataListener<?>> list = eqNode.fetchListeners();
-        for(DataListener<?> d : list){
+        List<DataListener<?, ?>> list = eqNode.fetchListeners();
+        for(DataListener<?, ?> d : list){
             adu.register(d);
         }
 

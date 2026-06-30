@@ -20,8 +20,8 @@ public class RandNodeTest {
 
         BaseDataUpdater adu = new BaseDataUpdater();
 
-        List<DataListener<?>> list = randNode.fetchListeners();
-        for(DataListener<?> d : list) {
+        List<DataListener<?, ?>> list = randNode.fetchListeners();
+        for(DataListener<?, ?> d : list) {
             adu.register(d);
         }
 

@@ -2,7 +2,6 @@ package usace.hec.expressions.time;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import usace.hec.expressions.DataListener;
@@ -19,7 +18,7 @@ public class TodayNode implements ExpressionNode<LocalDate>, LeafNode<LocalDate>
     }
 
     @Override
-    public List<DataListener<?>> fetchListeners() {
+    public List<DataListener<?, ?>> fetchListeners() {
         return new ArrayList<>();
     }
 

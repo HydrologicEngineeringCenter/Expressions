@@ -19,8 +19,8 @@ public class AbsNegateTest {
         BaseDataUpdater adu = new BaseDataUpdater();
         ExpressionNode<Double> neg = new NegateNode(X); // -X
         ExpressionNode<Double> abs = new AbsNode(neg); // |-X|
-        List<DataListener<?>> list = abs.fetchListeners();
-        for(DataListener<?> d : list){
+        List<DataListener<?, ?>> list = abs.fetchListeners();
+        for(DataListener<?, ?> d : list){
             adu.register(d);
         }
         adu.publish("X",1.0);

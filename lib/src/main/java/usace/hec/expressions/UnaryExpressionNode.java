@@ -9,7 +9,7 @@ public abstract class UnaryExpressionNode<T, C> implements ExpressionNode<T>{
     }
 
     @Override
-    public List<DataListener<?>> fetchListeners() {
+    public List<DataListener<?, ?>> fetchListeners() {
         return child.fetchListeners();
     }
 

@@ -20,8 +20,8 @@ public class AddSubNodeTest {
         BaseDataUpdater adu = new BaseDataUpdater();
         ExpressionNode<Double> Add = new AddNode(X, Y);
         ExpressionNode<Double> Minus = new MinusNode(X, Y);
-        List<DataListener<?>> list = Add.fetchListeners();
-        for(DataListener<?> d : list){
+        List<DataListener<?, ?>> list = Add.fetchListeners();
+        for(DataListener<?, ?> d : list){
             adu.register(d);
         }
         adu.publish("X",1.0);

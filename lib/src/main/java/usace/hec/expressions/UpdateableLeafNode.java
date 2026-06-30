@@ -3,7 +3,7 @@ package usace.hec.expressions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UpdateableLeafNode<T> implements ExpressionNode<T>, DataListener<T>{
+public class UpdateableLeafNode<T> implements ExpressionNode<T>, DataListener<T, T>{
     private final String name;
     private T value;
 
@@ -26,11 +26,11 @@ public class UpdateableLeafNode<T> implements ExpressionNode<T>, DataListener<T>
     }
 
     @Override
-    public List<DataListener<?>> fetchListeners() {
-        List<DataListener<?>> list = new ArrayList<>();
+    public List<DataListener<?, ?>> fetchListeners() {
+        List<DataListener<?, ?>> list = new ArrayList<>();
         list.add(this);
         return list;
-        
+
     }
 
     @Override
