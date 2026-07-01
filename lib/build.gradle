@@ -58,7 +58,7 @@ def versionLabel(gitInfo) {
 }
 
 publishing {
-    //version = versionLabel(versionDetails())
+    version = versionLabel(versionDetails())
     println("selected tag: " + version)
     publications {
         mavenJava(MavenPublication) {
