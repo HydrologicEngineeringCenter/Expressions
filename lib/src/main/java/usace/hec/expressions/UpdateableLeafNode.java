@@ -1,5 +1,6 @@
 package usace.hec.expressions;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.List;
 public class UpdateableLeafNode<T extends Serializable> implements ExpressionNode<T>, DataListener<T>{
     protected final String name;
     protected T value;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public UpdateableLeafNode(String name) {
         this.name = name;

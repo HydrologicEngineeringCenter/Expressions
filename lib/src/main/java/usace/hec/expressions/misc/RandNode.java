@@ -4,10 +4,13 @@ import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.UnaryExpressionNode;
 
+import java.io.Serial;
 import java.util.Random;
 import java.util.random.RandomGenerator;
 
 public class RandNode extends UnaryExpressionNode<Double, Integer> {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private final int SEED;
     private final Random RAND;
     public RandNode(ExpressionNode<Integer> child) {

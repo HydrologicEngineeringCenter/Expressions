@@ -4,7 +4,11 @@ import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 
+import java.io.Serial;
+
 public class EqualToNode<R extends Number,L extends Number> extends BinaryExpressionNode<Boolean,R, L> {
+    @Serial
+    private static final long serialVersionUID = 1L;
     public EqualToNode(ExpressionNode<L> left, ExpressionNode<R> right) {
         super(left, right);
     }

@@ -4,7 +4,11 @@ import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 
+import java.io.Serial;
+
 public class OrNode extends BinaryExpressionNode<Boolean,Boolean,Boolean> {
+    @Serial
+    private static final long serialVersionUID = 1L;
     public OrNode(ExpressionNode<Boolean> left, ExpressionNode<Boolean> right) {
         super(left, right);
         

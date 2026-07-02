@@ -4,7 +4,11 @@ import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 
+import java.io.Serial;
+
 public class GreaterThanNode<R extends Number,L extends Number> extends BinaryExpressionNode<Boolean,R, L> {
+    @Serial
+    private static final long serialVersionUID = 1L;
     public GreaterThanNode(ExpressionNode<L> left, ExpressionNode<R> right) {
         super(left, right);
     }

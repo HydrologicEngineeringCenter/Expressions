@@ -1,11 +1,14 @@
 package usace.hec.expressions;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConstantLeafNode<T extends Serializable> implements ExpressionNode<T>, LeafNode<T>{
     private final T value;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public ConstantLeafNode(T value) {
         this.value = value;

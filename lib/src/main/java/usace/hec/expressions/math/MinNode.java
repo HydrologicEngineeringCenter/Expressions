@@ -4,8 +4,11 @@ import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 
-public class MinNode extends BinaryExpressionNode<Double, Double, Double> {
+import java.io.Serial;
 
+public class MinNode extends BinaryExpressionNode<Double, Double, Double> {
+    @Serial
+    private static final long serialVersionUID = 1L;
     public MinNode(ExpressionNode<Double> left, ExpressionNode<Double> right) {
         super(left, right);
     }

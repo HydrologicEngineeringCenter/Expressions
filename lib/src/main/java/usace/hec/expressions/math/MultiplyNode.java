@@ -4,7 +4,11 @@ import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 
+import java.io.Serial;
+
 public class MultiplyNode extends BinaryExpressionNode<Double,Double,Double> {
+    @Serial
+    private static final long serialVersionUID = 1L;
     public MultiplyNode(ExpressionNode<Double> left, ExpressionNode<Double> right) {
         super(left, right);
 

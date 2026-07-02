@@ -4,8 +4,11 @@ import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.UnaryExpressionNode;
 
-public class AbsNode extends UnaryExpressionNode<Double, Double> {
+import java.io.Serial;
 
+public class AbsNode extends UnaryExpressionNode<Double, Double> {
+    @Serial
+    private static final long serialVersionUID = 1L;
     public AbsNode(ExpressionNode<Double> child) {
         super(child);
     }

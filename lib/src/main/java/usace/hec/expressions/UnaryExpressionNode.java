@@ -1,10 +1,13 @@
 package usace.hec.expressions;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
 public abstract class UnaryExpressionNode<T extends Serializable, C extends Serializable>  implements ExpressionNode<T> {
     protected ExpressionNode<C> child;
+    @Serial
+    private static final long serialVersionUID = 1L;
     public UnaryExpressionNode(ExpressionNode<C> child){
         this.child = child;
     }
