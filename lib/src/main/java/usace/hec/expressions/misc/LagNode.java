@@ -8,8 +8,8 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 public class LagNode<T> extends BinaryExpressionNode<T, Integer, T> {
-    private Queue<T> lagQueue;
-    private Integer lag;
+    private transient Queue<T> lagQueue;
+    private transient Integer lag;
     public LagNode(ExpressionNode<T> left, ExpressionNode<Integer> right) {
         super(left, right);
     }
