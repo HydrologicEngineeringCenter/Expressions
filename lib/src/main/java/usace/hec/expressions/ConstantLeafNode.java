@@ -1,9 +1,10 @@
 package usace.hec.expressions;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConstantLeafNode<T> implements ExpressionNode<T>, LeafNode<T>{
+public class ConstantLeafNode<T extends Serializable> implements ExpressionNode<T>, LeafNode<T>{
     private final T value;
 
     public ConstantLeafNode(T value) {

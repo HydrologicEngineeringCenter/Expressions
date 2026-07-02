@@ -1,8 +1,9 @@
 package usace.hec.expressions;
 
+import java.io.Serializable;
 import java.util.List;
 
-public abstract class UnaryExpressionNode<T, C> implements ExpressionNode<T>{
+public abstract class UnaryExpressionNode<T extends Serializable, C extends Serializable>  implements ExpressionNode<T> {
     protected ExpressionNode<C> child;
     public UnaryExpressionNode(ExpressionNode<C> child){
         this.child = child;

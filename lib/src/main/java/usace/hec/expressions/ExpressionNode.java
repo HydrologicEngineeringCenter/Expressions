@@ -5,10 +5,11 @@ import usace.hec.expressions.comparison.*;
 import usace.hec.expressions.logical.*;
 import usace.hec.expressions.math.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface ExpressionNode<T> {
+public interface ExpressionNode<T extends Serializable> extends Serializable {
     T evaluate();
     String PreFixSyntax();
     String ExcelSyntax();
@@ -16,7 +17,7 @@ public interface ExpressionNode<T> {
     void prefixAppend(StringBuilder sb);
     void excelAppend(StringBuilder sb);
     @SuppressWarnings("unchecked")
-    public static <T> ExpressionNode<T> fromPreFixSyntax(String PrefixSyntax){
+    public static <T extends Serializable> ExpressionNode<T> fromPreFixSyntax(String PrefixSyntax){
 
         // Locate the first '(' — if there isn't one, the entire string is a literal (base case)
         int firstParen = PrefixSyntax.indexOf('(');

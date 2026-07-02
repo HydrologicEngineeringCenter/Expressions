@@ -1,6 +1,8 @@
 package usace.hec.expressions;
 
 
-public interface LeafNode<T> {
+import java.io.Serializable;
+
+public interface LeafNode<T extends Serializable> extends Serializable{
 
 }

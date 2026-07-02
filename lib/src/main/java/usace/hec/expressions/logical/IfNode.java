@@ -1,11 +1,12 @@
 package usace.hec.expressions.logical;
 
+import java.io.Serializable;
 import java.util.List;
 
 import usace.hec.expressions.DataListener;
 import usace.hec.expressions.ExpressionNode;
 
-public class IfNode<T> implements ExpressionNode<T>{
+public class IfNode<T extends Serializable> implements ExpressionNode<T>{
     private ExpressionNode<T> thenNode;
     private ExpressionNode<T> elseNode;
     private ExpressionNode<Boolean> conditionNode;

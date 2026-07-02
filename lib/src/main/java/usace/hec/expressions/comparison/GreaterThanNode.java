@@ -7,7 +7,6 @@ import usace.hec.expressions.ExpressionOperator;
 public class GreaterThanNode<R extends Number,L extends Number> extends BinaryExpressionNode<Boolean,R, L> {
     public GreaterThanNode(ExpressionNode<L> left, ExpressionNode<R> right) {
         super(left, right);
-        
     }
     @Override
     public Boolean evaluate() {

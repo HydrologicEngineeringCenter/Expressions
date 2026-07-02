@@ -1,9 +1,10 @@
 package usace.hec.expressions;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UpdateableLeafNode<T> implements ExpressionNode<T>, DataListener<T>{
+public class UpdateableLeafNode<T extends Serializable> implements ExpressionNode<T>, DataListener<T>{
     protected final String name;
     protected T value;
 

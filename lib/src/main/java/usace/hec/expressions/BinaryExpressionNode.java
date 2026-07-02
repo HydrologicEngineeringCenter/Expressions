@@ -1,11 +1,12 @@
 package usace.hec.expressions;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * {@link ExpressionNode} that evaluates two {@link ExpressionNode} to evaluate a mathematical operations between them
  */
-public abstract class BinaryExpressionNode<T,R,L> implements ExpressionNode<T>{
+public abstract class BinaryExpressionNode<T extends Serializable,R extends Serializable,L extends Serializable> implements ExpressionNode<T>{
     protected ExpressionNode<L> leftnode;
     protected ExpressionNode<R> rightnode;
     public BinaryExpressionNode(ExpressionNode<L> left, ExpressionNode<R> right){
