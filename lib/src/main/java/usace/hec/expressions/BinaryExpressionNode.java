@@ -55,6 +55,12 @@ public abstract class BinaryExpressionNode<T extends Serializable,R extends Seri
         sb.append(')');
     }
 
+    @Override
+    public void setProvider(DataProvider dp){
+        leftnode.setProvider(dp);
+        rightnode.setProvider(dp);
+    }
+
     public abstract String OpName();
     public abstract String InfixOpName();
     public abstract ExpressionOperator Operator();

@@ -1,0 +1,62 @@
+package usace.hec.expressions;
+
+import javax.xml.crypto.Data;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class UpdateableLeafNodeRequester<T extends Serializable> implements ExpressionNode<T>, DataRequester<T>{
+    protected final String name;
+    protected DataProvider dp = null;
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    public UpdateableLeafNodeRequester(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public T evaluate() {
+        return dp.provideValueForCurrentTimestep(name);
+    }
+
+
+
+    @Override
+    public void prefixAppend(StringBuilder sb) {
+        sb.append(PreFixSyntax());
+    }
+
+    @Override
+    public void excelAppend(StringBuilder sb) {
+        sb.append(PreFixSyntax());
+    }
+
+    @Override
+    public String PreFixSyntax(){
+        return "[" + this.name + "]";
+    }
+        @Override
+    public String ExcelSyntax(){
+        return "[" + this.name + "]";
+    }
+
+    @Override
+    public List<DataListener<?>> fetchListeners() {
+        return List.of();
+    }
+
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+
+    @Override
+    public void setProvider(DataProvider dp){
+        this.dp = dp;
+    }
+}

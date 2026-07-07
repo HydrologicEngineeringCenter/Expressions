@@ -44,6 +44,11 @@ public abstract class UnaryExpressionNode<T extends Serializable, C extends Seri
         child.excelAppend(sb);
         sb.append(')');
     }
+
+    @Override
+    public void setProvider(DataProvider dp){
+        child.setProvider(dp);
+    }
     public abstract String OpName();
     public abstract String InfixOpName();
     public abstract ExpressionOperator Operator();

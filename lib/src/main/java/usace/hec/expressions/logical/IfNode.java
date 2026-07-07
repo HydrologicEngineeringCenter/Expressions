@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import usace.hec.expressions.DataListener;
+import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.ExpressionNode;
 
 public class IfNode<T extends Serializable> implements ExpressionNode<T>{
@@ -34,6 +35,13 @@ public class IfNode<T extends Serializable> implements ExpressionNode<T>{
        list.addAll(thenNode.fetchListeners());
        list.addAll(elseNode.fetchListeners());
        return list;  
+    }
+
+    @Override
+    public void setProvider(DataProvider dp) {
+        thenNode.setProvider(dp);
+        elseNode.setProvider(dp);
+        conditionNode.setProvider(dp);
     }
 
     @Override

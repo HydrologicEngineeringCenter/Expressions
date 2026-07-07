@@ -21,3 +21,6 @@ public abstract class DataUpdater {
         }
     }
 }
+
+//TODO: Change architechture of DataUpdate instead of pushing to LeafNodes to instead have
+// LeafNodes pull from DataUpdater, something like a Map<>. Not sure how to do so yet.

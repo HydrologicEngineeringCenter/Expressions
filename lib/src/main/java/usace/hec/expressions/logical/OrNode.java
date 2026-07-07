@@ -15,10 +15,11 @@ public class OrNode extends BinaryExpressionNode<Boolean,Boolean,Boolean> {
     }
     @Override
     public Boolean evaluate() {
-        Boolean left = leftnode.evaluate();
-        Boolean right = rightnode.evaluate();
-        Boolean result = left || right;
-        return result;
+        if (leftnode.evaluate()){
+            return true;
+        } else {
+            return rightnode.evaluate();
+        }
     }
     @Override
     public String OpName() {
