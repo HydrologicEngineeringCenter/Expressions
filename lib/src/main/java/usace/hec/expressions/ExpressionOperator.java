@@ -23,7 +23,9 @@ public enum ExpressionOperator {
     TODAY("TODAY()"),
     DOY("Day"),
     LAG("Lagged"),
-    RAND("Random");
+    RAND("Random"),
+    FLOOR("floor"),
+    CEILING("ceil");
 
     private final String op;
     ExpressionOperator(){ //used for time nodes

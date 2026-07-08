@@ -7,19 +7,19 @@ import usace.hec.expressions.UnaryExpressionNode;
 import java.io.Serial;
 
 /**
- * {@link UnaryExpressionNode} that evaluates a child (numerical {@link ExpressionNode}), returning the negation of the child's value
+ * A {@link UnaryExpressionNode} that evaluates a child (numerical {@link ExpressionNode}), returning the floor of the child's value
  */
-public class NegateNode extends UnaryExpressionNode<Double, Double> {
+public class CeilingNode extends UnaryExpressionNode<Double, Double> {
     @Serial
     private static final long serialVersionUID = 1L;
-    public NegateNode(ExpressionNode<Double> child) {
+    public CeilingNode(ExpressionNode<Double> child) {
         super(child);
     }
 
     @Override
     public Double evaluate() {
         Double value = child.evaluate();
-        Double result = -value;
+        Double result = Math.ceil(value);
         return result;
     }
     @Override
@@ -30,8 +30,17 @@ public class NegateNode extends UnaryExpressionNode<Double, Double> {
     public String InfixOpName() {
         return Operator().getInfixName();
     }
+
     @Override
     public ExpressionOperator Operator() {
-        return ExpressionOperator.NEGATE;
+        return ExpressionOperator.CEILING;
+    }
+
+    @Override
+    public void excelAppend(StringBuilder sb) {
+        sb.append(InfixOpName());
+        sb.append('(');
+        child.excelAppend(sb);
+        sb.append(')');
     }
 }

@@ -6,8 +6,18 @@ import java.util.Map;
 public class DataHub implements DataProvider{
     private final Map<String, Object> currentValues = new HashMap<>();
 
+
+    //Unsafe?
     @Override
     public <T> T provideValueForCurrentTimestep(String name) {
-        return null;
+        Object value = currentValues.get(name);
+        if (value == null){
+            throw new IllegalArgumentException("No value available for: " + name);
+        }
+        return (T) value;
+    }
+
+    public void setValueForCurrentTimestep(String name, Object value) {
+        currentValues.put(name, value);
     }
 }
