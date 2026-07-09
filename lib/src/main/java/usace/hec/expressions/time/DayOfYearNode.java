@@ -4,9 +4,12 @@ import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.UnaryExpressionNode;
 
+import java.io.Serial;
 import java.time.LocalDate;
 
 public class DayOfYearNode extends UnaryExpressionNode<Integer, LocalDate> {
+    @Serial
+    private static final long serialVersionUID = 1L;
     public DayOfYearNode(ExpressionNode<LocalDate> child) {
         super(child);
     }

@@ -1,6 +1,8 @@
 package usace.hec.expressions;
 
-public interface DataListener<T> {
+import java.io.Serializable;
+
+public interface DataListener<T extends Serializable> {
     ExpressionNode<T> owner();
     void onDataUpdate(DataUpdate<T> update);
 }

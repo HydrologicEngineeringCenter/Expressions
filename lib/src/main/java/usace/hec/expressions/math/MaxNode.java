@@ -4,7 +4,17 @@ import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 
+import java.io.Serial;
+
+
 public class MaxNode extends BinaryExpressionNode<Double, Double, Double>{
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * A numerical {@link BinaryExpressionNode} that evaluates two children (numerical {@link ExpressionNode}s) returning the maximum value ({@code Math.max}) between
+     * the first child's value and the second child's value (e.g. {@code max(8,16) == 16})
+     */
     public MaxNode(ExpressionNode<Double> left, ExpressionNode<Double> right) {
         super(left, right);
     }

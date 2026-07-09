@@ -4,7 +4,16 @@ import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.UnaryExpressionNode;
 
+import java.io.Serial;
+
+
 public class NegateNode extends UnaryExpressionNode<Double, Double> {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * A numerical {@link UnaryExpressionNode} that evaluates a child (numerical {@link ExpressionNode}), returning the negation {@code -} of the child's value (e.g. {@code -x})
+     */
     public NegateNode(ExpressionNode<Double> child) {
         super(child);
     }

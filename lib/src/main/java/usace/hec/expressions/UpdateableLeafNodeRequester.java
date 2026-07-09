@@ -1,41 +1,28 @@
 package usace.hec.expressions;
 
+import javax.xml.crypto.Data;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UpdateableLeafNode<T extends Serializable> implements ExpressionNode<T>, DataListener<T>{
+public class UpdateableLeafNodeRequester<T extends Serializable> implements ExpressionNode<T>, DataRequester<T>{
     protected final String name;
-    protected T value;
+    protected DataProvider dp = null;
+
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public UpdateableLeafNode(String name) {
+    public UpdateableLeafNodeRequester(String name) {
         this.name = name;
-        this.value = null;
     }
 
     @Override
     public T evaluate() {
-        return this.value;
+        return dp.provideValueForCurrentTimestep(name);
     }
 
-    // Listens directly to data changes without tree traversal
-    @Override
-    public void onDataUpdate(DataUpdate<T> update) {
-        if (this.name.equals(update.variableName())) {
-            this.value = update.newValue();
-        }
-    }
 
-    @Override
-    public List<DataListener<?>> fetchListeners() {
-        List<DataListener<?>> list = new ArrayList<>();
-        list.add(this);
-        return list;
-        
-    }
 
     @Override
     public void prefixAppend(StringBuilder sb) {
@@ -57,7 +44,19 @@ public class UpdateableLeafNode<T extends Serializable> implements ExpressionNod
     }
 
     @Override
-    public ExpressionNode<T> owner() {
-        return this;
+    public List<DataListener<?>> fetchListeners() {
+        return List.of();
+    }
+
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+
+    @Override
+    public void setProvider(DataProvider dp){
+        this.dp = dp;
     }
 }

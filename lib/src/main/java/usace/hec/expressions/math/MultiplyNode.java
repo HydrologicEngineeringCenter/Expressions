@@ -4,7 +4,17 @@ import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 
+import java.io.Serial;
+
+
 public class MultiplyNode extends BinaryExpressionNode<Double,Double,Double> {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * A numerical {@link BinaryExpressionNode} that evaluates two children (numerical {@link ExpressionNode}s), returning the multiplication {@code *} of the first child's value by the second
+     * child's value (e.g. {@code x * y})
+     */
     public MultiplyNode(ExpressionNode<Double> left, ExpressionNode<Double> right) {
         super(left, right);
 

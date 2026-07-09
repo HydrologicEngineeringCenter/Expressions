@@ -4,10 +4,14 @@ import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
-public class LagNode<T> extends BinaryExpressionNode<T, Integer, T> {
+public class LagNode<T extends Serializable> extends BinaryExpressionNode<T, Integer, T> {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private transient Queue<T> lagQueue;
     private transient Integer lag;
     public LagNode(ExpressionNode<T> left, ExpressionNode<Integer> right) {

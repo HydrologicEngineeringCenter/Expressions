@@ -6,22 +6,21 @@ import usace.hec.expressions.UnaryExpressionNode;
 
 import java.io.Serial;
 
-
-public class AbsNode extends UnaryExpressionNode<Double, Double> {
+public class FloorNode extends UnaryExpressionNode<Double, Double> {
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * A numerical {@link UnaryExpressionNode} that evaluates a child (numerical {@link ExpressionNode}), returning the absolute value {@code Math.abs} of the child's value (e.g. {@code |-2| == 2})
+     * A numerical {@link UnaryExpressionNode} that evaluates a child (numerical {@link ExpressionNode}), returning the {@code Math.floor} of the child's value (e.g. {@code Math.floor(6.6) == 6})
      */
-    public AbsNode(ExpressionNode<Double> child) {
+    public FloorNode(ExpressionNode<Double> child) {
         super(child);
     }
 
     @Override
     public Double evaluate() {
         Double value = child.evaluate();
-        Double result = Math.abs(value);
+        Double result = Math.floor(value);
         return result;
     }
     @Override
@@ -35,13 +34,14 @@ public class AbsNode extends UnaryExpressionNode<Double, Double> {
 
     @Override
     public ExpressionOperator Operator() {
-        return ExpressionOperator.FLOOR;
+        return ExpressionOperator.ABS;
     }
 
     @Override
     public void excelAppend(StringBuilder sb) {
-        sb.append(Operator().getInfixName());
+        sb.append(InfixOpName());
+        sb.append('(');
         child.excelAppend(sb);
-        sb.append(Operator().getInfixName());
+        sb.append(')');
     }
 }

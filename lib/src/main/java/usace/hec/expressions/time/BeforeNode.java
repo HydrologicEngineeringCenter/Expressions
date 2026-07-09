@@ -1,5 +1,6 @@
 package usace.hec.expressions.time;
 
+import java.io.Serial;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -9,6 +10,8 @@ import usace.hec.expressions.ExpressionOperator;
 
 
 public class BeforeNode extends BinaryExpressionNode<Boolean, LocalDate, LocalDate> {
+    @Serial
+    private static final long serialVersionUID = 1L;
     public BeforeNode(ConstantLeafNode<LocalDate> left, ConstantLeafNode<LocalDate> right){
         super(left, right);
     }

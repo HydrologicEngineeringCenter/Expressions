@@ -1,11 +1,15 @@
 package usace.hec.expressions;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 
 /**
- * {@link ExpressionNode} that evaluates two {@link ExpressionNode} to evaluate a mathematical operations between them
+ * A generic {@link ExpressionNode} that evaluates two {@link ExpressionNode}s to evaluate simple mathematical operations between them
  */
-public abstract class BinaryExpressionNode<T,R,L> implements ExpressionNode<T>{
+public abstract class BinaryExpressionNode<T extends Serializable,R extends Serializable,L extends Serializable> implements ExpressionNode<T>{
+    @Serial
+    private static final long serialVersionUID = 1L;
     protected ExpressionNode<L> leftnode;
     protected ExpressionNode<R> rightnode;
     public BinaryExpressionNode(ExpressionNode<L> left, ExpressionNode<R> right){
@@ -49,6 +53,12 @@ public abstract class BinaryExpressionNode<T,R,L> implements ExpressionNode<T>{
         sb.append(' ');
         rightnode.excelAppend(sb);
         sb.append(')');
+    }
+
+    @Override
+    public void setProvider(DataProvider dp){
+        leftnode.setProvider(dp);
+        rightnode.setProvider(dp);
     }
 
     public abstract String OpName();

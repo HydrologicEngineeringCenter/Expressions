@@ -1,9 +1,13 @@
 package usace.hec.expressions;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 
-public abstract class UnaryExpressionNode<T, C> implements ExpressionNode<T>{
+public abstract class UnaryExpressionNode<T extends Serializable, C extends Serializable>  implements ExpressionNode<T> {
     protected ExpressionNode<C> child;
+    @Serial
+    private static final long serialVersionUID = 1L;
     public UnaryExpressionNode(ExpressionNode<C> child){
         this.child = child;
     }
@@ -39,6 +43,11 @@ public abstract class UnaryExpressionNode<T, C> implements ExpressionNode<T>{
         sb.append(InfixOpName());
         child.excelAppend(sb);
         sb.append(')');
+    }
+
+    @Override
+    public void setProvider(DataProvider dp){
+        child.setProvider(dp);
     }
     public abstract String OpName();
     public abstract String InfixOpName();

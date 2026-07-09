@@ -4,7 +4,17 @@ import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 
+import java.io.Serial;
+
+
 public class XorNode extends BinaryExpressionNode<Boolean,Boolean,Boolean> {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * A boolean {@link BinaryExpressionNode} that evaluates two children (boolean {@link ExpressionNode}s), returning the XOR of
+     * the childs' values (e.g. {@code true} if only one child is true, otherwise {@code false})
+     */
     public XorNode(ExpressionNode<Boolean> left, ExpressionNode<Boolean> right) {
         super(left, right);
         
