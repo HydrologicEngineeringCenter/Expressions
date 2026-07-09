@@ -6,9 +6,15 @@ import usace.hec.expressions.ExpressionOperator;
 
 import java.io.Serial;
 
+
 public class OrNode extends BinaryExpressionNode<Boolean,Boolean,Boolean> {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    /**
+     * A boolean {@link BinaryExpressionNode} that evaluates two children (boolean {@link ExpressionNode}s), returning the OR of
+     * the childs' values (e.g. {@code true} if at least one child is true, otherwise {@code false})
+     */
     public OrNode(ExpressionNode<Boolean> left, ExpressionNode<Boolean> right) {
         super(left, right);
         

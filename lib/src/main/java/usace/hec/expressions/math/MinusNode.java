@@ -6,9 +6,15 @@ import usace.hec.expressions.ExpressionOperator;
 
 import java.io.Serial;
 
+
 public class MinusNode extends BinaryExpressionNode<Double,Double,Double> {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    /**
+     * A numerical {@link BinaryExpressionNode} that evaluates two children (numerical {@link ExpressionNode}s), returning the subtraction {@code -} of the left child's value by
+     * the right child's value (e.g. {@code x - y})
+     */
     public MinusNode(ExpressionNode<Double> left, ExpressionNode<Double> right) {
         super(left, right);
         

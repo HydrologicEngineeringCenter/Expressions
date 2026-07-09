@@ -6,9 +6,15 @@ import usace.hec.expressions.ExpressionOperator;
 
 import java.io.Serial;
 
+
 public class AndNode extends BinaryExpressionNode<Boolean,Boolean,Boolean> {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    /**
+     * A boolean {@link BinaryExpressionNode} that evaluates two children (boolean {@link ExpressionNode}s), returning the AND of
+     * the childs' values (e.g. {@code true} if both children are true, otherwise {@code false})
+     */
     public AndNode(ExpressionNode<Boolean> left, ExpressionNode<Boolean> right) {
         super(left, right);
         

@@ -6,9 +6,15 @@ import usace.hec.expressions.ExpressionOperator;
 
 import java.io.Serial;
 
+
 public class ExponentNode extends BinaryExpressionNode<Double,Double,Double> {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    /**
+     * A numerical {@link BinaryExpressionNode} that evaluates two children (numerical {@link ExpressionNode}s) with exponentiation ({@code ^}) returning the value of the
+     * first child's value to the power of the second child's value (e.g. {@code x^y})
+     */
     public ExponentNode(ExpressionNode<Double> left, ExpressionNode<Double> right) {
         super(left, right);
         

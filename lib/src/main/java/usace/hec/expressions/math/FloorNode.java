@@ -6,12 +6,13 @@ import usace.hec.expressions.UnaryExpressionNode;
 
 import java.io.Serial;
 
-/**
- * A {@link UnaryExpressionNode} that evaluates a child (numerical {@link ExpressionNode}), returning the floor of the child's value
- */
 public class FloorNode extends UnaryExpressionNode<Double, Double> {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    /**
+     * A numerical {@link UnaryExpressionNode} that evaluates a child (numerical {@link ExpressionNode}), returning the {@code Math.floor} of the child's value (e.g. {@code Math.floor(6.6) == 6})
+     */
     public FloorNode(ExpressionNode<Double> child) {
         super(child);
     }

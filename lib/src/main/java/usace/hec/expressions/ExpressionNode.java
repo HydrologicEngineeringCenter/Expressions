@@ -14,7 +14,7 @@ public interface ExpressionNode<T extends Serializable> extends Serializable {
     String PreFixSyntax();
     String ExcelSyntax();
     List<DataListener<?>> fetchListeners();
-    public default void setProvider(DataProvider dp){
+    default void setProvider(DataProvider dp){
         return;
     }
     void prefixAppend(StringBuilder sb);

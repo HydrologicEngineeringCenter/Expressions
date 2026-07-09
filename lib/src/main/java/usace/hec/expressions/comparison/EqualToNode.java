@@ -9,6 +9,11 @@ import java.io.Serial;
 public class EqualToNode<R extends Number,L extends Number> extends BinaryExpressionNode<Boolean,R, L> {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    /**
+     * A boolean {@link BinaryExpressionNode} that evaluates two children (numerical {@link ExpressionNode}s), returning whether the two values are equal
+     * (e.g. {@code true} if both children are the same value, otherwise {@code false})
+     */
     public EqualToNode(ExpressionNode<L> left, ExpressionNode<R> right) {
         super(left, right);
     }

@@ -6,12 +6,14 @@ import usace.hec.expressions.UnaryExpressionNode;
 
 import java.io.Serial;
 
-/**
- * {@link UnaryExpressionNode} that evaluates a child (numerical {@link ExpressionNode}), returning the absolute value of the child's value
- */
+
 public class AbsNode extends UnaryExpressionNode<Double, Double> {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    /**
+     * A numerical {@link UnaryExpressionNode} that evaluates a child (numerical {@link ExpressionNode}), returning the absolute value {@code Math.abs} of the child's value (e.g. {@code |-2| == 2})
+     */
     public AbsNode(ExpressionNode<Double> child) {
         super(child);
     }

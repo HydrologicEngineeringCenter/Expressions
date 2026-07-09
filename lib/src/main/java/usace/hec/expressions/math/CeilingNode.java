@@ -6,12 +6,14 @@ import usace.hec.expressions.UnaryExpressionNode;
 
 import java.io.Serial;
 
-/**
- * A {@link UnaryExpressionNode} that evaluates a child (numerical {@link ExpressionNode}), returning the floor of the child's value
- */
+
 public class CeilingNode extends UnaryExpressionNode<Double, Double> {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    /**
+     * A numerical {@link UnaryExpressionNode} that evaluates a child (numerical {@link ExpressionNode}), returning the {@code Math.ceil} of the child's value (e.g. {@code Math.ceil(6.6) == 7})
+     */
     public CeilingNode(ExpressionNode<Double> child) {
         super(child);
     }
