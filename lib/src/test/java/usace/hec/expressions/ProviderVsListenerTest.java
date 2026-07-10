@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class ProviderVsListener {
+public class ProviderVsListenerTest {
 
 
     @Test

@@ -20,28 +20,18 @@ public interface ExpressionNode<T extends Serializable> extends Serializable {
     void prefixAppend(StringBuilder sb);
     void excelAppend(StringBuilder sb);
     @SuppressWarnings("unchecked")
-    public static <T extends Serializable> ExpressionNode<T> fromPreFixSyntax(String PrefixSyntax){
-
+    public static <T extends Serializable> ExpressionNode<T> fromPreFixSyntax(String PrefixSyntax, Class<T> type) {
         // Locate the first '(' — if there isn't one, the entire string is a literal (base case)
         int firstParen = PrefixSyntax.indexOf('(');
         if (firstParen == -1) {
             // Base case: leaf node.
             T value;
             //UpdatableLeafNode
-            if (PrefixSyntax.indexOf('[') != -1){
+            if (PrefixSyntax.indexOf('[') != -1) {
                 return new UpdateableLeafNode<>(PrefixSyntax.substring(1, PrefixSyntax.length() - 1));
             }
-            //Constant Boolean leaf node.
-            else if (PrefixSyntax.equals("true") || PrefixSyntax.equals("false")){
-                value = (T) (Object) Boolean.parseBoolean(PrefixSyntax);
-            }
-            //ConstantDouble leaf node.
-            else {
-                value = (T) (Object) Double.parseDouble(PrefixSyntax);
-            }
-            return new ConstantLeafNode<>(value);
+            return new ConstantLeafNode<>(parseLeafValue(PrefixSyntax, type));
         }
-
         // Everything before the first '(' is the operator's name, e.g. "ADD".
         String operatorName = PrefixSyntax.substring(0, firstParen);
 
@@ -68,54 +58,59 @@ public interface ExpressionNode<T extends Serializable> extends Serializable {
         }
         argStrings.add(argsBlock.substring(segmentStart)); // final argument
 
-        // Recursively parse each top-level argument. Each call gets its own
-        // self-contained substring, so no shared position/cursor state is needed
-        // across recursive calls — this IS the recursive step.
-        List<ExpressionNode<?>> args = new ArrayList<>();
-        for (String argString : argStrings) {
-            args.add(fromPreFixSyntax(argString));
-        }
-
         // Build the correct node type based on the operator name.
         switch (operatorName) {
             case "PLUS":
-                return (ExpressionNode<T>) new AddNode((ExpressionNode<Double>) args.get(0), (ExpressionNode<Double>) args.get(1));
+                return (ExpressionNode<T>) new AddNode(fromPreFixSyntax(argStrings.get(0), Double.class), fromPreFixSyntax(argStrings.get(1), Double.class));
             case "MINUS":
-                return (ExpressionNode<T>) new MinusNode((ExpressionNode<Double>) args.get(0), (ExpressionNode<Double>) args.get(1));
+                return (ExpressionNode<T>) new MinusNode(fromPreFixSyntax(argStrings.get(0), Double.class), fromPreFixSyntax(argStrings.get(1), Double.class));
             case "MULTIPLY":
-                return (ExpressionNode<T>) new MultiplyNode((ExpressionNode<Double>)args.get(0), (ExpressionNode<Double>)args.get(1));
+                return (ExpressionNode<T>) new MultiplyNode(fromPreFixSyntax(argStrings.get(0), Double.class), fromPreFixSyntax(argStrings.get(1), Double.class));
             case "DIVIDE":
-                return (ExpressionNode<T>) new DivideNode((ExpressionNode<Double>) args.get(0), (ExpressionNode<Double>)args.get(1));
+                return (ExpressionNode<T>) new DivideNode(fromPreFixSyntax(argStrings.get(0), Double.class), fromPreFixSyntax(argStrings.get(1), Double.class));
             case "POW":
-                return (ExpressionNode<T>) new ExponentNode((ExpressionNode<Double>) args.get(0), (ExpressionNode<Double>)args.get(1));
+                return (ExpressionNode<T>) new ExponentNode(fromPreFixSyntax(argStrings.get(0), Double.class), fromPreFixSyntax(argStrings.get(1), Double.class));
             case "MAX":
-                return (ExpressionNode<T>) new MaxNode((ExpressionNode<Double>) args.get(0), (ExpressionNode<Double>)args.get(1));
+                return (ExpressionNode<T>) new MaxNode(fromPreFixSyntax(argStrings.get(0), Double.class), fromPreFixSyntax(argStrings.get(1), Double.class));
             case "MIN":
-                return (ExpressionNode<T>) new MinNode((ExpressionNode<Double>) args.get(0), (ExpressionNode<Double>)args.get(1));
+                return (ExpressionNode<T>) new MinNode(fromPreFixSyntax(argStrings.get(0), Double.class), fromPreFixSyntax(argStrings.get(1), Double.class));
             case "NEGATE":
-                return (ExpressionNode<T>) new NegateNode((ExpressionNode<Double>)args.get(0));
+                return (ExpressionNode<T>) new NegateNode(fromPreFixSyntax(argStrings.get(0), Double.class));
             case "AND":
-                return (ExpressionNode<T>) new AndNode((ExpressionNode<Boolean>) args.get(0), (ExpressionNode<Boolean>)args.get(1));
+                return (ExpressionNode<T>) new AndNode(fromPreFixSyntax(argStrings.get(0), Boolean.class), fromPreFixSyntax(argStrings.get(1), Boolean.class));
             case "OR":
-                return (ExpressionNode<T>) new OrNode((ExpressionNode<Boolean>) args.get(0), (ExpressionNode<Boolean>)args.get(1));
+                return (ExpressionNode<T>) new OrNode(fromPreFixSyntax(argStrings.get(0), Boolean.class), fromPreFixSyntax(argStrings.get(1), Boolean.class));
             case "XOR":
-                return (ExpressionNode<T>) new XorNode((ExpressionNode<Boolean>) args.get(0), (ExpressionNode<Boolean>)args.get(1));
+                return (ExpressionNode<T>) new XorNode(fromPreFixSyntax(argStrings.get(0), Boolean.class), fromPreFixSyntax(argStrings.get(1), Boolean.class));
             case "EQ":
-                return (ExpressionNode<T>) new EqualToNode<>((ExpressionNode<Double>) args.get(0), (ExpressionNode<Double>)args.get(1));
+                return (ExpressionNode<T>) new EqualToNode<>(fromPreFixSyntax(argStrings.get(0), Double.class), fromPreFixSyntax(argStrings.get(1), Double.class));
             case "GT":
-                return (ExpressionNode<T>) new GreaterThanNode<>((ExpressionNode<Double>) args.get(0), (ExpressionNode<Double>)args.get(1));
+                return (ExpressionNode<T>) new GreaterThanNode<>(fromPreFixSyntax(argStrings.get(0), Double.class), fromPreFixSyntax(argStrings.get(1), Double.class));
             case "GTE":
-                return (ExpressionNode<T>) new GreaterThanOrEqualNode<>((ExpressionNode<Double>) args.get(0), (ExpressionNode<Double>)args.get(1));
+                return (ExpressionNode<T>) new GreaterThanOrEqualNode<>(fromPreFixSyntax(argStrings.get(0), Double.class), fromPreFixSyntax(argStrings.get(1), Double.class));
             case "LT":
-                return (ExpressionNode<T>) new LessThanNode<>((ExpressionNode<Double>) args.get(0), (ExpressionNode<Double>)args.get(1));
+                return (ExpressionNode<T>) new LessThanNode<>(fromPreFixSyntax(argStrings.get(0), Double.class), fromPreFixSyntax(argStrings.get(1), Double.class));
             case "LTE":
-                return (ExpressionNode<T>) new LessThanOrEqualNode<>((ExpressionNode<Double>) args.get(0), (ExpressionNode<Double>)args.get(1));
+                return (ExpressionNode<T>) new LessThanOrEqualNode<>(fromPreFixSyntax(argStrings.get(0), Double.class), fromPreFixSyntax(argStrings.get(1), Double.class));
             case "ABS":
-                return (ExpressionNode<T>) new AbsNode((ExpressionNode<Double>)args.get(0));
+                return (ExpressionNode<T>) new AbsNode(fromPreFixSyntax(argStrings.get(0), Double.class));
             case "IF":
-                return (ExpressionNode<T>) new IfNode<>((ExpressionNode<Boolean>)args.get(0),(ExpressionNode<Double>)args.get(1), (ExpressionNode<Double>)args.get(2) );
+                return new IfNode<>(fromPreFixSyntax(argStrings.get(0), Boolean.class), fromPreFixSyntax(argStrings.get(1), type), fromPreFixSyntax(argStrings.get(2), type));
             default:
                 throw new IllegalArgumentException("Unknown operator: " + operatorName);
         }
+    }
+
+    private static <T extends Serializable> T parseLeafValue(String prefixSyntax, Class<T> type) {
+        if (type == Boolean.class) {
+            return (T) Boolean.valueOf(prefixSyntax);
+        }
+        if (type == Integer.class) {
+            return (T) Integer.valueOf(prefixSyntax);
+        }
+        if (type == Double.class) {
+            return (T) Double.valueOf(prefixSyntax);
+        }
+        throw new IllegalArgumentException("Unsupported leaf type: " + type);
     }
 }
