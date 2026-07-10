@@ -1,6 +1,6 @@
 package usace.hec.expressions;
 
-public interface DataRequester<T> {
+public interface DataRequester {
     String getName();
     void setProvider(DataProvider dp);
 }

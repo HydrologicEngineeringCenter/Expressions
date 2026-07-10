@@ -6,9 +6,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UpdateableLeafNodeRequester<T extends Serializable> implements ExpressionNode<T>, DataRequester<T>{
+public class UpdateableLeafNodeRequester<T extends Serializable> implements ExpressionNode<T>, DataRequester {
     protected final String name;
-    protected DataProvider dp = null;
+    protected transient DataProvider dp = null;
 
     @Serial
     private static final long serialVersionUID = 1L;

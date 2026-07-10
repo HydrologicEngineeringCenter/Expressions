@@ -23,7 +23,7 @@ public class ReadExpressionFromStringTest {
         ExpressionNode<Double> expected = new AddNode(new ConstantLeafNode<>(2.0), new ConstantLeafNode<>(3.4));
         String expression = expected.PreFixSyntax();
         System.out.println(expected.PreFixSyntax());
-        ExpressionNode<Double> result = ExpressionNode.fromPreFixSyntax(expression);
+        ExpressionNode<Double> result = ExpressionNode.fromPreFixSyntax(expression, Double.class);
         assertEquals(result.evaluate(), expected.evaluate());
     }
     @Test
@@ -33,7 +33,7 @@ public class ReadExpressionFromStringTest {
         ExpressionNode<Double> expected = new AddNode(multNode, new ConstantLeafNode<>(3.4));
         String expression = expected.PreFixSyntax();
         System.out.println(expected.PreFixSyntax());
-        ExpressionNode<Double> result = ExpressionNode.fromPreFixSyntax(expression);
+        ExpressionNode<Double> result = ExpressionNode.fromPreFixSyntax(expression, Double.class);
         System.out.println(expected.PreFixSyntax());
         assertEquals(result.evaluate(), expected.evaluate());
     }
@@ -52,10 +52,10 @@ public class ReadExpressionFromStringTest {
         }
         String expressionAdd = Add.PreFixSyntax();
         System.out.println(Add.PreFixSyntax());
-        ExpressionNode<Double> expectedAdd = ExpressionNode.fromPreFixSyntax(expressionAdd);
+        ExpressionNode<Double> expectedAdd = ExpressionNode.fromPreFixSyntax(expressionAdd, Double.class);
         String expressionMinus = Minus.PreFixSyntax();
         System.out.println(Minus.PreFixSyntax());
-        ExpressionNode<Double> expectedMinus = ExpressionNode.fromPreFixSyntax(expressionMinus);
+        ExpressionNode<Double> expectedMinus = ExpressionNode.fromPreFixSyntax(expressionMinus, Double.class);
         BaseDataUpdater adu1 = new BaseDataUpdater();
 
         //POTENTIAL PROBLEM: the string parser creates new UpdatableLeafNodes, so nodes like Add and Minus who share the same
@@ -121,7 +121,7 @@ public class ReadExpressionFromStringTest {
         for(DataListener<?> d : list){
             adu.register(d);
         }
-        ExpressionNode<Double> expected = ExpressionNode.fromPreFixSyntax(expression);
+        ExpressionNode<Double> expected = ExpressionNode.fromPreFixSyntax(expression, Double.class);
         List<DataListener<?>> list1 = expected.fetchListeners();
         for(DataListener<?> d : list1){
             adu.register(d);
