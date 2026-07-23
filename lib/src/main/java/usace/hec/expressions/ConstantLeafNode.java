@@ -35,8 +35,7 @@ public class ConstantLeafNode<T extends Serializable> implements ExpressionNode<
 
         @Override
         public ExpressionOperator Operator() {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'Operator'");
+            return ExpressionOperator.CONSTANT;
         }
 
 }
