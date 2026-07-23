@@ -63,5 +63,4 @@ public abstract class BinaryExpressionNode<T extends Serializable,R extends Seri
 
     public abstract String OpName();
     public abstract String InfixOpName();
-    public abstract ExpressionOperator Operator();
 }

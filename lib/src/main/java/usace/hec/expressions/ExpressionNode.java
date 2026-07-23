@@ -1,6 +1,5 @@
 package usace.hec.expressions;
 
-import org.apache.commons.math3.analysis.function.Constant;
 import usace.hec.expressions.comparison.*;
 import usace.hec.expressions.logical.*;
 import usace.hec.expressions.math.*;
@@ -19,6 +18,7 @@ public interface ExpressionNode<T extends Serializable> extends Serializable {
     }
     void prefixAppend(StringBuilder sb);
     void excelAppend(StringBuilder sb);
+    ExpressionOperator Operator();
     @SuppressWarnings("unchecked")
     public static <T extends Serializable> ExpressionNode<T> fromPreFixSyntax(String PrefixSyntax, Class<T> type) {
         // Locate the first '(' — if there isn't one, the entire string is a literal (base case)

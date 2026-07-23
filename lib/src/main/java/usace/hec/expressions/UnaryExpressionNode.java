@@ -51,6 +51,5 @@ public abstract class UnaryExpressionNode<T extends Serializable, C extends Seri
     }
     public abstract String OpName();
     public abstract String InfixOpName();
-    public abstract ExpressionOperator Operator();
 
 }

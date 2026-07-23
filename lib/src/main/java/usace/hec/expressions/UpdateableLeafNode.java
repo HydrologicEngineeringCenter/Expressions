@@ -60,4 +60,10 @@ public class UpdateableLeafNode<T extends Serializable> implements ExpressionNod
     public ExpressionNode<T> owner() {
         return this;
     }
+
+    @Override
+    public ExpressionOperator Operator() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'Operator'");
+    }
 }

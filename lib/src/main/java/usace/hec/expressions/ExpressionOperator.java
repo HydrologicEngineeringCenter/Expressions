@@ -25,7 +25,10 @@ public enum ExpressionOperator {
     LAG("Lagged"),
     RAND("Random"),
     FLOOR("floor"),
-    CEILING("ceil");
+    CEILING("ceil"),
+    CONSTANT(""),
+    VARIABLE("[]"),
+    IF("If(,,)");
 
     private final String op;
     ExpressionOperator(){ //used for time nodes

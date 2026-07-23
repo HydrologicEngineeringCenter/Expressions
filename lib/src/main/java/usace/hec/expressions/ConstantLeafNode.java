@@ -42,4 +42,11 @@ public class ConstantLeafNode<T extends Serializable> implements ExpressionNode<
     public String ExcelSyntax(){
         return value.toString();
     }
+
+        @Override
+        public ExpressionOperator Operator() {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'Operator'");
+        }
+
 }
