@@ -54,44 +54,31 @@ public class IfNode<T extends Serializable> implements ExpressionNode<T>{
     @Override
     public String PreFixSyntax() {
         StringBuilder sb = new StringBuilder();
-        prefixAppend(sb);
+        sb.append("IF(");
+        sb.append(conditionNode.PreFixSyntax());
+        sb.append(',');
+        sb.append(thenNode.PreFixSyntax());
+        sb.append(',');
+        sb.append(elseNode.PreFixSyntax());
+        sb.append(')');
         return sb.toString();
     }
 
-
-    @Override
-    public void prefixAppend(StringBuilder sb) {
-        sb.append("IF(");
-        conditionNode.prefixAppend(sb);
-        sb.append(',');
-        thenNode.prefixAppend(sb);
-        sb.append(',');
-        elseNode.prefixAppend(sb);
-        sb.append(')');
-    }
-
-    @Override
-    public void excelAppend(StringBuilder sb) {
-        sb.append("IF(");
-        conditionNode.excelAppend(sb);
-        sb.append(',');
-        thenNode.excelAppend(sb);
-        sb.append(',');
-        elseNode.excelAppend(sb);
-        sb.append(')');
-    }
-
-
     @Override
     public String ExcelSyntax(){
-        StringBuilder sb = new StringBuilder();
-        excelAppend(sb);
+       StringBuilder sb = new StringBuilder();
+        sb.append("IF(");
+        sb.append(conditionNode.ExcelSyntax());
+        sb.append(',');
+        sb.append(thenNode.ExcelSyntax());
+        sb.append(',');
+        sb.append(elseNode.ExcelSyntax());
+        sb.append(')');
         return sb.toString();
     }
 
     @Override
     public ExpressionOperator Operator() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Operator'");
+        return ExpressionOperator.IF;
     }
 }

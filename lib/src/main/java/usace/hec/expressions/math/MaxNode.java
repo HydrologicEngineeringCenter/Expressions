@@ -37,15 +37,8 @@ public class MaxNode extends BinaryExpressionNode<Double, Double, Double>{
     public ExpressionOperator Operator() {
         return ExpressionOperator.MAX;
     }
-
     @Override
-    public void excelAppend(StringBuilder sb) {
-        sb.append(InfixOpName());
-        sb.append('(');
-        leftnode.excelAppend(sb);
-        sb.append(',');
-        rightnode.excelAppend(sb);
-        sb.append(')');
+    public String ExcelSyntax() {
+        return PreFixSyntax(); //for excel syntax in this case prefix is the correct syntax
     }
-
 }

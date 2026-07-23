@@ -38,16 +38,6 @@ public class UpdateableLeafNode<T extends Serializable> implements ExpressionNod
     }
 
     @Override
-    public void prefixAppend(StringBuilder sb) {
-        sb.append(PreFixSyntax());
-    }
-
-    @Override
-    public void excelAppend(StringBuilder sb) {
-        sb.append(PreFixSyntax());
-    }
-
-    @Override
     public String PreFixSyntax(){
         return "[" + this.name + "]";
     }

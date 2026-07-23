@@ -16,8 +16,8 @@ public interface ExpressionNode<T extends Serializable> extends Serializable {
     default void setProvider(DataProvider dp){
         return;
     }
-    void prefixAppend(StringBuilder sb);
-    void excelAppend(StringBuilder sb);
+    //void prefixAppend(StringBuilder sb);
+    //void excelAppend(StringBuilder sb);
     ExpressionOperator Operator();
     @SuppressWarnings("unchecked")
     public static <T extends Serializable> ExpressionNode<T> fromPreFixSyntax(String PrefixSyntax, Class<T> type) {

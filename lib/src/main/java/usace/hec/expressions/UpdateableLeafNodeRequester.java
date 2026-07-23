@@ -20,18 +20,6 @@ public class UpdateableLeafNodeRequester<T extends Serializable> implements Expr
         return dp.provideValueForCurrentTimestep(name);
     }
 
-
-
-    @Override
-    public void prefixAppend(StringBuilder sb) {
-        sb.append(PreFixSyntax());
-    }
-
-    @Override
-    public void excelAppend(StringBuilder sb) {
-        sb.append(PreFixSyntax());
-    }
-
     @Override
     public String PreFixSyntax(){
         return "[" + this.name + "]";
