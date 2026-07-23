@@ -35,7 +35,7 @@ public class AbsNode extends UnaryExpressionNode<Double, Double> {
 
     @Override
     public ExpressionOperator Operator() {
-        return ExpressionOperator.FLOOR;
+        return ExpressionOperator.ABS;
     }
 
     @Override
