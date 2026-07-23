@@ -20,29 +20,21 @@ public abstract class UnaryExpressionNode<T extends Serializable, C extends Seri
     @Override
     public String PreFixSyntax() {
         StringBuilder sb = new StringBuilder();
-        prefixAppend(sb);
-        return sb.toString();
-    }
-
-    public void prefixAppend(StringBuilder sb) {
         sb.append(OpName());
         sb.append('(');
-        child.prefixAppend(sb);
+        sb.append(child.PreFixSyntax());
         sb.append(')');
+        return sb.toString();
     }
 
     @Override
     public String ExcelSyntax() {
         StringBuilder sb = new StringBuilder();
-        excelAppend(sb);
-        return sb.toString();
-    }
-
-    public void excelAppend(StringBuilder sb) {
         sb.append('(');
         sb.append(InfixOpName());
-        child.excelAppend(sb);
+        sb.append(child.ExcelSyntax());
         sb.append(')');
+        return sb.toString();
     }
 
     @Override

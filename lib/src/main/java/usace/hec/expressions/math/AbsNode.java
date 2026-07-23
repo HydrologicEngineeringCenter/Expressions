@@ -39,9 +39,7 @@ public class AbsNode extends UnaryExpressionNode<Double, Double> {
     }
 
     @Override
-    public void excelAppend(StringBuilder sb) {
-        sb.append(Operator().getInfixName());
-        child.excelAppend(sb);
-        sb.append(Operator().getInfixName());
+    public String ExcelSyntax() {
+        return Operator().getInfixName() +  child.ExcelSyntax() + Operator().getInfixName();
     }
 }

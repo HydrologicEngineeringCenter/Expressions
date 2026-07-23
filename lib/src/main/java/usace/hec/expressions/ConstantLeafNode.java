@@ -25,16 +25,6 @@ public class ConstantLeafNode<T extends Serializable> implements ExpressionNode<
     }
 
     @Override
-    public void prefixAppend(StringBuilder sb) {
-        sb.append(PreFixSyntax());
-    }
-
-    @Override
-    public void excelAppend(StringBuilder sb) {
-        sb.append(PreFixSyntax());
-    }
-
-    @Override
     public String PreFixSyntax(){
         return value.toString();
     }

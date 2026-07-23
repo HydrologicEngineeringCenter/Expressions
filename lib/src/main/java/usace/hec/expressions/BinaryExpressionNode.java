@@ -25,34 +25,30 @@ public abstract class BinaryExpressionNode<T extends Serializable,R extends Seri
     @Override
     public String PreFixSyntax() {
         StringBuilder sb = new StringBuilder();
-        prefixAppend(sb);
-        return sb.toString();
-    }
-
-    public void prefixAppend(StringBuilder sb) {
         sb.append(OpName());
         sb.append('(');
-        leftnode.prefixAppend(sb);
+        sb.append(leftnode.PreFixSyntax());
         sb.append(',');
-        rightnode.prefixAppend(sb);
+        sb.append(rightnode.PreFixSyntax());
         sb.append(')');
+        return sb.toString();
     }
 
     @Override
     public String ExcelSyntax(){
         StringBuilder sb = new StringBuilder();
-        excelAppend(sb);
+        sb.append('(');
+        sb.append(leftnode.ExcelSyntax());
+        sb.append(' ');
+        sb.append(InfixOpName());
+        sb.append(' ');
+        sb.append(rightnode.ExcelSyntax());
+        sb.append(')');
         return sb.toString();
     }
 
     public void excelAppend(StringBuilder sb) {
-        sb.append('(');
-        leftnode.excelAppend(sb);
-        sb.append(' ');
-        sb.append(InfixOpName());
-        sb.append(' ');
-        rightnode.excelAppend(sb);
-        sb.append(')');
+
     }
 
     @Override

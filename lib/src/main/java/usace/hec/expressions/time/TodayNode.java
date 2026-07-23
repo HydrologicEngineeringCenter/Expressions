@@ -26,15 +26,7 @@ public class TodayNode implements ExpressionNode<LocalDate>, LeafNode<LocalDate>
         return new ArrayList<>();
     }
 
-    @Override
-    public void prefixAppend(StringBuilder sb) {
-        sb.append(PreFixSyntax());
-    }
 
-    @Override
-    public void excelAppend(StringBuilder sb) {
-        sb.append(PreFixSyntax());
-    }
 
     @Override
     public String PreFixSyntax(){
@@ -47,7 +39,6 @@ public class TodayNode implements ExpressionNode<LocalDate>, LeafNode<LocalDate>
 
     @Override
     public ExpressionOperator Operator() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Operator'");
+        return ExpressionOperator.TODAY;
     }
 }

@@ -34,15 +34,9 @@ public class LagNode<T extends Serializable> extends BinaryExpressionNode<T, Int
     }
 
     @Override
-    public void excelAppend(StringBuilder sb){
-        sb.append(InfixOpName());
-        sb.append('(');
-        leftnode.excelAppend(sb);
-        sb.append(',');
-        rightnode.excelAppend(sb);
-        sb.append(')');
+    public String ExcelSyntax() {
+        return PreFixSyntax(); //for excel syntax in this case prefix is the correct syntax
     }
-
     @Override
     public T evaluate() {
         //TODO: initialize Queue with values that come lag steps before simulation start

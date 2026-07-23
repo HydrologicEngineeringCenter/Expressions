@@ -36,12 +36,8 @@ public class FloorNode extends UnaryExpressionNode<Double, Double> {
     public ExpressionOperator Operator() {
         return ExpressionOperator.FLOOR;
     }
-
     @Override
-    public void excelAppend(StringBuilder sb) {
-        sb.append(InfixOpName());
-        sb.append('(');
-        child.excelAppend(sb);
-        sb.append(')');
+    public String ExcelSyntax() {
+        return PreFixSyntax(); //for excel syntax in this case prefix is the correct syntax
     }
 }
