@@ -7,6 +7,7 @@ import java.util.List;
 import usace.hec.expressions.DataListener;
 import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.ExpressionNode;
+import usace.hec.expressions.ExpressionOperator;
 
 
 public class IfNode<T extends Serializable> implements ExpressionNode<T>{
@@ -86,5 +87,11 @@ public class IfNode<T extends Serializable> implements ExpressionNode<T>{
         StringBuilder sb = new StringBuilder();
         excelAppend(sb);
         return sb.toString();
+    }
+
+    @Override
+    public ExpressionOperator Operator() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'Operator'");
     }
 }

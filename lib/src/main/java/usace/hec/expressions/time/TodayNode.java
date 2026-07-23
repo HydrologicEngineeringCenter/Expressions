@@ -44,4 +44,10 @@ public class TodayNode implements ExpressionNode<LocalDate>, LeafNode<LocalDate>
     public String ExcelSyntax(){
         return ExpressionOperator.TODAY.getInfixName();
     }
+
+    @Override
+    public ExpressionOperator Operator() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'Operator'");
+    }
 }

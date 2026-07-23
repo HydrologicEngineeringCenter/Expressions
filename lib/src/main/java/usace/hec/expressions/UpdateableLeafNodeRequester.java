@@ -1,9 +1,7 @@
 package usace.hec.expressions;
 
-import javax.xml.crypto.Data;
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UpdateableLeafNodeRequester<T extends Serializable> implements ExpressionNode<T>, DataRequester {
@@ -58,5 +56,11 @@ public class UpdateableLeafNodeRequester<T extends Serializable> implements Expr
     @Override
     public void setProvider(DataProvider dp){
         this.dp = dp;
+    }
+
+    @Override
+    public ExpressionOperator Operator() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'Operator'");
     }
 }
