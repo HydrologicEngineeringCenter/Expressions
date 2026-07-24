@@ -12,109 +12,31 @@ public sealed interface Token permits
     Token.RightParen,
     Token.Comma,
     Token.StringLiteral,
-    Token.Unknown 
-    
+    Token.Unknown
 {
-    int position();
-    boolean hasError();
+    /** Zero-based position in the original source string. */
+    int pos();
+
+    /** Error message; blank when the token is valid. */
     String error();
-    record Number(double value, int pos, String error) implements Token {
-        public int position(){
-            return pos;
-        }
-        public boolean hasError(){
-            return !error.isBlank();
-        }
-        public String error(){
-            return error;
-        }
+
+    /** Convenience: same as {@link #pos()}. */
+    default int position() {
+        return pos();
     }
-    record Variable(String name, int pos, String error) implements Token {
-        public int position(){
-            return pos;
-        }
-        public boolean hasError(){
-            return !error.isBlank();
-        }
-        public String error(){
-            return error;
-        }
+
+    /** Convenience: true when {@link #error()} is non-blank. */
+    default boolean hasError() {
+        return !error().isBlank();
     }
-    record Operator(ExpressionOperator op, int pos, String error) implements Token {
-        public int position(){
-            return pos;
-        }
-        public boolean hasError(){
-            return !error.isBlank();
-        }
-        public String error(){
-            return error;
-        }
-    }
-    record Function(ExpressionOperator op, int pos, String error) implements Token {
-        public int position(){
-            return pos;
-        }
-        public boolean hasError(){
-            return !error.isBlank();
-        }
-        public String error(){
-            return error;
-        }
-    }
-    record LeftParen(int pos, String error) implements Token {
-        public int position(){
-            return pos;
-        }
-        public boolean hasError(){
-            return !error.isBlank();
-        }
-        public String error(){
-            return error;
-        }
-    }
-    record RightParen(int pos, String error) implements Token {
-        public int position(){
-            return pos;
-        }
-        public boolean hasError(){
-            return !error.isBlank();
-        }
-        public String error(){
-            return error;
-        }
-    }
-    record Comma(int pos, String error) implements Token {
-        public int position(){
-            return pos;
-        }
-        public boolean hasError(){
-            return !error.isBlank();
-        }
-        public String error(){
-            return error;
-        }
-    }
-    record StringLiteral(String value, int pos, String error) implements Token {
-        public int position(){
-            return pos;
-        }
-        public boolean hasError(){
-            return !error.isBlank();
-        }
-        public String error(){
-            return error;
-        }
-    }
-    record Unknown(String value, int pos, String error, String remaining) implements Token {
-        public int position(){
-            return pos;
-        }
-        public boolean hasError(){
-            return !error.isBlank();
-        }
-        public String error(){
-            return error;
-        }
-    }
+
+    record Number(double value, int pos, String error) implements Token {}
+    record Variable(String name, int pos, String error) implements Token {}
+    record Operator(ExpressionOperator op, int pos, String error) implements Token {}
+    record Function(ExpressionOperator op, int pos, String error) implements Token {}
+    record LeftParen(int pos, String error) implements Token {}
+    record RightParen(int pos, String error) implements Token {}
+    record Comma(int pos, String error) implements Token {}
+    record StringLiteral(String value, int pos, String error) implements Token {}
+    record Unknown(String value, int pos, String error, String remaining) implements Token {}
 }
