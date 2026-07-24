@@ -19,6 +19,10 @@ public interface ExpressionNode<T extends Serializable> extends Serializable {
     //void prefixAppend(StringBuilder sb);
     //void excelAppend(StringBuilder sb);
     ExpressionOperator Operator();
+    /**
+    * @deprecated Use {@link #ExpressionParser.parse(String input)} instead.
+    */
+    @Deprecated(since = "1.0.4", forRemoval = true)
     @SuppressWarnings("unchecked")
     public static <T extends Serializable> ExpressionNode<T> fromPreFixSyntax(String PrefixSyntax, Class<T> type) {
         // Locate the first '(' — if there isn't one, the entire string is a literal (base case)
