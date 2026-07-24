@@ -15,15 +15,16 @@ public class TokenizerTest {
                 System.out.println(t.error());
                 tokenError = true;
             }
-            System.out.println(t.toString());
+            //System.out.println(t.toString());
         }
         if(tokenError){
             System.out.println("found token errors");//currently the tokenizer is not finding these errors.
         }
         InfixParser parser = new InfixParser();
-        ParseResult<ExpressionNode<?>> resultnode = parser.parse("IF(MIN(1.0,2.0)<MAX(1.0,2.0),1+2,3-4)");
+        String input = "IF(MIN(1.0,2.0)>MAX(1.0,2.0),PLU(1,2),3-4)";
+        ParseResult<ExpressionNode> resultnode = parser.parse(input);
         if(resultnode.hasError()){
-            System.out.print(resultnode.getError().message());
+            System.out.print(resultnode.getError().message()+ " at carrot position " + resultnode.getError().position() + " " + input.substring(0,resultnode.getError().position()));
         }else{
             System.out.print(resultnode.getNode().evaluate());
         }
