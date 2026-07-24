@@ -26,7 +26,7 @@ public class Tokenizer {
                     && !infix.contains(",") && !infix.contains(" ")
                     && !infix.equals("[]")
                     && !infix.matches("[A-Za-z]+")
-                    && OperatorPrecedence.getPrecedence(op) > 0) {
+                    && op!=ExpressionOperator.NEGATE) {
                 INFIX_MAP.put(infix, op);
             }
         }
