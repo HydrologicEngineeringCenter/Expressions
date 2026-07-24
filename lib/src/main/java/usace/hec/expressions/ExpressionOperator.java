@@ -6,8 +6,8 @@ public enum ExpressionOperator {
     MULTIPLY("*"),
     DIVIDE("/"),
     POW("^"),
-    MAX("max"),
-    MIN("min"),
+    MAX("MAX"),
+    MIN("MIN"),
     NEGATE("-"),
     AND("&&"),
     OR("||"),
@@ -18,17 +18,17 @@ public enum ExpressionOperator {
     LT("<"),
     LTE("<="),
     ABS("|"),
-    AFTER("is after?"),
-    BEFORE("is before?"),
-    TODAY("TODAY()"),
-    DOY("Day"),
-    LAG("Lagged"),
-    RAND("Random"),
-    FLOOR("floor"),
-    CEILING("ceil"),
+    AFTER("AFTER"),
+    BEFORE("BEFORE"),
+    TODAY("TODAY"),
+    DOY("DOY"),
+    LAG("LAG"),
+    RAND("RAND"),
+    FLOOR("FLOOR"),
+    CEILING("CEILING"),
     CONSTANT(""),
-    VARIABLE("[]"),
-    IF("If(,,)");
+    VARIABLE("["),
+    IF("IF");
 
     private final String op;
     ExpressionOperator(){ //used for time nodes
