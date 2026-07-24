@@ -20,4 +20,7 @@ public class DataHub implements DataProvider{
     public void setValueForCurrentTimestep(String name, Object value) {
         currentValues.put(name, value);
     }
+
+    public void switchName(String oldName, String newName){
+    }
 }

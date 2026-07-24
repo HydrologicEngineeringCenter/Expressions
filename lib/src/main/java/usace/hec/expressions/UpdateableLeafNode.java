@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UpdateableLeafNode<T extends Serializable> implements ExpressionNode<T>, DataListener<T>{
-    protected final String name;
+    protected String name;
     protected T value;
     @Serial
     private static final long serialVersionUID = 1L;
@@ -27,6 +27,10 @@ public class UpdateableLeafNode<T extends Serializable> implements ExpressionNod
         if (this.name.equals(update.variableName())) {
             this.value = update.newValue();
         }
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 
     @Override
