@@ -22,5 +22,6 @@ public class DataHub implements DataProvider{
     }
 
     public void switchName(String oldName, String newName){
+        currentValues.put(newName, currentValues.remove(oldName));
     }
 }
