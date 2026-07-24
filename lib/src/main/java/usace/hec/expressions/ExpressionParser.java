@@ -59,7 +59,7 @@ import java.util.List;
  *       standard node factories.</li>
  * </ul>
  */
-public class InfixParser {
+public class ExpressionParser {
 
     // -----------------------------------------------------------------
     // Public API

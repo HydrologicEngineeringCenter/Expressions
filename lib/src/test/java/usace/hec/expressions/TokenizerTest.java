@@ -20,7 +20,7 @@ public class TokenizerTest {
         if(tokenError){
             System.out.println("found token errors");//currently the tokenizer is not finding these errors.
         }
-        InfixParser parser = new InfixParser();
+        ExpressionParser parser = new ExpressionParser();
         String input = "IF(MIN(1.0,2.0)>MAX(1.0,2.0),PLU(1,2),3-4)";
         ParseResult<ExpressionNode> resultnode = parser.parse(input);
         if(resultnode.hasError()){
