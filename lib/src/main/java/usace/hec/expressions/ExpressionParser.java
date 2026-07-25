@@ -307,17 +307,13 @@ public class ExpressionParser {
             return null;
         }
 
-        if (t instanceof Token.Number num) {
-            s.advance();
-            return new ConstantLeafNode<>(num.value());
-        }
         if (t instanceof Token.DoubleLiteral num) {
             s.advance();
-            return new ConstantLeafNode<>(num.value());
+            return new ConstantLeafNode<Double>(num.value());
         }
         if (t instanceof Token.IntegerLiteral num) {
             s.advance();
-            return new ConstantLeafNode<>(num.value());
+            return new ConstantLeafNode<Integer>(num.value());
         }
         if (t instanceof Token.Variable var) {
             s.advance();
@@ -332,7 +328,7 @@ public class ExpressionParser {
         if (t instanceof Token.BooleanLiteral bl) {
             s.advance();
             boolean val = bl.value();
-            return new ConstantLeafNode<>(val);
+            return new ConstantLeafNode<Boolean>(val);
         }
         if (t instanceof Token.LeftParen) {
             s.advance();

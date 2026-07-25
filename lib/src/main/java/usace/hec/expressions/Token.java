@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
  * Sealed hierarchy of tokens produced by {@link Tokenizer}.
  */
 public sealed interface Token permits
-    Token.Number,
     Token.Variable,
     Token.Operator,
     Token.Function,
@@ -36,7 +35,6 @@ public sealed interface Token permits
         return !error().isBlank();
     }
 
-    record Number(double value, int pos, String error) implements Token {}
     record Variable(String name, int pos, String error) implements Token {}
     record Operator(ExpressionOperator op, int pos, String error) implements Token {}
     record Function(ExpressionOperator op, int pos, String error) implements Token {}
