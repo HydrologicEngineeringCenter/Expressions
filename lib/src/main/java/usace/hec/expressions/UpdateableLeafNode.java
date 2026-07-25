@@ -5,9 +5,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UpdateableLeafNode<T extends Serializable> implements ExpressionNode<T>, DataListener<T>{
+public class UpdateableLeafNode<T extends Serializable> implements ExpressionNode<T>, DataListener<T>, DataRequester{
     protected String name;
     protected T value;
+    protected transient DataProvider dp = null;
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -18,6 +19,9 @@ public class UpdateableLeafNode<T extends Serializable> implements ExpressionNod
 
     @Override
     public T evaluate() {
+        if(dp!=null){
+            return dp.provideValueForCurrentTimestep(name);
+        }
         return this.value;
     }
 
@@ -54,10 +58,18 @@ public class UpdateableLeafNode<T extends Serializable> implements ExpressionNod
     public ExpressionNode<T> owner() {
         return this;
     }
-
+  @Override
+    public void setProvider(DataProvider dp){
+        this.dp = dp;
+    }
     @Override
     public ExpressionOperator Operator() {
-        // TODO Auto-generated method stub
+        
         return ExpressionOperator.VARIABLE;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
     }
 }

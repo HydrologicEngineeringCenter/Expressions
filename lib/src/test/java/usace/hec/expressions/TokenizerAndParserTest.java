@@ -3,6 +3,7 @@ package usace.hec.expressions;
 import org.junit.Test;
 import org.junit.Assert;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -55,10 +56,11 @@ public class TokenizerAndParserTest {
         TEST_CASES.add(Map.of("input", "XOR(TRUE, FALSE)", "error", false, "msg", "", "result", true));
 
         // Time/Date functions ()
-        //TEST_CASES.add(Map.of("input", "TODAY()", "error", false, "msg", "", "result", 0.0));
-        //TEST_CASES.add(Map.of("input", "DOY()", "error", false, "msg", "", "result", 0.0));
-        //TEST_CASES.add(Map.of("input", "AFTER()", "error", false, "msg", "", "result", 0.0));
-        //TEST_CASES.add(Map.of("input", "BEFORE()", "error", false, "msg", "", "result", 0.0));
+        TEST_CASES.add(Map.of("input", "TODAY()", "error", false, "msg", "", "result", LocalDateTime.now()));
+        TEST_CASES.add(Map.of("input", "Date(1983,12,25)", "error", false, "msg", "", "result", LocalDateTime.of(1983,12,25,0,0)));
+        TEST_CASES.add(Map.of("input", "DOY(Date(1983,12,25))", "error", false, "msg", "", "result", 359));
+        TEST_CASES.add(Map.of("input", "AFTER(Date(1983,12,25),Date(1982,12,25))", "error", false, "msg", "", "result", true));
+        TEST_CASES.add(Map.of("input", "BEFORE(Date(1983,12,25),Date(1982,12,25))", "error", false, "msg", "", "result", false));
 
         // ----------------------------------------------------------------
         // ERROR EXPRESSIONS (Expected Messages)
@@ -94,6 +96,9 @@ public class TokenizerAndParserTest {
             
             ParseResult<ExpressionNode> result = parser.parse(input);
             
+            if(expectError!=result.hasError()){
+                System.out.println(result.getError());
+            }
             // 1. Verify error state
             assertEquals("Input: \"" + input + "\"", expectError, result.hasError());
             
@@ -111,6 +116,10 @@ public class TokenizerAndParserTest {
                     assertEquals("Input: \"" + input + "\"", (Double) expected, (Double) actual, 1e-9);
                 } else if (expected instanceof Boolean) {
                     assertEquals("Input: \"" + input + "\"", (Boolean) expected, (Boolean) actual);
+                } else if (expected instanceof LocalDateTime) {
+                    assertEquals("Input: \"" + input + "\"", ((LocalDateTime) expected).getYear(), ((LocalDateTime) actual).getYear());
+                    assertEquals("Input: \"" + input + "\"", ((LocalDateTime) expected).getMonth(), ((LocalDateTime) actual).getMonth());
+                    assertEquals("Input: \"" + input + "\"", ((LocalDateTime) expected).getDayOfMonth(), ((LocalDateTime) actual).getDayOfMonth());
                 } else {
                     assertEquals("Input: \"" + input + "\"", expected, actual);
                 }

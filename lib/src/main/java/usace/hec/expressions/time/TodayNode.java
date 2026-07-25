@@ -1,9 +1,8 @@
 package usace.hec.expressions.time;
 
 import java.io.Serial;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import usace.hec.expressions.DataListener;
@@ -11,13 +10,13 @@ import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.LeafNode;
 
-public class TodayNode implements ExpressionNode<LocalDate>, LeafNode<LocalDate> {
+public class TodayNode implements ExpressionNode<LocalDateTime>, LeafNode<LocalDateTime> {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Override
-    public LocalDate evaluate() {
-        LocalDate t = LocalDate.now();
+    public LocalDateTime evaluate() {
+        LocalDateTime t = LocalDateTime.now();
         return t;
     }
 
@@ -30,11 +29,11 @@ public class TodayNode implements ExpressionNode<LocalDate>, LeafNode<LocalDate>
 
     @Override
     public String PreFixSyntax(){
-        return ExpressionOperator.TODAY.getInfixName();
+        return ExpressionOperator.TODAY.getInfixName() +"()";
     }
     @Override
     public String ExcelSyntax(){
-        return ExpressionOperator.TODAY.getInfixName();
+        return ExpressionOperator.TODAY.getInfixName() +"()";
     }
 
     @Override

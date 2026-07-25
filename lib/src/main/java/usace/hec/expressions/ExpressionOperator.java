@@ -21,6 +21,8 @@ public enum ExpressionOperator {
     AFTER("AFTER"),
     BEFORE("BEFORE"),
     TODAY("TODAY"),
+    DATE("DATE"),
+    CURRENTTIMESTEP("CURRENTTIMESTEP"),
     DOY("DOY"),
     LAG("LAG"),
     RAND("RAND"),

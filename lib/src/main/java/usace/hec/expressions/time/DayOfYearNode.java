@@ -5,19 +5,19 @@ import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.UnaryExpressionNode;
 
 import java.io.Serial;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class DayOfYearNode extends UnaryExpressionNode<Integer, LocalDate> {
+public class DayOfYearNode extends UnaryExpressionNode<Integer, LocalDateTime> {
     @Serial
     private static final long serialVersionUID = 1L;
-    public DayOfYearNode(ExpressionNode<LocalDate> child) {
+    public DayOfYearNode(ExpressionNode<LocalDateTime> child) {
         super(child);
     }
 
     @Override
     public Integer evaluate() {
         //return the day of year
-        LocalDate childDate = child.evaluate();
+        LocalDateTime childDate = child.evaluate();
         Integer dayOfTheYear = childDate.getDayOfYear();
         return dayOfTheYear.intValue();
     }

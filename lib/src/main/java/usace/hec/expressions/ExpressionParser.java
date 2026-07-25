@@ -20,7 +20,13 @@ import usace.hec.expressions.math.MinNode;
 import usace.hec.expressions.math.MinusNode;
 import usace.hec.expressions.math.MultiplyNode;
 import usace.hec.expressions.math.NegateNode;
+import usace.hec.expressions.time.AfterNode;
+import usace.hec.expressions.time.BeforeNode;
+import usace.hec.expressions.time.DayOfYearNode;
+import usace.hec.expressions.time.TodayNode;
+import usace.hec.expressions.time.DateNode;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -384,6 +390,8 @@ public class ExpressionParser {
             case AND: return new AndNode(left, right);
             case OR: return new OrNode(left, right);
             case XOR: return new XorNode(left, right);
+            case AFTER: return new AfterNode(left, right);
+            case BEFORE: return new BeforeNode(left, right);
             default:
                 setError(s, currentPos(s), "Unknown binary operator: " + op, "");
                 return null;
@@ -402,14 +410,14 @@ public class ExpressionParser {
             case ABS: return new AbsNode(child);
             case FLOOR: return new FloorNode(child);
             case CEILING: return new CeilingNode(child);
+            case DOY: return new DayOfYearNode(child);
             default:
                 setError(s, currentPos(s), "Unknown unary operator: " + op, "");
                 return null;
         }
     }
 
-    private ExpressionNode buildFunctionNode(ParseState s, ExpressionOperator fn,
-            List<ExpressionNode> args) {
+    private ExpressionNode buildFunctionNode(ParseState s, ExpressionOperator fn, List<ExpressionNode> args) {
         switch (fn) {
             case IF: {
                 if (args.size() != 3) {
@@ -469,6 +477,47 @@ public class ExpressionParser {
                 }
                 return makeBinaryNode(s, fn, args.get(0), args.get(1));
             }
+            case TODAY:
+                // TODAY() -- zero arguments
+                if (args.size()!=0) {
+                    setError(s, currentPos(s), "TODAY() takes no arguments", "");
+                    return null;
+                }
+                return new TodayNode();
+
+            case DOY:
+                // DOY(date_expr) -- one argument
+                if (args.size()!=1) {
+                    setError(s, currentPos(s), "DOY expects exactly 1 argument, got " + args.size(), "");
+                    return null;
+                }
+                return makeUnaryNode(s, fn, args.get(0));
+
+            case AFTER:
+                // AFTER(date1, date2) -- two arguments
+                if (args.size()!=2) {
+                    setError(s, currentPos(s), "After expects exactly 1 argument, got " + args.size(), "");
+                    return null;
+                }
+                return makeBinaryNode(s, fn, args.get(0), args.get(1));
+
+            case BEFORE:
+                // BEFORE(date1, date2) -- two arguments
+               if (args.size()!=2) {
+                    setError(s, currentPos(s), "Before expects exactly 1 argument, got " + args.size(), "");
+                    return null;
+                }
+                return makeBinaryNode(s, fn, args.get(0), args.get(1));
+
+            case DATE:
+                // DATE(year, month, day) -- three integer arguments
+               if (args.size()!=3) {
+                    setError(s, currentPos(s), "Date expects exactly 3 arguments, got " + args.size(), "");
+                    return null;
+                }
+
+                return new DateNode(args.get(0),args.get(1),args.get(2));
+                
             default:
                 setError(s, currentPos(s), "Unknown function: " + fn.name(), "");
                 return null;

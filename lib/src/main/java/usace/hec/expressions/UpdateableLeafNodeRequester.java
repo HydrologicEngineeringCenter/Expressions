@@ -48,7 +48,6 @@ public class UpdateableLeafNodeRequester<T extends Serializable> implements Expr
 
     @Override
     public ExpressionOperator Operator() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Operator'");
+        return ExpressionOperator.VARIABLE;
     }
 }
