@@ -6,13 +6,14 @@ import java.util.Date;
 
 import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ConstantLeafNode;
+import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 
 
 public class BeforeNode extends BinaryExpressionNode<Boolean, LocalDateTime, LocalDateTime> {
     @Serial
     private static final long serialVersionUID = 1L;
-    public BeforeNode(ConstantLeafNode<LocalDateTime> left, ConstantLeafNode<LocalDateTime> right){
+    public BeforeNode(ExpressionNode<LocalDateTime> left, ExpressionNode<LocalDateTime> right){
         super(left, right);
     }
     @Override

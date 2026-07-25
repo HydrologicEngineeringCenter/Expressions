@@ -5,14 +5,14 @@ import java.time.LocalDateTime;
 
 
 import usace.hec.expressions.BinaryExpressionNode;
-import usace.hec.expressions.ConstantLeafNode;
+import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 
 
 public class AfterNode extends BinaryExpressionNode<Boolean, LocalDateTime, LocalDateTime> {
     @Serial
     private static final long serialVersionUID = 1L;
-    public AfterNode(ConstantLeafNode<LocalDateTime> left, ConstantLeafNode<LocalDateTime> right){
+    public AfterNode(ExpressionNode<LocalDateTime> left, ExpressionNode<LocalDateTime> right){
         super(left, right);
     }
     @Override
