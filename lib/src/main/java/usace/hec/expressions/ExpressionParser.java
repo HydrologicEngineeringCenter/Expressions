@@ -475,7 +475,7 @@ public class ExpressionParser {
                 }
                 return makeBinaryNode(s, fn, args.get(0), args.get(1));
             }
-            /*case TODAY:
+            case TODAY:
                 // TODAY() -- zero arguments
                 if (!(peek(s) instanceof Token.LeftParen)) {
                     setError(s, currentPos(s), "Expected '(' after TODAY", "");
@@ -535,7 +535,7 @@ public class ExpressionParser {
                     return null;
                 }
                 s.advance();
-                ConstantLeafNode<LocalDateTime> beforeLeft = parseExpression(s);
+                ExpressionNode beforeLeft = parseExpression(s);
                 if (s.hasError) return null;
                 if (!(peek(s) instanceof Token.Comma)) {
                     setError(s, currentPos(s), "Expected ',' in BEFORE(date1, date2)", "");
@@ -579,12 +579,9 @@ public class ExpressionParser {
                     return null;
                 }
                 s.advance();
-                int y = ((Number) year.evaluate()).intValue();
-                int m = ((Number) month.evaluate()).intValue();
-                int d = ((Number) day.evaluate()).intValue();
-                LocalDateTime ldt = LocalDateTime.of(y,m,d,0,0);
-                return new DateNode(ldt);
-                */
+
+                return new DateNode(year,month,day);
+                
             default:
                 setError(s, currentPos(s), "Unknown function: " + fn.name(), "");
                 return null;
