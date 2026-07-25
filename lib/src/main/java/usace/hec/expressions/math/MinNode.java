@@ -8,7 +8,7 @@ import usace.hec.expressions.ExpressionType;
 import java.io.Serial;
 
 
-public class MinNode extends BinaryExpressionNode<Double, Double, Double> {
+public class MinNode extends DoubleBinaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 

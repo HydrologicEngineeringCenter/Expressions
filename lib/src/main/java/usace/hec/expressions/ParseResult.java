@@ -8,6 +8,7 @@ public final class ParseResult<T> {
 
     private final T value;
     private final ParseError error;
+    
 
     private ParseResult(T value, ParseError error) {
         this.value = value;
@@ -24,6 +25,12 @@ public final class ParseResult<T> {
 
     public boolean isSuccess() { return error == null; }
     public boolean hasError()  { return error != null; }
+    public ExpressionType resultType(){
+        if(value instanceof ExpressionNode){
+            return ((ExpressionNode)value).resultType();
+        }
+        else return ExpressionType.VOID;
+    }
 
     /**
      * @return the parsed value, or null if there was an error

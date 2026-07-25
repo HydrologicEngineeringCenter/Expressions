@@ -72,4 +72,8 @@ public class UpdateableLeafNode<T extends Serializable> implements ExpressionNod
     public String getName() {
         return this.name;
     }
+    @Override
+    public ExpressionType resultType() {
+        return ExpressionType.DOUBLE;//placeholder
+    }
 }

@@ -50,4 +50,8 @@ public class UpdateableLeafNodeRequester<T extends Serializable> implements Expr
     public ExpressionOperator Operator() {
         return ExpressionOperator.VARIABLE;
     }
+    @Override
+    public ExpressionType resultType() {
+        return ExpressionType.DOUBLE;//placeholder
+    }
 }

@@ -4,12 +4,13 @@ import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.ExpressionType;
-import usace.hec.expressions.UnaryExpressionNode;
+
 
 import java.io.Serial;
 
 
-public class AddNode extends BinaryExpressionNode<Double,Double,Double> {
+
+public class AddNode extends DoubleBinaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -22,10 +23,9 @@ public class AddNode extends BinaryExpressionNode<Double,Double,Double> {
     }
     @Override
     public Double evaluate() {
-        //Double left = leftnode.evaluate();
-        //Double right = rightnode.evaluate();
-        //Double result = left.doubleValue() + right.doubleValue();
-        return leftnode.evaluate()+rightnode.evaluate();
+        Double lv = leftnode.evaluate();
+        Double rv = rightnode.evaluate();
+        return lv+rv;
     }
     @Override
     public String OpName() {

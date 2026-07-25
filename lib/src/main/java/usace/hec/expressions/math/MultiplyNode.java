@@ -8,7 +8,7 @@ import usace.hec.expressions.ExpressionType;
 import java.io.Serial;
 
 
-public class MultiplyNode extends BinaryExpressionNode<Double,Double,Double> {
+public class MultiplyNode extends DoubleBinaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 
