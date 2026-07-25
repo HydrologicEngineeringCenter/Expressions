@@ -8,6 +8,7 @@ import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ConstantLeafNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.ExpressionType;
 
 
 public class BeforeNode extends BinaryExpressionNode<Boolean, LocalDateTime, LocalDateTime> {
@@ -31,5 +32,9 @@ public class BeforeNode extends BinaryExpressionNode<Boolean, LocalDateTime, Loc
     @Override
     public ExpressionOperator Operator() {
         return ExpressionOperator.BEFORE;
+    }
+    @Override
+    public ExpressionType resultType() {
+        return ExpressionType.BOOLEAN;
     }
 }

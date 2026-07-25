@@ -3,6 +3,7 @@ package usace.hec.expressions.comparison;
 import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.ExpressionType;
 
 import java.io.Serial;
 
@@ -35,5 +36,9 @@ public class GreaterThanNode<R extends Number,L extends Number> extends BinaryEx
     @Override
     public ExpressionOperator Operator() {
         return ExpressionOperator.GT;
+    }
+    @Override
+    public ExpressionType resultType() {
+        return ExpressionType.BOOLEAN;
     }
 }

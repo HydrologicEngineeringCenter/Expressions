@@ -10,6 +10,7 @@ import usace.hec.expressions.ConstantLeafNode;
 import usace.hec.expressions.DataListener;
 import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.ExpressionType;
 import usace.hec.expressions.ExpressionNode;
 
 public class DateNode implements ExpressionNode<LocalDateTime> {
@@ -90,5 +91,9 @@ public class DateNode implements ExpressionNode<LocalDateTime> {
         _yyyy.setProvider(dp);
         _mm.setProvider(dp);
         _dd.setProvider(dp);
+    }
+    @Override
+    public ExpressionType resultType() {
+        return ExpressionType.DATE;
     }
 }

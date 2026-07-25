@@ -2,6 +2,7 @@ package usace.hec.expressions.misc;
 
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.ExpressionType;
 import usace.hec.expressions.UnaryExpressionNode;
 
 import java.io.Serial;
@@ -37,5 +38,9 @@ public class RandNode extends UnaryExpressionNode<Double, Integer> {
     @Override
     public Double evaluate() {
         return RAND.nextDouble();
+    }
+    @Override
+    public ExpressionType resultType() {
+        return ExpressionType.DOUBLE;
     }
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import usace.hec.expressions.DataListener;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.ExpressionType;
 import usace.hec.expressions.LeafNode;
 
 public class TodayNode implements ExpressionNode<LocalDateTime>, LeafNode<LocalDateTime> {
@@ -39,5 +40,9 @@ public class TodayNode implements ExpressionNode<LocalDateTime>, LeafNode<LocalD
     @Override
     public ExpressionOperator Operator() {
         return ExpressionOperator.TODAY;
+    }
+    @Override
+    public ExpressionType resultType() {
+        return ExpressionType.DATE;
     }
 }

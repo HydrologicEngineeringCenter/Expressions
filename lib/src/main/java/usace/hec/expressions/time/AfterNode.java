@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.ExpressionType;
 
 
 public class AfterNode extends BinaryExpressionNode<Boolean, LocalDateTime, LocalDateTime> {
@@ -30,5 +31,9 @@ public class AfterNode extends BinaryExpressionNode<Boolean, LocalDateTime, Loca
     @Override
     public ExpressionOperator Operator() {
         return ExpressionOperator.AFTER;
+    }
+    @Override
+    public ExpressionType resultType() {
+        return ExpressionType.BOOLEAN;
     }
 }

@@ -8,6 +8,7 @@ import usace.hec.expressions.DataListener;
 import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.ExpressionType;
 
 
 public class IfNode<T extends Serializable> implements ExpressionNode<T>{
@@ -80,5 +81,9 @@ public class IfNode<T extends Serializable> implements ExpressionNode<T>{
     @Override
     public ExpressionOperator Operator() {
         return ExpressionOperator.IF;
+    }
+    @Override
+    public ExpressionType resultType() {
+        return ExpressionType.DOUBLE;//placeholder
     }
 }

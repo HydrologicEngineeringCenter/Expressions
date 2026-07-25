@@ -33,9 +33,13 @@ public class ConstantLeafNode<T extends Serializable> implements ExpressionNode<
         return value.toString();
     }
 
-        @Override
-        public ExpressionOperator Operator() {
-            return ExpressionOperator.CONSTANT;
-        }
+    @Override
+    public ExpressionOperator Operator() {
+        return ExpressionOperator.CONSTANT;
+    }
+    @Override
+    public ExpressionType resultType() {
+        return ExpressionType.DOUBLE;//placeholder
+    }
 
 }

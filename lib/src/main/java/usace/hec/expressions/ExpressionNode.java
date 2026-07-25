@@ -16,8 +16,7 @@ public interface ExpressionNode<T extends Serializable> extends Serializable {
     default void setProvider(DataProvider dp){
         return;
     }
-    //void prefixAppend(StringBuilder sb);
-    //void excelAppend(StringBuilder sb);
+    ExpressionType resultType();
     ExpressionOperator Operator();
     /**
     * @deprecated Use {@link #ExpressionParser.parse(String input)} instead.

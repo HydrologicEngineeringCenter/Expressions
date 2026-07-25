@@ -3,6 +3,7 @@ package usace.hec.expressions.math;
 import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.ExpressionType;
 
 import java.io.Serial;
 
@@ -41,5 +42,9 @@ public class MinNode extends BinaryExpressionNode<Double, Double, Double> {
     @Override
     public String ExcelSyntax() {
         return PreFixSyntax(); //for excel syntax in this case prefix is the correct syntax
+    }
+    @Override
+    public ExpressionType resultType() {
+        return ExpressionType.DOUBLE;//placeholder
     }
 }

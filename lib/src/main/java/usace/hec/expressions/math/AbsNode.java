@@ -2,6 +2,7 @@ package usace.hec.expressions.math;
 
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.ExpressionType;
 import usace.hec.expressions.UnaryExpressionNode;
 
 import java.io.Serial;
@@ -41,5 +42,9 @@ public class AbsNode extends UnaryExpressionNode<Double, Double> {
     @Override
     public String ExcelSyntax() {
         return Operator().getInfixName() +  child.ExcelSyntax() + Operator().getInfixName();
+    }
+    @Override
+    public ExpressionType resultType() {
+        return ExpressionType.DOUBLE;//placeholder
     }
 }

@@ -3,6 +3,7 @@ package usace.hec.expressions.misc;
 import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.ExpressionType;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -52,5 +53,9 @@ public class LagNode<T extends Serializable> extends BinaryExpressionNode<T, Int
             lagQueue.add(leftnode.evaluate());
         }
         return lagQueue.poll();
+    }
+    @Override
+    public ExpressionType resultType() {
+        return ExpressionType.DOUBLE;//placeholder
     }
 }

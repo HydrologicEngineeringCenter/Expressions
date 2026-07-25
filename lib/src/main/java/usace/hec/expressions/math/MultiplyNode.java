@@ -3,6 +3,7 @@ package usace.hec.expressions.math;
 import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.ExpressionType;
 
 import java.io.Serial;
 
@@ -41,5 +42,9 @@ public class MultiplyNode extends BinaryExpressionNode<Double,Double,Double> {
     @Override
     public ExpressionOperator Operator() {
         return ExpressionOperator.MULTIPLY;
+    }
+    @Override
+    public ExpressionType resultType() {
+        return ExpressionType.DOUBLE;//placeholder
     }
 }
