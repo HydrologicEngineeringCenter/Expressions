@@ -20,7 +20,13 @@ import usace.hec.expressions.math.MinNode;
 import usace.hec.expressions.math.MinusNode;
 import usace.hec.expressions.math.MultiplyNode;
 import usace.hec.expressions.math.NegateNode;
+import usace.hec.expressions.time.AfterNode;
+import usace.hec.expressions.time.BeforeNode;
+import usace.hec.expressions.time.DayOfYearNode;
+import usace.hec.expressions.time.TodayNode;
+import usace.hec.expressions.time.DateNode;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -469,6 +475,116 @@ public class ExpressionParser {
                 }
                 return makeBinaryNode(s, fn, args.get(0), args.get(1));
             }
+            /*case TODAY:
+                // TODAY() -- zero arguments
+                if (!(peek(s) instanceof Token.LeftParen)) {
+                    setError(s, currentPos(s), "Expected '(' after TODAY", "");
+                    return null;
+                }
+                s.advance();
+                if (!(peek(s) instanceof Token.RightParen)) {
+                    setError(s, currentPos(s), "TODAY() takes no arguments", "");
+                    return null;
+                }
+                s.advance();
+                return new TodayNode();
+
+            case DOY:
+                // DOY(date_expr) -- one argument
+                if (!(peek(s) instanceof Token.LeftParen)) {
+                    setError(s, currentPos(s), "Expected '(' after DOY", "");
+                    return null;
+                }
+                s.advance();
+                ExpressionNode doyArg = parseExpression(s);
+                if (s.hasError) return null;
+                if (!(peek(s) instanceof Token.RightParen)) {
+                    setError(s, currentPos(s), "Expected ')' after DOY", "");
+                    return null;
+                }
+                s.advance();
+                return new DayOfYearNode(doyArg);
+
+            case AFTER:
+                // AFTER(date1, date2) -- two arguments
+                if (!(peek(s) instanceof Token.LeftParen)) {
+                    setError(s, currentPos(s), "Expected '(' after AFTER", "");
+                    return null;
+                }
+                s.advance();
+                ExpressionNode<LocalDateTime> afterLeft = parseExpression(s);
+                if (s.hasError) return null;
+                if (!(peek(s) instanceof Token.Comma)) {
+                    setError(s, currentPos(s), "Expected ',' in AFTER(date1, date2)", "");
+                    return null;
+                }
+                s.advance();
+                ExpressionNode<LocalDateTime> afterRight = parseExpression(s);
+                if (s.hasError) return null;
+                if (!(peek(s) instanceof Token.RightParen)) {
+                    setError(s, currentPos(s), "Expected ')' after AFTER", "");
+                    return null;
+                }
+                s.advance();
+                return new AfterNode(afterLeft, afterRight);
+
+            case BEFORE:
+                // BEFORE(date1, date2) -- two arguments
+                if (!(peek(s) instanceof Token.LeftParen)) {
+                    setError(s, currentPos(s), "Expected '(' after BEFORE", "");
+                    return null;
+                }
+                s.advance();
+                ConstantLeafNode<LocalDateTime> beforeLeft = parseExpression(s);
+                if (s.hasError) return null;
+                if (!(peek(s) instanceof Token.Comma)) {
+                    setError(s, currentPos(s), "Expected ',' in BEFORE(date1, date2)", "");
+                    return null;
+                }
+                s.advance();
+                ExpressionNode beforeRight = parseExpression(s);
+                if (s.hasError) return null;
+                if (!(peek(s) instanceof Token.RightParen)) {
+                    setError(s, currentPos(s), "Expected ')' after BEFORE arguments", "");
+                    return null;
+                }
+                s.advance();
+                return new BeforeNode(beforeLeft, beforeRight);
+
+            case DATE:
+                // DATE(year, month, day) -- three integer arguments
+                if (!(peek(s) instanceof Token.LeftParen)) {
+                    setError(s, currentPos(s), "Expected '(' after DATE", "");
+                    return null;
+                }
+                s.advance();
+                ExpressionNode year = parseExpression(s);
+                if (s.hasError) return null;
+                if (!(peek(s) instanceof Token.Comma)) {
+                    setError(s, currentPos(s), "Expected ',' in DATE(year, month, day)","");
+                    return null;
+                }
+                s.advance();
+                ExpressionNode month = parseExpression(s);
+                if (s.hasError) return null;
+                if (!(peek(s) instanceof Token.Comma)) {
+                    setError(s, currentPos(s), "Expected ',' in DATE(year, month, day)","");
+                    return null;
+                }
+                s.advance();
+                ExpressionNode day = parseExpression(s);
+                if (s.hasError) return null;
+                if (!(peek(s) instanceof Token.RightParen)) {
+                    setError(s, currentPos(s), "Expected ')' after DATE arguments","");
+                    return null;
+                }
+                s.advance();
+                int y = ((Number) year.evaluate()).intValue();
+                int m = ((Number) month.evaluate()).intValue();
+                int d = ((Number) day.evaluate()).intValue();
+                LocalDateTime ldt = LocalDateTime.of(y,m,d,0,0);
+                return new DateNode(ldt);
+                */
             default:
                 setError(s, currentPos(s), "Unknown function: " + fn.name(), "");
                 return null;

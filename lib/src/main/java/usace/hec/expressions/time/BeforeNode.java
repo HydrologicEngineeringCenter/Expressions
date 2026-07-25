@@ -1,7 +1,7 @@
 package usace.hec.expressions.time;
 
 import java.io.Serial;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import usace.hec.expressions.BinaryExpressionNode;
@@ -9,10 +9,10 @@ import usace.hec.expressions.ConstantLeafNode;
 import usace.hec.expressions.ExpressionOperator;
 
 
-public class BeforeNode extends BinaryExpressionNode<Boolean, LocalDate, LocalDate> {
+public class BeforeNode extends BinaryExpressionNode<Boolean, LocalDateTime, LocalDateTime> {
     @Serial
     private static final long serialVersionUID = 1L;
-    public BeforeNode(ConstantLeafNode<LocalDate> left, ConstantLeafNode<LocalDate> right){
+    public BeforeNode(ConstantLeafNode<LocalDateTime> left, ConstantLeafNode<LocalDateTime> right){
         super(left, right);
     }
     @Override

@@ -2,7 +2,7 @@ package usace.hec.expressions.time;
 
 import static org.junit.Assert.assertEquals;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import org.junit.Test;
 
 import usace.hec.expressions.ConstantLeafNode;
@@ -15,10 +15,10 @@ public class GeneralTimeNodeTest {
     @Test
     public void testAfterBeforeEvaluate() {
         System.out.println("After and Before Test \n");
-        LocalDate dayOne = LocalDate.of(2026, 6, 16);
-        ConstantLeafNode<LocalDate> a = new ConstantLeafNode<>(dayOne);
-        LocalDate dayTwo = LocalDate.of(2026,6 , 18);
-        ConstantLeafNode<LocalDate> b = new ConstantLeafNode<>(dayTwo);
+        LocalDateTime dayOne = LocalDateTime.of(2026, 6, 16,0,0);
+        ConstantLeafNode<LocalDateTime> a = new ConstantLeafNode<>(dayOne);
+        LocalDateTime dayTwo = LocalDateTime.of(2026,6 , 18,0,0);
+        ConstantLeafNode<LocalDateTime> b = new ConstantLeafNode<>(dayTwo);
         AfterNode after = new AfterNode(a, b);
         BeforeNode before = new BeforeNode(a, b);
         ConstantLeafNode<Double> one = new ConstantLeafNode<>(1.0);
@@ -48,10 +48,10 @@ public class GeneralTimeNodeTest {
     @Test
     public void testDayofTheYearEvaluate() {
         System.out.println("Day of The Year Test \n");
-        LocalDate dayOne = LocalDate.of(2026, 6, 16);
-        ConstantLeafNode<LocalDate> a = new ConstantLeafNode<>(dayOne);
-        LocalDate dayTwo = LocalDate.of(2028,6 , 16);
-        ConstantLeafNode<LocalDate> b = new ConstantLeafNode<>(dayTwo);
+        LocalDateTime dayOne = LocalDateTime.of(2026, 6, 16,0,0);
+        ConstantLeafNode<LocalDateTime> a = new ConstantLeafNode<>(dayOne);
+        LocalDateTime dayTwo = LocalDateTime.of(2028,6 , 16,0,0);
+        ConstantLeafNode<LocalDateTime> b = new ConstantLeafNode<>(dayTwo);
         ExpressionNode<Integer> dayIn2026 = new DayOfYearNode(a);
         ExpressionNode<Integer> dayIn2028 = new DayOfYearNode(b);
 
