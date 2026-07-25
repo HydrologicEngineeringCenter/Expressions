@@ -175,43 +175,6 @@ public class Tokenizer {
         return c == '.' && pos + 1 < input.length()
                 && Character.isDigit(input.charAt(pos + 1));
     }
-    private Token parseNumber(String input, int pos) {
-        int end = pos;
-        boolean hasDot = false;
-        int len = input.length();
-        while (end < len) {
-            char c = input.charAt(end);
-            if (Character.isDigit(c)) {
-                end++;
-            } else if (c == '.' && !hasDot) {
-                hasDot = true;
-                end++;
-            } else {
-                break;
-            }
-        }
-        String numStr = input.substring(pos, end);
-        if (hasDot) {
-                try{
-                    return new Token.DoubleLiteral(Double.parseDouble(numStr), pos, "");
-                }catch (NumberFormatException e2){
-                    return new Token.Unknown(input, pos, "Uable to parse input string to number",input);
-                }
-        } else {
-            // Check if value fits in int; if not, treat as double
-            try {
-                return new Token.IntegerLiteral(Integer.parseInt(numStr), pos, "");
-            } catch (NumberFormatException e) {
-                try{
-                    return new Token.DoubleLiteral(Double.parseDouble(numStr), pos, "");
-                }catch (NumberFormatException e2){
-                    return new Token.Unknown(input, pos, "Uable to parse input string to number",input);
-                }
-                
-            }
-        }
-    }
-
 
     private String remaining(String input, int pos) {
         if (pos >= input.length()) return "";
