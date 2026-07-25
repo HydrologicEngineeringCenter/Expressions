@@ -390,6 +390,8 @@ public class ExpressionParser {
             case AND: return new AndNode(left, right);
             case OR: return new OrNode(left, right);
             case XOR: return new XorNode(left, right);
+            case AFTER: return new AfterNode(left, right);
+            case BEFORE: return new BeforeNode(left, right);
             default:
                 setError(s, currentPos(s), "Unknown binary operator: " + op, "");
                 return null;
@@ -408,14 +410,14 @@ public class ExpressionParser {
             case ABS: return new AbsNode(child);
             case FLOOR: return new FloorNode(child);
             case CEILING: return new CeilingNode(child);
+            case DOY: return new DayOfYearNode(child);
             default:
                 setError(s, currentPos(s), "Unknown unary operator: " + op, "");
                 return null;
         }
     }
 
-    private ExpressionNode buildFunctionNode(ParseState s, ExpressionOperator fn,
-            List<ExpressionNode> args) {
+    private ExpressionNode buildFunctionNode(ParseState s, ExpressionOperator fn, List<ExpressionNode> args) {
         switch (fn) {
             case IF: {
                 if (args.size() != 3) {
@@ -477,110 +479,44 @@ public class ExpressionParser {
             }
             case TODAY:
                 // TODAY() -- zero arguments
-                if (!(peek(s) instanceof Token.LeftParen)) {
-                    setError(s, currentPos(s), "Expected '(' after TODAY", "");
-                    return null;
-                }
-                s.advance();
-                if (!(peek(s) instanceof Token.RightParen)) {
+                if (args.size()!=0) {
                     setError(s, currentPos(s), "TODAY() takes no arguments", "");
                     return null;
                 }
-                s.advance();
                 return new TodayNode();
 
             case DOY:
                 // DOY(date_expr) -- one argument
-                if (!(peek(s) instanceof Token.LeftParen)) {
-                    setError(s, currentPos(s), "Expected '(' after DOY", "");
+                if (args.size()!=1) {
+                    setError(s, currentPos(s), "DOY expects exactly 1 argument, got " + args.size(), "");
                     return null;
                 }
-                s.advance();
-                ExpressionNode doyArg = parseExpression(s);
-                if (s.hasError) return null;
-                if (!(peek(s) instanceof Token.RightParen)) {
-                    setError(s, currentPos(s), "Expected ')' after DOY", "");
-                    return null;
-                }
-                s.advance();
-                return new DayOfYearNode(doyArg);
+                return makeUnaryNode(s, fn, args.get(0));
 
             case AFTER:
                 // AFTER(date1, date2) -- two arguments
-                if (!(peek(s) instanceof Token.LeftParen)) {
-                    setError(s, currentPos(s), "Expected '(' after AFTER", "");
+                if (args.size()!=2) {
+                    setError(s, currentPos(s), "After expects exactly 1 argument, got " + args.size(), "");
                     return null;
                 }
-                s.advance();
-                ExpressionNode<LocalDateTime> afterLeft = parseExpression(s);
-                if (s.hasError) return null;
-                if (!(peek(s) instanceof Token.Comma)) {
-                    setError(s, currentPos(s), "Expected ',' in AFTER(date1, date2)", "");
-                    return null;
-                }
-                s.advance();
-                ExpressionNode<LocalDateTime> afterRight = parseExpression(s);
-                if (s.hasError) return null;
-                if (!(peek(s) instanceof Token.RightParen)) {
-                    setError(s, currentPos(s), "Expected ')' after AFTER", "");
-                    return null;
-                }
-                s.advance();
-                return new AfterNode(afterLeft, afterRight);
+                return makeBinaryNode(s, fn, args.get(0), args.get(1));
 
             case BEFORE:
                 // BEFORE(date1, date2) -- two arguments
-                if (!(peek(s) instanceof Token.LeftParen)) {
-                    setError(s, currentPos(s), "Expected '(' after BEFORE", "");
+               if (args.size()!=2) {
+                    setError(s, currentPos(s), "Before expects exactly 1 argument, got " + args.size(), "");
                     return null;
                 }
-                s.advance();
-                ExpressionNode beforeLeft = parseExpression(s);
-                if (s.hasError) return null;
-                if (!(peek(s) instanceof Token.Comma)) {
-                    setError(s, currentPos(s), "Expected ',' in BEFORE(date1, date2)", "");
-                    return null;
-                }
-                s.advance();
-                ExpressionNode beforeRight = parseExpression(s);
-                if (s.hasError) return null;
-                if (!(peek(s) instanceof Token.RightParen)) {
-                    setError(s, currentPos(s), "Expected ')' after BEFORE arguments", "");
-                    return null;
-                }
-                s.advance();
-                return new BeforeNode(beforeLeft, beforeRight);
+                return makeBinaryNode(s, fn, args.get(0), args.get(1));
 
             case DATE:
                 // DATE(year, month, day) -- three integer arguments
-                if (!(peek(s) instanceof Token.LeftParen)) {
-                    setError(s, currentPos(s), "Expected '(' after DATE", "");
+               if (args.size()!=3) {
+                    setError(s, currentPos(s), "Date expects exactly 3 arguments, got " + args.size(), "");
                     return null;
                 }
-                s.advance();
-                ExpressionNode year = parseExpression(s);
-                if (s.hasError) return null;
-                if (!(peek(s) instanceof Token.Comma)) {
-                    setError(s, currentPos(s), "Expected ',' in DATE(year, month, day)","");
-                    return null;
-                }
-                s.advance();
-                ExpressionNode month = parseExpression(s);
-                if (s.hasError) return null;
-                if (!(peek(s) instanceof Token.Comma)) {
-                    setError(s, currentPos(s), "Expected ',' in DATE(year, month, day)","");
-                    return null;
-                }
-                s.advance();
-                ExpressionNode day = parseExpression(s);
-                if (s.hasError) return null;
-                if (!(peek(s) instanceof Token.RightParen)) {
-                    setError(s, currentPos(s), "Expected ')' after DATE arguments","");
-                    return null;
-                }
-                s.advance();
 
-                return new DateNode(year,month,day);
+                return new DateNode(args.get(0),args.get(1),args.get(2));
                 
             default:
                 setError(s, currentPos(s), "Unknown function: " + fn.name(), "");

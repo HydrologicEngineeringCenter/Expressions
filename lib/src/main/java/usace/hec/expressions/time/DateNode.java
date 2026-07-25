@@ -16,21 +16,41 @@ public class DateNode implements ExpressionNode<LocalDateTime> {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final ExpressionNode<Integer> _dd;
+    private final ExpressionNode _dd;
+    private final ExpressionNode _mm;
+    private final ExpressionNode _yyyy;
+/*    private final ExpressionNode<Integer> _dd;
     private final ExpressionNode<Integer> _mm;
     private final ExpressionNode<Integer> _yyyy;
-
+ 
     public DateNode(ExpressionNode<Integer> yyyy, ExpressionNode<Integer> mm, ExpressionNode<Integer>dd) {
+        _dd = dd;
+        _mm = mm;
+        _yyyy = yyyy;
+    }*/
+    public DateNode(ExpressionNode yyyy, ExpressionNode mm, ExpressionNode dd) {
         _dd = dd;
         _mm = mm;
         _yyyy = yyyy;
     }
     @Override
     public LocalDateTime evaluate() {
-        Integer y = _yyyy.evaluate();
-        Integer mm = _mm.evaluate();
-        Integer dd = _dd.evaluate();
-        return LocalDateTime.of(y,mm,dd,0,0);
+
+        //this should not be necessary the parser should evaluate the generic types and perform this right. the tokenizer should produce ints or doubles correctly
+        var y = _yyyy.evaluate();
+        var mm = _mm.evaluate();
+        var dd = _dd.evaluate();
+        if(y instanceof Double){
+            if(mm instanceof Double){
+                if(dd instanceof Double){
+                    Double dy = (Double)y;
+                    Double dmm = (Double)mm;
+                    Double ddd = (Double)dd;
+                    return LocalDateTime.of(dy.intValue(),dmm.intValue(),ddd.intValue(),0,0);
+                }
+            }
+        }
+        return LocalDateTime.now();
     }
     
     @Override
