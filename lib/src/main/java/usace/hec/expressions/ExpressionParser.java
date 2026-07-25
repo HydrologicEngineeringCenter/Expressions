@@ -311,7 +311,14 @@ public class ExpressionParser {
             s.advance();
             return new ConstantLeafNode<>(num.value());
         }
-
+        if (t instanceof Token.DoubleLiteral num) {
+            s.advance();
+            return new ConstantLeafNode<>(num.value());
+        }
+        if (t instanceof Token.IntegerLiteral num) {
+            s.advance();
+            return new ConstantLeafNode<>(num.value());
+        }
         if (t instanceof Token.Variable var) {
             s.advance();
             return new UpdateableLeafNode<>(var.name());
@@ -322,7 +329,11 @@ public class ExpressionParser {
             boolean val = Boolean.parseBoolean(sl.value());
             return new ConstantLeafNode<>(val);
         }
-
+        if (t instanceof Token.BooleanLiteral bl) {
+            s.advance();
+            boolean val = bl.value();
+            return new ConstantLeafNode<>(val);
+        }
         if (t instanceof Token.LeftParen) {
             s.advance();
             ExpressionNode node = parseExpression(s);

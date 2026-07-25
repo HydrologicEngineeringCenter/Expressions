@@ -22,33 +22,33 @@ public class TokenizerAndParserTest {
         // ----------------------------------------------------------------
         // VALID EXPRESSIONS (Expected Results)
         // ----------------------------------------------------------------
-        TEST_CASES.add(Map.of("input", "IF(MIN(1.0,2.0)<MAX(1.0,2.0),1+2,3-4)", "error", false, "msg", "", "result", 3.0));
-        TEST_CASES.add(Map.of("input", "PLUS(1, 2) + MULTIPLY(3, 4)", "error", false, "msg", "", "result", 15.0));
-        TEST_CASES.add(Map.of("input", "-1+1", "error", false, "msg", "", "result", 0.0));
-        TEST_CASES.add(Map.of("input", "- 3^2", "error", false, "msg", "", "result", 9.0));
-        TEST_CASES.add(Map.of("input", "(3 + 3) * 2", "error", false, "msg", "", "result", 12.0));
-        TEST_CASES.add(Map.of("input", "3 * (3 + 2)", "error", false, "msg", "", "result", 15.0));
-        TEST_CASES.add(Map.of("input", "3 + 3 * 2", "error", false, "msg", "", "result", 9.0));
-        TEST_CASES.add(Map.of("input", "3 * 3 + 2", "error", false, "msg", "", "result", 11.0));
-        TEST_CASES.add(Map.of("input", "3 > 11", "error", false, "msg", "", "result", false));
-        TEST_CASES.add(Map.of("input", "3 < 11", "error", false, "msg", "", "result", true));
-        TEST_CASES.add(Map.of("input", "3 >= 11", "error", false, "msg", "", "result", false));
-        TEST_CASES.add(Map.of("input", "3 <= 11", "error", false, "msg", "", "result", true));
-        TEST_CASES.add(Map.of("input", "3 == 11", "error", false, "msg", "", "result", false));
+        TEST_CASES.add(Map.of("input", "IF(MIN(1.0,2.0)<MAX(1.0,2.0),1.0+2.0,3.0-4.0)", "error", false, "msg", "", "result", 3.0));
+        TEST_CASES.add(Map.of("input", "PLUS(1.0, 2.0) + MULTIPLY(3.0, 4.0)", "error", false, "msg", "", "result", 15.0));
+        TEST_CASES.add(Map.of("input", "-1.0+1.0", "error", false, "msg", "", "result", 0.0));
+        TEST_CASES.add(Map.of("input", "- 3.0^2.0", "error", false, "msg", "", "result", 9.0));
+        TEST_CASES.add(Map.of("input", "(3.0 + 3.0) * 2.0", "error", false, "msg", "", "result", 12.0));
+        TEST_CASES.add(Map.of("input", "3.0 * (3.0 + 2.0)", "error", false, "msg", "", "result", 15.0));
+        TEST_CASES.add(Map.of("input", "3.0 + 3.0 * 2.0", "error", false, "msg", "", "result", 9.0));
+        TEST_CASES.add(Map.of("input", "3.0 * 3.0 + 2.0", "error", false, "msg", "", "result", 11.0));
+        TEST_CASES.add(Map.of("input", "3.0 > 11.0", "error", false, "msg", "", "result", false));
+        TEST_CASES.add(Map.of("input", "3.0 < 11.0", "error", false, "msg", "", "result", true));
+        TEST_CASES.add(Map.of("input", "3.0 >= 11.0", "error", false, "msg", "", "result", false));
+        TEST_CASES.add(Map.of("input", "3.0 <= 11.0", "error", false, "msg", "", "result", true));
+        TEST_CASES.add(Map.of("input", "3.0 == 11.0", "error", false, "msg", "", "result", false));
         TEST_CASES.add(Map.of("input", "TRUE && FALSE", "error", false, "msg", "", "result", false));
         TEST_CASES.add(Map.of("input", "TRUE || FALSE", "error", false, "msg", "", "result", true));
-        TEST_CASES.add(Map.of("input", "- - 5", "error", false, "msg", "", "result", 5.0));
-        TEST_CASES.add(Map.of("input", "MAX(10, 20, 5)", "error", false, "msg", "", "result", 20.0));
-        TEST_CASES.add(Map.of("input", "MIN(10, 20, 5)", "error", false, "msg", "", "result", 5.0));
-        TEST_CASES.add(Map.of("input", "ABS(-5)", "error", false, "msg", "", "result", 5.0));
+        TEST_CASES.add(Map.of("input", "- - 5.0", "error", false, "msg", "", "result", 5.0));
+        TEST_CASES.add(Map.of("input", "MAX(10.0, 20.0, 5.0)", "error", false, "msg", "", "result", 20.0));
+        TEST_CASES.add(Map.of("input", "MIN(10.0, 20.0, 5.0)", "error", false, "msg", "", "result", 5.0));
+        TEST_CASES.add(Map.of("input", "ABS(-5.0)", "error", false, "msg", "", "result", 5.0));
         TEST_CASES.add(Map.of("input", "FLOOR(3.7)", "error", false, "msg", "", "result", 3.0));
         TEST_CASES.add(Map.of("input", "CEILING(3.2)", "error", false, "msg", "", "result", 4.0));
         // Prefix comparison operators
-        TEST_CASES.add(Map.of("input", "GT(5, 3)", "error", false, "msg", "", "result", true));
-        TEST_CASES.add(Map.of("input", "GTE(5, 5)", "error", false, "msg", "", "result", true));
-        TEST_CASES.add(Map.of("input", "LTE(3, 5)", "error", false, "msg", "", "result", true));
-        TEST_CASES.add(Map.of("input", "LT(3, 5)", "error", false, "msg", "", "result", true));
-        TEST_CASES.add(Map.of("input", "EQ(5, 5)", "error", false, "msg", "", "result", true));
+        TEST_CASES.add(Map.of("input", "GT(5.0, 3.0)", "error", false, "msg", "", "result", true));
+        TEST_CASES.add(Map.of("input", "GTE(5.0, 5.0)", "error", false, "msg", "", "result", true));
+        TEST_CASES.add(Map.of("input", "LTE(3.0, 5.0)", "error", false, "msg", "", "result", true));
+        TEST_CASES.add(Map.of("input", "LT(3.0, 5.0)", "error", false, "msg", "", "result", true));
+        TEST_CASES.add(Map.of("input", "EQ(5.0, 5.0)", "error", false, "msg", "", "result", true));
 
         // Prefix logical operators
         TEST_CASES.add(Map.of("input", "AND(TRUE, FALSE)", "error", false, "msg", "", "result", false));
@@ -66,23 +66,23 @@ public class TokenizerAndParserTest {
         // ERROR EXPRESSIONS (Expected Messages)
         // ----------------------------------------------------------------
         TEST_CASES.add(Map.of("input", "", "error", true, "msg", "Empty expression"));
-        TEST_CASES.add(Map.of("input", "1.2.3", "error", true, "msg", "Unexpected token after end of expression: Number[value=0.3, pos=3, error=]"));
+        TEST_CASES.add(Map.of("input", "1.2.3", "error", true, "msg", "Unexpected token after end of expression: DoubleLiteral[value=0.3, pos=5, error=]"));
         TEST_CASES.add(Map.of("input", "[X", "error", true, "msg", "Unclosed '[' for variable"));
         TEST_CASES.add(Map.of("input", "[]", "error", true, "msg", "Empty variable name"));
-        TEST_CASES.add(Map.of("input", "PLU(1,2)", "error", true, "msg", "Unknown identifier: PLU"));
+        TEST_CASES.add(Map.of("input", "PLU(1.0,2.0)", "error", true, "msg", "Unknown identifier: PLU"));
         TEST_CASES.add(Map.of("input", "1 @ 2", "error", true, "msg", "Unexpected character: '@'"));
         
         // Tokenizer errors for unsupported syntax
-        TEST_CASES.add(Map.of("input", "3=11", "error", true, "msg", "Unexpected character: '='"));
-        TEST_CASES.add(Map.of("input", "1 != 1", "error", true, "msg", "Unexpected character: '!'"));
+        TEST_CASES.add(Map.of("input", "3.0=11.0", "error", true, "msg", "Unexpected character: '='"));
+        TEST_CASES.add(Map.of("input", "1.0 != 1.0", "error", true, "msg", "Unexpected character: '!'"));
         TEST_CASES.add(Map.of("input", "contains(a,b)", "error", true, "msg", "Unknown identifier: contains"));
         
         // Parser structural errors
-        TEST_CASES.add(Map.of("input", "IF(1<2, 3)", "error", true, "msg", "IF requires exactly 3 arguments"));
+        TEST_CASES.add(Map.of("input", "IF(1.0<2.0, 3.0)", "error", true, "msg", "IF requires exactly 3 arguments"));
         TEST_CASES.add(Map.of("input", "MAX()", "error", true, "msg", "MAX requires at least 1 argument"));
-        TEST_CASES.add(Map.of("input", "ABS(1, 2)", "error", true, "msg", "Expected ')' but found: Comma[pos=5, error=]"));
-        TEST_CASES.add(Map.of("input", "((1+2)", "error", true, "msg", "Unexpected end of input, expected ')'"));
-        TEST_CASES.add(Map.of("input", "1+2)", "error", true, "msg", "Unexpected token after end of expression"));
+        TEST_CASES.add(Map.of("input", "ABS(1.0, 2.0)", "error", true, "msg", "Expected ')' but found: Comma[pos=7, error=]"));
+        TEST_CASES.add(Map.of("input", "((1.0+2.0)", "error", true, "msg", "Unexpected end of input, expected ')'"));
+        TEST_CASES.add(Map.of("input", "1.0+2.0)", "error", true, "msg", "Unexpected token after end of expression"));
     }
 
     @Test

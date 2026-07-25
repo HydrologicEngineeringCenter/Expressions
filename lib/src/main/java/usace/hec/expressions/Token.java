@@ -1,5 +1,7 @@
 package usace.hec.expressions;
 
+import java.time.LocalDateTime;
+
 /**
  * Sealed hierarchy of tokens produced by {@link Tokenizer}.
  */
@@ -12,6 +14,10 @@ public sealed interface Token permits
     Token.RightParen,
     Token.Comma,
     Token.StringLiteral,
+    Token.IntegerLiteral,
+    Token.BooleanLiteral,
+    Token.DateTimeLiteral,
+    Token.DoubleLiteral,
     Token.Unknown
 {
     /** Zero-based position in the original source string. */
@@ -38,5 +44,9 @@ public sealed interface Token permits
     record RightParen(int pos, String error) implements Token {}
     record Comma(int pos, String error) implements Token {}
     record StringLiteral(String value, int pos, String error) implements Token {}
+    record IntegerLiteral(int value, int pos, String error) implements Token {}
+    record DoubleLiteral(double value, int pos, String error) implements Token {}
+    record DateTimeLiteral(LocalDateTime value, int pos, String error) implements Token {}
+    record BooleanLiteral(boolean value, int pos, String error) implements Token {}
     record Unknown(String value, int pos, String error, String remaining) implements Token {}
 }

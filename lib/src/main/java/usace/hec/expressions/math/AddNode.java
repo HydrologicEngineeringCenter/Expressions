@@ -21,10 +21,10 @@ public class AddNode extends BinaryExpressionNode<Double,Double,Double> {
     }
     @Override
     public Double evaluate() {
-        Double left = leftnode.evaluate();
-        Double right = rightnode.evaluate();
-        Double result = left.doubleValue() + right.doubleValue();
-        return result;
+        //Double left = leftnode.evaluate();
+        //Double right = rightnode.evaluate();
+        //Double result = left.doubleValue() + right.doubleValue();
+        return leftnode.evaluate()+rightnode.evaluate();
     }
     @Override
     public String OpName() {

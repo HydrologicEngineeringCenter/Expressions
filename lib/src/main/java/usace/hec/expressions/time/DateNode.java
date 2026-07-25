@@ -49,6 +49,13 @@ public class DateNode implements ExpressionNode<LocalDateTime> {
                     return LocalDateTime.of(dy.intValue(),dmm.intValue(),ddd.intValue(),0,0);
                 }
             }
+        }else if(y instanceof Integer){
+            if(mm instanceof Integer){
+                if(dd instanceof Integer){
+
+                    return LocalDateTime.of((Integer)y,(Integer)mm,(Integer)dd,0,0);
+                }
+            }
         }
         return LocalDateTime.now();
     }

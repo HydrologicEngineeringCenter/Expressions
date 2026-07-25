@@ -47,15 +47,41 @@ public class Tokenizer {
             if (Character.isWhitespace(c)) { pos++; continue; }
 
             if (isNumberStart(c, input, pos)) {
-                int end = skipNumber(input, pos);
-                String numStr = input.substring(pos, end);
-                try {
-                    tokens.add(new Token.Number(Double.parseDouble(numStr), pos, ""));
-                    pos = end;
-                } catch (NumberFormatException e) {
-                    tokens.add(new Token.Unknown(numStr, pos,
-                            "Invalid number literal", remaining(input, pos)));
-                    return tokens;
+                boolean hasDot = false;
+                int start = pos;
+                int lennum = input.length();
+                while (pos < lennum) {
+                    char cnum = input.charAt(pos);
+                    if (Character.isDigit(cnum)) {
+                        pos++;
+                    } else if (cnum == '.' && !hasDot) {
+                        hasDot = true;
+                        pos++;
+                    } else {
+                        break;
+                    }
+                }
+                String numStr = input.substring(start, pos);
+                if (hasDot) {
+                        try{
+                            tokens.add(new Token.DoubleLiteral(Double.parseDouble(numStr), pos, ""));
+                        }catch (NumberFormatException e2){
+                            tokens.add(new Token.Unknown(input, pos, "Uable to parse input string to number",input));
+                            return tokens;
+                        }
+                } else {
+                    // Check if value fits in int; if not, treat as double
+                    try {
+                        tokens.add(new Token.IntegerLiteral(Integer.parseInt(numStr), pos, ""));
+                    } catch (NumberFormatException e) {
+                        try{
+                            tokens.add(new Token.DoubleLiteral(Double.parseDouble(numStr), pos, ""));
+                        }catch (NumberFormatException e2){
+                            tokens.add(new Token.Unknown(input, pos, "Uable to parse input string to number",input));
+                            return tokens;
+                        }
+                        
+                    }
                 }
                 continue;
             }
@@ -115,12 +141,12 @@ public class Tokenizer {
                 String upper = word.toUpperCase();
 
                 if ("TRUE".equals(upper)) {
-                    tokens.add(new Token.StringLiteral("TRUE", pos, ""));
+                    tokens.add(new Token.BooleanLiteral(true, pos, ""));
                     pos = end;
                     continue;
                 }
                 if ("FALSE".equals(upper)) {
-                    tokens.add(new Token.StringLiteral("FALSE", pos, ""));
+                    tokens.add(new Token.BooleanLiteral(false, pos, ""));
                     pos = end;
                     continue;
                 }
@@ -149,18 +175,43 @@ public class Tokenizer {
         return c == '.' && pos + 1 < input.length()
                 && Character.isDigit(input.charAt(pos + 1));
     }
-
-    private int skipNumber(String input, int pos) {
-        int len = input.length();
+    private Token parseNumber(String input, int pos) {
+        int end = pos;
         boolean hasDot = false;
-        while (pos < len) {
-            char c = input.charAt(pos);
-            if (Character.isDigit(c)) pos++;
-            else if (c == '.' && !hasDot) { hasDot = true; pos++; }
-            else break;
+        int len = input.length();
+        while (end < len) {
+            char c = input.charAt(end);
+            if (Character.isDigit(c)) {
+                end++;
+            } else if (c == '.' && !hasDot) {
+                hasDot = true;
+                end++;
+            } else {
+                break;
+            }
         }
-        return pos;
+        String numStr = input.substring(pos, end);
+        if (hasDot) {
+                try{
+                    return new Token.DoubleLiteral(Double.parseDouble(numStr), pos, "");
+                }catch (NumberFormatException e2){
+                    return new Token.Unknown(input, pos, "Uable to parse input string to number",input);
+                }
+        } else {
+            // Check if value fits in int; if not, treat as double
+            try {
+                return new Token.IntegerLiteral(Integer.parseInt(numStr), pos, "");
+            } catch (NumberFormatException e) {
+                try{
+                    return new Token.DoubleLiteral(Double.parseDouble(numStr), pos, "");
+                }catch (NumberFormatException e2){
+                    return new Token.Unknown(input, pos, "Uable to parse input string to number",input);
+                }
+                
+            }
+        }
     }
+
 
     private String remaining(String input, int pos) {
         if (pos >= input.length()) return "";
