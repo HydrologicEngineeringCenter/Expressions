@@ -14,24 +14,13 @@ public class CurrentTimestepNode extends UpdateableLeafNode<LocalDateTime> {
     private LocalDateTime date;
 
     public CurrentTimestepNode() {
-        super("Cur");
+        super("CurrentTimestep");
     }
     @Override
     public LocalDateTime evaluate() {
         return this.date;
     }
-    
-    @Override
-    public String PreFixSyntax() {
-        return "DATE(" + date.getDayOfMonth() + ","
-             + date.getMonthValue() + ","
-             + date.getDayOfMonth() + ")";
-    }
-
-    @Override
-    public String ExcelSyntax() {
-        return PreFixSyntax();
-    }
+  
 
     @Override
     public ExpressionOperator Operator() {
