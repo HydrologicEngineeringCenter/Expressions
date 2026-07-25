@@ -8,6 +8,7 @@ import java.util.List;
 
 import usace.hec.expressions.ConstantLeafNode;
 import usace.hec.expressions.DataListener;
+import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.ExpressionNode;
 
@@ -56,5 +57,11 @@ public class DateNode implements ExpressionNode<LocalDateTime> {
        list.addAll(_mm.fetchListeners());
        list.addAll(_dd.fetchListeners());
        return list;  
+    }
+        @Override
+    public void setProvider(DataProvider dp) {
+        _yyyy.setProvider(dp);
+        _mm.setProvider(dp);
+        _dd.setProvider(dp);
     }
 }
