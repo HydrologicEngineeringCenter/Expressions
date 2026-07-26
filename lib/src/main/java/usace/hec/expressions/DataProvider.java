@@ -1,6 +1,6 @@
 package usace.hec.expressions;
 
 public interface DataProvider {
-    public <T> T provideValueForCurrentTimestep(String name);
-    public void setValueForCurrentTimestep(String name, Object value);
+    public <T> T provideValue(String name);
+    public void setValue(String name, Object value);
 }

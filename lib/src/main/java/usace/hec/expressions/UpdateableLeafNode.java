@@ -18,7 +18,7 @@ public class UpdateableLeafNode implements ExpressionNode, DataListener, DataReq
 
     public Object evaluate() {
         if(dp!=null){
-            return dp.provideValueForCurrentTimestep(name);
+            return dp.provideValue(name);
         }
         return this.value;
     }

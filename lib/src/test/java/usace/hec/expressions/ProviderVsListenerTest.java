@@ -89,15 +89,15 @@ public class ProviderVsListenerTest {
         t1 = System.currentTimeMillis();
 
         for (int i = 0; i < 100000000; i ++){
-            dp.setValueForCurrentTimestep("XX",200.0);
+            dp.setValue("XX",200.0);
         }
         double result2 = ((Number)outerIfNode2.evaluate()).doubleValue();
         t2 = System.currentTimeMillis();
         assertEquals(700.0,result2,0.0);//(10 !<= 7) =>  10!>10 10*10=100
-        dp.setValueForCurrentTimestep("XX",670.0);;//advance x:(8 !<= 7) =>  10>8 10+8=18
+        dp.setValue("XX",670.0);;//advance x:(8 !<= 7) =>  10>8 10+8=18
         result2 = ((Number)outerIfNode2.evaluate()).doubleValue();
         assertEquals(670.0,result2,0.0);
-        dp.setValueForCurrentTimestep("XX",1200.0);
+        dp.setValue("XX",1200.0);
         result2 = ((Number)outerIfNode2.evaluate()).doubleValue();
         assertEquals(1000.0,result2,0.0);
         System.out.println("DataProvider execution took " + (t2 - t1) +" ms");
@@ -166,7 +166,7 @@ public class ProviderVsListenerTest {
             t1 = System.nanoTime();
 
             for (int j = 0; j < 1000000; j++) {
-                dp.setValueForCurrentTimestep("XX", 200.0);
+                dp.setValue("XX", 200.0);
             }
             double result2 = ((Number)outerIfNode2.evaluate()).doubleValue();
             t2 = System.nanoTime();

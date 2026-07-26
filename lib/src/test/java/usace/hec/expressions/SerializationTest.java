@@ -119,7 +119,7 @@ public class SerializationTest {
     @Test
     public void requesterRoundTripsButDropsItsProvider() throws Exception {
         DataHub provider = new DataHub();
-        provider.setValueForCurrentTimestep("Flow", 42.0);
+        provider.setValue("Flow", 42.0);
         UpdateableLeafNodeRequester<Double> requester = new UpdateableLeafNodeRequester<>("Flow");
         requester.setProvider(provider);
         assertEquals(Double.valueOf(42.0), requester.evaluate());
