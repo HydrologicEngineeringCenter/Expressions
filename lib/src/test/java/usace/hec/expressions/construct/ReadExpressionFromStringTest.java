@@ -1,133 +1,104 @@
 package usace.hec.expressions.construct;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-
-import java.util.List;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
-
 import usace.hec.expressions.*;
-import usace.hec.expressions.comparison.GreaterThanOrEqualNode;
-import usace.hec.expressions.comparison.LessThanNode;
-import usace.hec.expressions.comparison.LessThanOrEqualNode;
-import usace.hec.expressions.logical.AndNode;
-import usace.hec.expressions.logical.IfNode;
-import usace.hec.expressions.math.*;
-
 
 public class ReadExpressionFromStringTest {
+
     @Test
-    public void simpleString() {
-        //ADD(2.0,3.4)
-        ExpressionNode<Number> expected = new DoubleAddNode(new ConstantLeafNode<>(2.0), new ConstantLeafNode<>(3.4));
-        String expression = expected.PreFixSyntax();
-        System.out.println(expected.PreFixSyntax());
-        ExpressionNode<Double> result = ExpressionNode.fromPreFixSyntax(expression, Double.class);
-        assertEquals(result.evaluate(), expected.evaluate());
-    }
-    @Test
-    public void nestedString(){
-        //ADD(MULT(2.0,3.4), 3.4)
-        ExpressionNode<Number> multNode = new DoubleMultiplyNode(new ConstantLeafNode<Number>(2.0), new ConstantLeafNode<Number>(3.4));
-        ExpressionNode<Number> expected = new DoubleAddNode(multNode, new ConstantLeafNode<Number>(3.4));
-        String expression = expected.PreFixSyntax();
-        System.out.println(expected.PreFixSyntax());
-        ExpressionNode<Double> result = ExpressionNode.fromPreFixSyntax(expression, Double.class);
-        System.out.println(expected.PreFixSyntax());
-        assertEquals(result.evaluate(), expected.evaluate());
+    public void testParseSimpleExpression() {
+        ExpressionParser parser = new ExpressionParser();
+        ParseResult result = parser.parse("1.0 + 2.0");
+
+        assertFalse(result.hasError());
+        DoubleExpressionNode node = (DoubleExpressionNode) result.getNode();
+        assertEquals(3.0, node.evaluate(), 0.0);
     }
 
     @Test
-    public void AddSubWithUpdatablesString(){
-        UpdateableLeafNode<Number> X = new UpdateableLeafNode<>("X");
-        UpdateableLeafNode<Number> Y = new UpdateableLeafNode<>("Y");
+    public void testParseIfExpression() {
+        ExpressionParser parser = new ExpressionParser();
+        ParseResult result = parser.parse("IF(5.0 > 3.0, 10.0, 20.0)");
 
-        BaseDataUpdater adu = new BaseDataUpdater();
-        ExpressionNode<Number> Add = new DoubleAddNode(X, Y);
-        ExpressionNode<Number> Minus = new DoubleMinusNode(X, Y);
-        List<DataListener<?>> list = Add.fetchListeners();
-        for(DataListener<?> d : list){
-            adu.register(d);
-        }
-        String expressionAdd = Add.PreFixSyntax();
-        System.out.println(Add.PreFixSyntax());
-        ExpressionNode<Double> expectedAdd = ExpressionNode.fromPreFixSyntax(expressionAdd, Double.class);
-        String expressionMinus = Minus.PreFixSyntax();
-        System.out.println(Minus.PreFixSyntax());
-        ExpressionNode<Double> expectedMinus = ExpressionNode.fromPreFixSyntax(expressionMinus, Double.class);
-        BaseDataUpdater adu1 = new BaseDataUpdater();
-
-        //POTENTIAL PROBLEM: the string parser creates new UpdatableLeafNodes, so nodes like Add and Minus who share the same
-        //updatable leaf node will not share them once reserialized. Might have to change owner to use the string name instead of the object
-        //itself.
-
-        List<DataListener<?>> list1 = expectedAdd.fetchListeners();
-        for(DataListener<?> d : list1){
-            adu1.register(d);
-        }
-        List<DataListener<?>> list2 = expectedMinus.fetchListeners();
-        for(DataListener<?> d : list2){
-            adu1.register(d);
-        }
-
-        adu.publish("X",1.0);
-        adu.publish("Y",1.0);
-        adu1.publish("X",1.0);
-        adu1.publish("Y",1.0);
-
-        Double result = ((Number)Add.evaluate()).doubleValue();
-        Double result2 = ((Number)Minus.evaluate()).doubleValue();
-        Double expected = expectedAdd.evaluate();
-        Double expected2 = expectedMinus.evaluate();
-        assertEquals(result, expected, 0.0);
-        assertEquals(result2, expected2, 0.0);
+        assertFalse(result.hasError());
+        DoubleExpressionNode node = (DoubleExpressionNode) result.getNode();
+        assertEquals(10.0, node.evaluate(), 0.0); // 5>3 is true, so 10
     }
 
     @Test
-    public void bigIfTest(){
+    public void testParseNestedExpression() {
+        ExpressionParser parser = new ExpressionParser();
+        ParseResult result = parser.parse("IF(5.0 > 3.0, 1.0 + 2.0, 3.0 * 4.0)");
 
-        //Begin Copy from IfNodeTest
+        assertFalse(result.hasError());
+        DoubleExpressionNode node = (DoubleExpressionNode) result.getNode();
+        assertEquals(3.0, node.evaluate(), 0.0); // 5>3 is true, so 1+2=3
+    }
 
-        //IF(500 <= X AND X <= 1000, X, IF(X < 500, X + 500, 1000))
-        UpdateableLeafNode<Number> X = new UpdateableLeafNode<>("X");
+    @Test
+    public void testParseWithVariables() {
+        ExpressionParser parser = new ExpressionParser();
+        ParseResult result = parser.parse("[Flow] + [Stage]");
 
-        BaseDataUpdater adu = new BaseDataUpdater();
+        assertFalse(result.hasError());
+        DoubleExpressionNode node = (DoubleExpressionNode) result.getNode();
 
+        // Set up data provider
+        DataHub provider = new DataHub();
+        provider.setValue("Flow", 100.0);
+        provider.setValue("Stage", 50.0);
+        node.setProvider(provider);
 
-        ExpressionNode<Number> const1 = new ConstantLeafNode<>(500.0);
-        ExpressionNode<Number> const2 = new ConstantLeafNode<>(1000.0);
+        assertEquals(150.0, node.evaluate(), 0.0);
+    }
 
-        ExpressionNode<Boolean> intermediateCondition1 = new LessThanOrEqualNode<>(const1, X);
-        ExpressionNode<Boolean> intermediateCondition2 = new GreaterThanOrEqualNode<>(const2, X);
+    @Test
+    public void testParseError() {
+        ExpressionParser parser = new ExpressionParser();
+        ParseResult result = parser.parse("IF(1.0, 2.0)"); // Missing third argument
 
-        ExpressionNode<Boolean> condition1 = new AndNode(intermediateCondition1, intermediateCondition2);
+        assertTrue(result.hasError());
+        assertTrue(result.getError().message().contains("IF requires exactly 3 arguments"));
+    }
 
-        ExpressionNode<Boolean> nextCondition = new LessThanNode<>(X,const1);
-        ExpressionNode<Number> nextThenNode = new DoubleAddNode(X, const1);
+    @Test
+    public void testParseSyntaxGeneration() {
+        ExpressionParser parser = new ExpressionParser();
+        ParseResult result = parser.parse("[X] > [Y]");
 
-        ExpressionNode<Number> nestedIfNode = new IfNode<Number>(nextCondition, nextThenNode, const2);
-        ExpressionNode<Number> outerIfNode = new IfNode<Number>(condition1, X, nestedIfNode);
+        assertFalse(result.hasError());
+        ExpressionNode node = (ExpressionNode)result.getNode();
 
-        String expression = outerIfNode.PreFixSyntax();
-        System.out.print(expression + "\n");
-        String expressionInfix = outerIfNode.ExcelSyntax();
-        System.out.print(expressionInfix+ "\n");
+        String prefix = node.PreFixSyntax();
+        String excel = node.ExcelSyntax();
 
-        //End Copy from IfNodeTest
+        assertNotNull(prefix);
+        assertNotNull(excel);
+        System.out.println("Prefix: " + prefix);
+        System.out.println("Excel: " + excel);
+    }
 
+    @Test
+    public void testParseComplexIf() {
+        ExpressionParser parser = new ExpressionParser();
+        // IF(500 <= [X] AND [X] <= 1000, [X], IF([X] < 500, [X] + 500, 1000))
+        ParseResult result = parser.parse("IF(500 <= [X] && [X] <= 1000, [X], IF([X] < 500, [X] + 500, 1000))");
 
-        List<DataListener<?>> list = outerIfNode.fetchListeners();
-        for(DataListener<?> d : list){
-            adu.register(d);
-        }
-        ExpressionNode<Double> expected = ExpressionNode.fromPreFixSyntax(expression, Double.class);
-        List<DataListener<?>> list1 = expected.fetchListeners();
-        for(DataListener<?> d : list1){
-            adu.register(d);
-        }
-        adu.publish("X", 200.0);
-        double result = ((Number)outerIfNode.evaluate()).doubleValue();
-        assertEquals(result, expected.evaluate(), 0.0);
+        assertFalse(result.hasError());
+        DoubleExpressionNode node = (DoubleExpressionNode) result.getNode();
+
+        DataHub provider = new DataHub();
+        node.setProvider(provider);
+
+        provider.setValue("X", 200.0);
+        assertEquals(700.0, node.evaluate(), 0.0); // 200<500 => 200+500
+
+        provider.setValue("X", 670.0);
+        assertEquals(670.0, node.evaluate(), 0.0); // 500<=670<=1000
+
+        provider.setValue("X", 1200.0);
+        assertEquals(1000.0, node.evaluate(), 0.0); // 1200>1000 => 1000
     }
 }

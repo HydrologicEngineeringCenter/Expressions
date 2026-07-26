@@ -20,7 +20,7 @@ public class DoubleAbsNode extends DoubleUnaryExpressionNode {
 
     @Override
     public double evaluate() {
-        return child.evaluate();
+        return Math.abs(child.evaluate());
 
     }
 

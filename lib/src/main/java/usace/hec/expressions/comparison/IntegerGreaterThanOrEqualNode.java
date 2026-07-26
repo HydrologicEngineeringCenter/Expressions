@@ -23,7 +23,7 @@ public class IntegerGreaterThanOrEqualNode extends BooleanBinaryExpressionNode {
     }
     @Override
     public boolean evaluate() {
-        return left.evaluate() > right.evaluate();
+        return left.evaluate() >= right.evaluate();
     }
     @Override
     public ExpressionOperator Operator() {

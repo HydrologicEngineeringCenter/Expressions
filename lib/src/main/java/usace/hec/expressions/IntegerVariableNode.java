@@ -27,7 +27,7 @@ public class IntegerVariableNode implements IntegerExpressionNode, DataListener,
 
     @Override
     public void onDataUpdate(DataUpdate newValue) {
-        this.value = (int)newValue.newValue();
+            this.value = (int)newValue.newValue();
     }
 
     @Override

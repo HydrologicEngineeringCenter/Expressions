@@ -413,6 +413,8 @@ public class ExpressionParser {
             return createIntegerBinaryNode(op, (IntegerExpressionNode) lNode, (IntegerExpressionNode) rNode);
         } else if (commonType == ExpressionType.BOOLEAN) {
             return createBooleanBinaryNode(op, (BooleanExpressionNode) lNode, (BooleanExpressionNode) rNode);
+        } else if (commonType == ExpressionType.DATE){
+            return createDateBinaryNode(op,(DateTimeExpressionNode)lNode,(DateTimeExpressionNode) rNode);
         }
 
         setError(s, currentPos(s), "Unsupported binary operator type: " + commonType, "");
@@ -437,6 +439,11 @@ public class ExpressionParser {
                 case FLOOR -> new IntegerFloorNode((IntegerExpressionNode) child);
                 //case CEILING -> new IntegerCeilingNode((DoubleExpressionNode) child);
                 default -> { setError(s, currentPos(s), "Unary " + op + " not implemented for Int", ""); yield new IntegerConstantNode(0); }
+            };
+        } else if (type == ExpressionType.DATE){
+            return switch (op) {
+                case DOY -> new DayOfYearNode((DateTimeExpressionNode)child);
+                default -> { setError(s, currentPos(s), "Unary " + op + " not implemented for DATE", ""); yield new IntegerConstantNode(0); }
             };
         }
 
@@ -674,7 +681,13 @@ public class ExpressionParser {
             default -> null;
         };
     }
-
+    private ExpressionNode createDateBinaryNode(ExpressionOperator op, DateTimeExpressionNode left, DateTimeExpressionNode right) {
+        return switch (op) {
+            case AFTER -> new AfterNode(left, right);
+            case BEFORE -> new BeforeNode(left, right);
+            default -> null;
+        };
+    }
     private Token peek(ParseState s) {
         return (s.pos < s.tokens.size()) ? s.tokens.get(s.pos) : null;
     }

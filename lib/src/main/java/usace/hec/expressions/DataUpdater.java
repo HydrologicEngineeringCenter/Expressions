@@ -17,7 +17,9 @@ public abstract class DataUpdater {
         // Construct a strongly typed update payload
         DataUpdate event = new DataUpdate(variableName, value);
         for (DataListener listener : listeners) {
-            ((DataListener) listener).onDataUpdate(event);
+            if(((DataRequester)listener).getName()==variableName){
+                ((DataListener) listener).onDataUpdate(event);
+            }
         }
     }
 }

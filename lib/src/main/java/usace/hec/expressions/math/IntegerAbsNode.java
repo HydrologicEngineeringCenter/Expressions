@@ -20,7 +20,7 @@ public class IntegerAbsNode extends IntegerUnaryExpressionNode {
 
     @Override
     public int evaluate() {
-        return child.evaluate();
+        return Math.abs(child.evaluate());
 
     }
 

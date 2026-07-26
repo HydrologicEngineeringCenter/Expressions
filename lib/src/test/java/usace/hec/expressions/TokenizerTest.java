@@ -1,33 +1,82 @@
 package usace.hec.expressions;
 
-import java.util.List;
+import static org.junit.Assert.*;
 
+import java.util.List;
 import org.junit.Test;
 
 public class TokenizerTest {
+
     @Test
     public void testTokenize() {
         Tokenizer tokenizer = new Tokenizer();
-        List<Token> result = tokenizer.tokenize("IF((MIN(1,[adf])<MAX(1,2),1+2,3-4)");//does the tokenizer find the extra parenthesis is an error?
-        boolean tokenError = false;
-        for(Token t : result){
-            if(t.hasError()){
-                System.out.println(t.error());
-                tokenError = true;
-            }
-            //System.out.println(t.toString());
-        }
-        if(tokenError){
-            System.out.println("found token errors");//currently the tokenizer is not finding these errors.
-        }
-        ExpressionParser parser = new ExpressionParser();
-        String input = "IF(MIN(1.0,2.0)>MAX(1.0,2.0),PLU(1,2),3-4)";
-        ParseResult<ExpressionNode> resultnode = parser.parse(input);
-        if(resultnode.hasError()){
-            System.out.print(resultnode.getError().message()+ " at carrot position " + resultnode.getError().position() + " " + input.substring(0,resultnode.getError().position()));
-        }else{
-            System.out.print(resultnode.getNode().evaluate());
-        }
+        List<Token> result = tokenizer.tokenize("IF((MIN(1,[adf])))");
 
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+
+        // Verify no tokens have errors
+        for (Token token : result) {
+            assertFalse("Token has error: " + token, token.hasError());
+        }
     }
+
+    @Test
+    public void testTokenizeIntegerAndDouble() {
+        Tokenizer tokenizer = new Tokenizer();
+        List<Token> result = tokenizer.tokenize("42 + 3.14");
+
+        assertEquals(3, result.size());
+
+        // First token should be IntegerLiteral
+        Token first = result.get(0);
+        assertTrue(first instanceof Token.IntegerLiteral);
+        assertEquals(42, ((Token.IntegerLiteral) first).value());
+
+        // Third token should be DoubleLiteral
+        Token third = result.get(2);
+        assertTrue(third instanceof Token.DoubleLiteral);
+        assertEquals(3.14, ((Token.DoubleLiteral) third).value(), 0.0001);
+    }
+
+    @Test
+    public void testTokenizeBoolean() {
+        Tokenizer tokenizer = new Tokenizer();
+        List<Token> result = tokenizer.tokenize("TRUE && FALSE");
+
+        assertEquals(3, result.size());
+
+        Token first = result.get(0);
+        assertTrue(first instanceof Token.BooleanLiteral);
+        assertEquals(true, ((Token.BooleanLiteral) first).value());
+
+        Token third = result.get(2);
+        assertTrue(third instanceof Token.BooleanLiteral);
+        assertEquals(false, ((Token.BooleanLiteral) third).value());
+    }
+
+    @Test
+    public void testTokenizeError() {
+        Tokenizer tokenizer = new Tokenizer();
+        List<Token> result = tokenizer.tokenize("1 @ 2");
+
+        assertTrue(result.stream().anyMatch(Token::hasError));
+    }
+
+    @Test
+    public void testTokenizeVariable() {
+        Tokenizer tokenizer = new Tokenizer();
+        List<Token> result = tokenizer.tokenize("[Flow] + [Stage]");
+
+        assertEquals(3, result.size());
+
+        Token first = result.get(0);
+        assertTrue(first instanceof Token.Variable);
+        assertEquals("Flow", ((Token.Variable) first).name());
+
+        Token third = result.get(2);
+        assertTrue(third instanceof Token.Variable);
+        assertEquals("Stage", ((Token.Variable) third).name());
+    }
+
 }
