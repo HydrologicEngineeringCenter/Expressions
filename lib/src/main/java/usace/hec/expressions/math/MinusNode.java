@@ -3,12 +3,11 @@ package usace.hec.expressions.math;
 import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.ExpressionType;
 
 import java.io.Serial;
 
 
-public class MinusNode extends DoubleBinaryExpressionNode {
+public class MinusNode extends NumericalBinaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -16,16 +15,15 @@ public class MinusNode extends DoubleBinaryExpressionNode {
      * A numerical {@link BinaryExpressionNode} that evaluates two children (numerical {@link ExpressionNode}s), returning the subtraction {@code -} of the left child's value by
      * the right child's value (e.g. {@code x - y})
      */
-    public MinusNode(ExpressionNode<Double> left, ExpressionNode<Double> right) {
+    public MinusNode(ExpressionNode<Number> left, ExpressionNode<Number> right) {
         super(left, right);
         
     }
     @Override
     public Double evaluate() {
-        Double left = leftnode.evaluate();
-        Double right = rightnode.evaluate();
-        Double result = left.doubleValue() - right.doubleValue();
-        return result;
+        Double lv = ((Number)leftnode.evaluate()).doubleValue();
+        Double rv = ((Number)rightnode.evaluate()).doubleValue();
+        return lv-rv;
     }
     @Override
     public String OpName() {

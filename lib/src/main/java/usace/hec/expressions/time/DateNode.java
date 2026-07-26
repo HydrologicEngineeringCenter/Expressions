@@ -28,7 +28,7 @@ public class DateNode implements ExpressionNode<LocalDateTime> {
 
     @Override
     public LocalDateTime evaluate() {
-        return LocalDateTime.of((Integer)_yyyy.evaluate(),(Integer)_mm.evaluate(),(Integer)_dd.evaluate(),0,0);
+        return LocalDateTime.of(((Number)_yyyy.evaluate()).intValue(),((Number)_mm.evaluate()).intValue(),((Number)_dd.evaluate()).intValue(),0,0);
 
     }
     

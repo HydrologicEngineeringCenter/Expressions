@@ -14,12 +14,12 @@ import static org.junit.Assert.assertEquals;
 public class MaxMinTest {
     @Test
     public void testEvaluate() {
-        UpdateableLeafNode<Double> X = new UpdateableLeafNode<>("X");
-        UpdateableLeafNode<Double> Y = new UpdateableLeafNode<>("Y");
+        UpdateableLeafNode<Number> X = new UpdateableLeafNode<>("X");
+        UpdateableLeafNode<Number> Y = new UpdateableLeafNode<>("Y");
 
         BaseDataUpdater adu = new BaseDataUpdater();
-        ExpressionNode<Double> Max = new MaxNode(X, Y);
-        ExpressionNode<Double> Min = new MinNode(X, Y);
+        ExpressionNode<Number> Max = new MaxNode(X, Y);
+        ExpressionNode<Number> Min = new MinNode(X, Y);
 
 
 
@@ -29,39 +29,39 @@ public class MaxMinTest {
         }
         adu.publish("X",1.0);
         adu.publish("Y",1.0);
-        Double result = Max.evaluate();
-        Double result2 = Min.evaluate();
+        Double result = ((Number)Max.evaluate()).doubleValue();
+        Double result2 = ((Number)Min.evaluate()).doubleValue();
         assertEquals(1.0, result, 0.0);
         assertEquals(1.0, result2, 0.0);
         adu.publish("X",2.0);
-        result = Max.evaluate();
-        result2 = Min.evaluate();
+        result = ((Number)Max.evaluate()).doubleValue();
+        result2 = ((Number)Min.evaluate()).doubleValue();
         assertEquals(2.0, result, 0.0);
         assertEquals(1.0, result2, 0.0);
         adu.publish("Y", 10.0);
-        result = Max.evaluate();
-        result2 = Min.evaluate();
+        result = ((Number)Max.evaluate()).doubleValue();
+        result2 = ((Number)Min.evaluate()).doubleValue();
         assertEquals(10.0, result, 0.0);
         assertEquals(2.0, result2, 0.0);
         adu.publish("X",-13.0);
         adu.publish("Y",3.0);
-        result = Max.evaluate();
-        result2 = Min.evaluate();
+        result = ((Number)Max.evaluate()).doubleValue();
+        result2 = ((Number)Min.evaluate()).doubleValue();
         assertEquals(3.0, result, 0.0);
         assertEquals(-13.0, result2, 0.0);
         adu.publish("Y", -1000.0);
-        result = Max.evaluate();
-        result2 = Min.evaluate();
+        result = ((Number)Max.evaluate()).doubleValue();
+        result2 = ((Number)Min.evaluate()).doubleValue();
         assertEquals(-13.0, result, 0.0);
         assertEquals(-1000.0, result2, 0.0);
     }
     @Test
     public void testSyntax(){ //You will have to examine the print statements, it will automatically return test passed.
-        UpdateableLeafNode<Double> X = new UpdateableLeafNode<>("X");
-        UpdateableLeafNode<Double> Y = new UpdateableLeafNode<>("Y");
+        UpdateableLeafNode<Number> X = new UpdateableLeafNode<>("X");
+        UpdateableLeafNode<Number> Y = new UpdateableLeafNode<>("Y");
 
-        ExpressionNode<Double> Max = new MaxNode(X, Y);
-        ExpressionNode<Double> Min = new MinNode(X, Y);
+        ExpressionNode<Number> Max = new MaxNode(X, Y);
+        ExpressionNode<Number> Min = new MinNode(X, Y);
 
         String expression = Max.PreFixSyntax();
         System.out.print(expression + "\n");

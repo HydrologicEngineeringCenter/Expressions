@@ -64,19 +64,19 @@ public interface ExpressionNode<T extends Serializable> extends Serializable {
         // Build the correct node type based on the operator name.
         switch (operatorName) {
             case "PLUS":
-                return (ExpressionNode<T>) new AddNode(fromPreFixSyntax(argStrings.get(0), Double.class), fromPreFixSyntax(argStrings.get(1), Double.class));
+                return (ExpressionNode<T>) new AddNode(fromPreFixSyntax(argStrings.get(0), Number.class), fromPreFixSyntax(argStrings.get(1), Number.class));
             case "MINUS":
-                return (ExpressionNode<T>) new MinusNode(fromPreFixSyntax(argStrings.get(0), Double.class), fromPreFixSyntax(argStrings.get(1), Double.class));
+                return (ExpressionNode<T>) new MinusNode(fromPreFixSyntax(argStrings.get(0), Number.class), fromPreFixSyntax(argStrings.get(1), Number.class));
             case "MULTIPLY":
-                return (ExpressionNode<T>) new MultiplyNode(fromPreFixSyntax(argStrings.get(0), Double.class), fromPreFixSyntax(argStrings.get(1), Double.class));
+                return (ExpressionNode<T>) new MultiplyNode(fromPreFixSyntax(argStrings.get(0), Number.class), fromPreFixSyntax(argStrings.get(1), Number.class));
             case "DIVIDE":
-                return (ExpressionNode<T>) new DivideNode(fromPreFixSyntax(argStrings.get(0), Double.class), fromPreFixSyntax(argStrings.get(1), Double.class));
+                return (ExpressionNode<T>) new DivideNode(fromPreFixSyntax(argStrings.get(0), Number.class), fromPreFixSyntax(argStrings.get(1), Number.class));
             case "POW":
-                return (ExpressionNode<T>) new ExponentNode(fromPreFixSyntax(argStrings.get(0), Double.class), fromPreFixSyntax(argStrings.get(1), Double.class));
+                return (ExpressionNode<T>) new ExponentNode(fromPreFixSyntax(argStrings.get(0), Number.class), fromPreFixSyntax(argStrings.get(1), Number.class));
             case "MAX":
-                return (ExpressionNode<T>) new MaxNode(fromPreFixSyntax(argStrings.get(0), Double.class), fromPreFixSyntax(argStrings.get(1), Double.class));
+                return (ExpressionNode<T>) new MaxNode(fromPreFixSyntax(argStrings.get(0), Number.class), fromPreFixSyntax(argStrings.get(1), Number.class));
             case "MIN":
-                return (ExpressionNode<T>) new MinNode(fromPreFixSyntax(argStrings.get(0), Double.class), fromPreFixSyntax(argStrings.get(1), Double.class));
+                return (ExpressionNode<T>) new MinNode(fromPreFixSyntax(argStrings.get(0), Number.class), fromPreFixSyntax(argStrings.get(1), Number.class));
             case "NEGATE":
                 return (ExpressionNode<T>) new NegateNode(fromPreFixSyntax(argStrings.get(0), Double.class));
             case "AND":

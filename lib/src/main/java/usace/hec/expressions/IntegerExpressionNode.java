@@ -1,5 +1,9 @@
 package usace.hec.expressions;
 
-public interface IntegerExpressionNode {
-    int evaluateInt();
+public interface IntegerExpressionNode extends ExpressionNode<Integer>{
+    Integer evaluate();
+    @Override
+    default ExpressionType resultType() {
+        return ExpressionType.INTEGER;
+    }
 }

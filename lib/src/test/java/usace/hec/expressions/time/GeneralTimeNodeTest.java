@@ -21,14 +21,14 @@ public class GeneralTimeNodeTest {
         ConstantLeafNode<LocalDateTime> b = new ConstantLeafNode<>(dayTwo);
         AfterNode after = new AfterNode(a, b);
         BeforeNode before = new BeforeNode(a, b);
-        ConstantLeafNode<Double> one = new ConstantLeafNode<>(1.0);
-        ConstantLeafNode<Double> two = new ConstantLeafNode<>(2.0);
+        ConstantLeafNode<Number> one = new ConstantLeafNode<>(1.0);
+        ConstantLeafNode<Number> two = new ConstantLeafNode<>(2.0);
 
         AddNode Add = new AddNode(one, two);
         MultiplyNode Multiply = new MultiplyNode(one, two);
 
-        IfNode<Double> ifNodeAfter = new IfNode<>(after, Add, Multiply);
-        IfNode<Double> ifNodeBefore = new IfNode<>(before, Add, Multiply);
+        IfNode<Number> ifNodeAfter = new IfNode<>(after, Add, Multiply);
+        IfNode<Number> ifNodeBefore = new IfNode<>(before, Add, Multiply);
 
         String expression = ifNodeAfter.PreFixSyntax();
         System.out.print(expression + "\n");
@@ -40,9 +40,9 @@ public class GeneralTimeNodeTest {
         expressionInfix = ifNodeBefore.ExcelSyntax();
         System.out.println(expressionInfix+ "\n");
 
-        Double resultA = ifNodeAfter.evaluate();
+        Double resultA = ((Number)ifNodeAfter.evaluate()).doubleValue();
         assertEquals(2.0,resultA,0.0);
-        Double resultB = ifNodeBefore.evaluate();
+        Double resultB = ((Number)ifNodeBefore.evaluate()).doubleValue();
         assertEquals(3.0,resultB,0.0);
     }
     @Test

@@ -20,7 +20,7 @@ public class ReadExpressionFromStringTest {
     @Test
     public void simpleString() {
         //ADD(2.0,3.4)
-        ExpressionNode<Double> expected = new AddNode(new ConstantLeafNode<>(2.0), new ConstantLeafNode<>(3.4));
+        ExpressionNode<Number> expected = new AddNode(new ConstantLeafNode<>(2.0), new ConstantLeafNode<>(3.4));
         String expression = expected.PreFixSyntax();
         System.out.println(expected.PreFixSyntax());
         ExpressionNode<Double> result = ExpressionNode.fromPreFixSyntax(expression, Double.class);
@@ -29,8 +29,8 @@ public class ReadExpressionFromStringTest {
     @Test
     public void nestedString(){
         //ADD(MULT(2.0,3.4), 3.4)
-        ExpressionNode<Double> multNode = new MultiplyNode(new ConstantLeafNode<>(2.0), new ConstantLeafNode<>(3.4));
-        ExpressionNode<Double> expected = new AddNode(multNode, new ConstantLeafNode<>(3.4));
+        ExpressionNode<Number> multNode = new MultiplyNode(new ConstantLeafNode<Number>(2.0), new ConstantLeafNode<Number>(3.4));
+        ExpressionNode<Number> expected = new AddNode(multNode, new ConstantLeafNode<Number>(3.4));
         String expression = expected.PreFixSyntax();
         System.out.println(expected.PreFixSyntax());
         ExpressionNode<Double> result = ExpressionNode.fromPreFixSyntax(expression, Double.class);
@@ -40,12 +40,12 @@ public class ReadExpressionFromStringTest {
 
     @Test
     public void AddSubWithUpdatablesString(){
-        UpdateableLeafNode<Double> X = new UpdateableLeafNode<>("X");
-        UpdateableLeafNode<Double> Y = new UpdateableLeafNode<>("Y");
+        UpdateableLeafNode<Number> X = new UpdateableLeafNode<>("X");
+        UpdateableLeafNode<Number> Y = new UpdateableLeafNode<>("Y");
 
         BaseDataUpdater adu = new BaseDataUpdater();
-        ExpressionNode<Double> Add = new AddNode(X, Y);
-        ExpressionNode<Double> Minus = new MinusNode(X, Y);
+        ExpressionNode<Number> Add = new AddNode(X, Y);
+        ExpressionNode<Number> Minus = new MinusNode(X, Y);
         List<DataListener<?>> list = Add.fetchListeners();
         for(DataListener<?> d : list){
             adu.register(d);
@@ -76,8 +76,8 @@ public class ReadExpressionFromStringTest {
         adu1.publish("X",1.0);
         adu1.publish("Y",1.0);
 
-        Double result = Add.evaluate();
-        Double result2 = Minus.evaluate();
+        Double result = ((Number)Add.evaluate()).doubleValue();
+        Double result2 = ((Number)Minus.evaluate()).doubleValue();
         Double expected = expectedAdd.evaluate();
         Double expected2 = expectedMinus.evaluate();
         assertEquals(result, expected, 0.0);
@@ -90,13 +90,13 @@ public class ReadExpressionFromStringTest {
         //Begin Copy from IfNodeTest
 
         //IF(500 <= X AND X <= 1000, X, IF(X < 500, X + 500, 1000))
-        UpdateableLeafNode<Double> X = new UpdateableLeafNode<>("X");
+        UpdateableLeafNode<Number> X = new UpdateableLeafNode<>("X");
 
         BaseDataUpdater adu = new BaseDataUpdater();
 
 
-        ExpressionNode<Double> const1 = new ConstantLeafNode<>(500.0);
-        ExpressionNode<Double> const2 = new ConstantLeafNode<>(1000.0);
+        ExpressionNode<Number> const1 = new ConstantLeafNode<>(500.0);
+        ExpressionNode<Number> const2 = new ConstantLeafNode<>(1000.0);
 
         ExpressionNode<Boolean> intermediateCondition1 = new LessThanOrEqualNode<>(const1, X);
         ExpressionNode<Boolean> intermediateCondition2 = new GreaterThanOrEqualNode<>(const2, X);
@@ -104,10 +104,10 @@ public class ReadExpressionFromStringTest {
         ExpressionNode<Boolean> condition1 = new AndNode(intermediateCondition1, intermediateCondition2);
 
         ExpressionNode<Boolean> nextCondition = new LessThanNode<>(X,const1);
-        ExpressionNode<Double> nextThenNode = new AddNode(X, const1);
+        ExpressionNode<Number> nextThenNode = new AddNode(X, const1);
 
-        ExpressionNode<Double> nestedIfNode = new IfNode<>(nextCondition, nextThenNode, const2);
-        ExpressionNode<Double> outerIfNode = new IfNode<>(condition1, X, nestedIfNode);
+        ExpressionNode<Number> nestedIfNode = new IfNode<Number>(nextCondition, nextThenNode, const2);
+        ExpressionNode<Number> outerIfNode = new IfNode<Number>(condition1, X, nestedIfNode);
 
         String expression = outerIfNode.PreFixSyntax();
         System.out.print(expression + "\n");
@@ -127,7 +127,7 @@ public class ReadExpressionFromStringTest {
             adu.register(d);
         }
         adu.publish("X", 200.0);
-        double result = outerIfNode.evaluate();
+        double result = ((Number)outerIfNode.evaluate()).doubleValue();
         assertEquals(result, expected.evaluate(), 0.0);
     }
 }

@@ -48,9 +48,9 @@ public class SerializationTest {
 
     @Test
     public void expressionTreeRoundTrips() throws Exception {
-        ExpressionNode<Double> original = new AddNode(new ConstantLeafNode<>(2.0), new ConstantLeafNode<>(3.4));
+        ExpressionNode<Number> original = new AddNode(new ConstantLeafNode<>(2.0), new ConstantLeafNode<>(3.4));
 
-        ExpressionNode<Double> copy = roundTrip(original);
+        ExpressionNode<Number> copy = roundTrip(original);
 
         assertEquals(original.evaluate(), copy.evaluate());
         assertEquals(original.PreFixSyntax(), copy.PreFixSyntax());
@@ -87,20 +87,20 @@ public class SerializationTest {
     public void bigIfNodeRoundTrips() throws Exception {
 
         //IF(([X]>[Y]),([X]+[Y]),([X]*[Y]))
-        UpdateableLeafNode<Double> X = new UpdateableLeafNode<>("X");
-        UpdateableLeafNode<Double> Y = new UpdateableLeafNode<>("Y");
-        ArrayList<Double> values = new ArrayList<>();
+        UpdateableLeafNode<Number> X = new UpdateableLeafNode<>("X");
+        UpdateableLeafNode<Number> Y = new UpdateableLeafNode<>("Y");
+        ArrayList<Number> values = new ArrayList<>();
         values.add(1.0);
         values.add(2.0);
         values.add(3.0);
         ArrayDataUpdater adu = new ArrayDataUpdater(values);
         ExpressionNode<Boolean> condition = new GreaterThanNode<>(X,Y);
-        ExpressionNode<Double> Add = new AddNode(X, Y);
-        ExpressionNode<Double> Multiply = new MultiplyNode(X, Y);
+        ExpressionNode<Number> Add = new AddNode(X, Y);
+        ExpressionNode<Number> Multiply = new MultiplyNode(X, Y);
 
-        ExpressionNode<Double> ifNode = new IfNode<>(condition, Add, Multiply);
+        ExpressionNode<Number> ifNode = new IfNode<>(condition, Add, Multiply);
 
-        ExpressionNode<Double> copy = roundTrip(ifNode);
+        ExpressionNode<Number> copy = roundTrip(ifNode);
 
         List<DataListener<?>> list = ifNode.fetchListeners();
         for(DataListener<?> d : list){

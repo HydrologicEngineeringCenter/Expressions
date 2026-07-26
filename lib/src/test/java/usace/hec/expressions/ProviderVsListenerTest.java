@@ -22,12 +22,12 @@ public class ProviderVsListenerTest {
 
         //IF(500 <= X AND X <= 1000, X, IF(X < 500, X + 500, 1000))
 
-        UpdateableLeafNode<Double> X = new UpdateableLeafNode<>("X");
+        UpdateableLeafNode<Number> X = new UpdateableLeafNode<>("X");
 
         BaseDataUpdater adu = new BaseDataUpdater();
 
-        ExpressionNode<Double> const1 = new ConstantLeafNode<>(500.0);
-        ExpressionNode<Double> const2 = new ConstantLeafNode<>(1000.0);
+        ExpressionNode<Number> const1 = new ConstantLeafNode<>(500.0);
+        ExpressionNode<Number> const2 = new ConstantLeafNode<>(1000.0);
 
         ExpressionNode<Boolean> intermediateCondition1 = new LessThanOrEqualNode<>(const1, X);
         ExpressionNode<Boolean> intermediateCondition2 = new GreaterThanOrEqualNode<>(const2, X);
@@ -35,10 +35,10 @@ public class ProviderVsListenerTest {
         ExpressionNode<Boolean> condition1 = new AndNode(intermediateCondition1, intermediateCondition2);
 
         ExpressionNode<Boolean> nextCondition = new LessThanNode<>(X,const1);
-        ExpressionNode<Double> nextThenNode = new AddNode(X, const1);
+        ExpressionNode<Number> nextThenNode = new AddNode(X, const1);
 
-        ExpressionNode<Double> nestedIfNode = new IfNode<>(nextCondition, nextThenNode, const2);
-        ExpressionNode<Double> outerIfNode = new IfNode<>(condition1, X, nestedIfNode);
+        ExpressionNode<Number> nestedIfNode = new IfNode<>(nextCondition, nextThenNode, const2);
+        ExpressionNode<Number> outerIfNode = new IfNode<>(condition1, X, nestedIfNode);
 
         List<DataListener<?>> list = outerIfNode.fetchListeners();
         for(DataListener<?> d : list){
@@ -49,14 +49,14 @@ public class ProviderVsListenerTest {
         for (int i = 0; i < 100000000; i ++){
             adu.publish("X", 200.0);
         }
-        double result = outerIfNode.evaluate();
+        double result = ((Number)outerIfNode.evaluate()).doubleValue();
         long t2 = System.currentTimeMillis();
         assertEquals(700.0,result,0.0);//(10 !<= 7) =>  10!>10 10*10=100
         adu.publish("X", 670.0);//advance x:(8 !<= 7) =>  10>8 10+8=18
-        result = outerIfNode.evaluate();
+        result = ((Number)outerIfNode.evaluate()).doubleValue();
         assertEquals(670.0,result,0.0);
         adu.publish("X", 1200);//advance y 8!>8 => 8*8=64
-        result = outerIfNode.evaluate();
+        result = ((Number)outerIfNode.evaluate()).doubleValue();
         assertEquals(1000.0,result,0.0);
         System.out.println("DataListener execution took " + (t2 - t1) +" ms");
 
@@ -65,7 +65,7 @@ public class ProviderVsListenerTest {
 
         //IF(500 <= X AND X <= 1000, X, IF(X < 500, X + 500, 1000))
 
-        UpdateableLeafNodeRequester<Double> XX = new UpdateableLeafNodeRequester<>("XX");
+        UpdateableLeafNodeRequester<Number> XX = new UpdateableLeafNodeRequester<>("XX");
 
         DataProvider dp = new DataHub();
 
@@ -79,10 +79,10 @@ public class ProviderVsListenerTest {
         ExpressionNode<Boolean> condition2 = new AndNode(intermediateCondition3, intermediateCondition4);
 
         ExpressionNode<Boolean> nextCondition2 = new LessThanNode<>(XX,const1);
-        ExpressionNode<Double> nextThenNode2 = new AddNode(XX, const1);
+        ExpressionNode<Number> nextThenNode2 = new AddNode(XX, const1);
 
-        ExpressionNode<Double> nestedIfNode2 = new IfNode<>(nextCondition2, nextThenNode2, const2);
-        ExpressionNode<Double> outerIfNode2 = new IfNode<>(condition2, XX, nestedIfNode2);
+        ExpressionNode<Number> nestedIfNode2 = new IfNode<>(nextCondition2, nextThenNode2, const2);
+        ExpressionNode<Number> outerIfNode2 = new IfNode<>(condition2, XX, nestedIfNode2);
 
         outerIfNode2.setProvider(dp);
 
@@ -91,14 +91,14 @@ public class ProviderVsListenerTest {
         for (int i = 0; i < 100000000; i ++){
             dp.setValueForCurrentTimestep("XX",200.0);
         }
-        double result2 = outerIfNode2.evaluate();
+        double result2 = ((Number)outerIfNode2.evaluate()).doubleValue();
         t2 = System.currentTimeMillis();
         assertEquals(700.0,result2,0.0);//(10 !<= 7) =>  10!>10 10*10=100
         dp.setValueForCurrentTimestep("XX",670.0);;//advance x:(8 !<= 7) =>  10>8 10+8=18
-        result2 = outerIfNode2.evaluate();
+        result2 = ((Number)outerIfNode2.evaluate()).doubleValue();
         assertEquals(670.0,result2,0.0);
         dp.setValueForCurrentTimestep("XX",1200.0);
-        result2 = outerIfNode2.evaluate();
+        result2 = ((Number)outerIfNode2.evaluate()).doubleValue();
         assertEquals(1000.0,result2,0.0);
         System.out.println("DataProvider execution took " + (t2 - t1) +" ms");
     }
@@ -108,12 +108,12 @@ public class ProviderVsListenerTest {
         int dataListenerWins = 0;
         int dataProviderWins = 0;
 
-        UpdateableLeafNode<Double> X = new UpdateableLeafNode<>("X");
+        UpdateableLeafNode<Number> X = new UpdateableLeafNode<>("X");
 
         BaseDataUpdater adu = new BaseDataUpdater();
 
-        ExpressionNode<Double> const1 = new ConstantLeafNode<>(500.0);
-        ExpressionNode<Double> const2 = new ConstantLeafNode<>(1000.0);
+        ExpressionNode<Number> const1 = new ConstantLeafNode<>(500.0);
+        ExpressionNode<Number> const2 = new ConstantLeafNode<>(1000.0);
 
         ExpressionNode<Boolean> intermediateCondition1 = new LessThanOrEqualNode<>(const1, X);
         ExpressionNode<Boolean> intermediateCondition2 = new GreaterThanOrEqualNode<>(const2, X);
@@ -121,10 +121,10 @@ public class ProviderVsListenerTest {
         ExpressionNode<Boolean> condition1 = new AndNode(intermediateCondition1, intermediateCondition2);
 
         ExpressionNode<Boolean> nextCondition = new LessThanNode<>(X,const1);
-        ExpressionNode<Double> nextThenNode = new AddNode(X, const1);
+        ExpressionNode<Number> nextThenNode = new AddNode(X, const1);
 
-        ExpressionNode<Double> nestedIfNode = new IfNode<>(nextCondition, nextThenNode, const2);
-        ExpressionNode<Double> outerIfNode = new IfNode<>(condition1, X, nestedIfNode);
+        ExpressionNode<Number> nestedIfNode = new IfNode<>(nextCondition, nextThenNode, const2);
+        ExpressionNode<Number> outerIfNode = new IfNode<>(condition1, X, nestedIfNode);
 
         List<DataListener<?>> list = outerIfNode.fetchListeners();
         for(DataListener<?> d : list){
@@ -133,7 +133,7 @@ public class ProviderVsListenerTest {
 
 
 
-        UpdateableLeafNodeRequester<Double> XX = new UpdateableLeafNodeRequester<>("XX");
+        UpdateableLeafNodeRequester<Number> XX = new UpdateableLeafNodeRequester<>("XX");
 
         DataProvider dp = new DataHub();
 
@@ -147,10 +147,10 @@ public class ProviderVsListenerTest {
         ExpressionNode<Boolean> condition2 = new AndNode(intermediateCondition3, intermediateCondition4);
 
         ExpressionNode<Boolean> nextCondition2 = new LessThanNode<>(XX,const1);
-        ExpressionNode<Double> nextThenNode2 = new AddNode(XX, const1);
+        ExpressionNode<Number> nextThenNode2 = new AddNode(XX, const1);
 
-        ExpressionNode<Double> nestedIfNode2 = new IfNode<>(nextCondition2, nextThenNode2, const2);
-        ExpressionNode<Double> outerIfNode2 = new IfNode<>(condition2, XX, nestedIfNode2);
+        ExpressionNode<Number> nestedIfNode2 = new IfNode<>(nextCondition2, nextThenNode2, const2);
+        ExpressionNode<Number> outerIfNode2 = new IfNode<>(condition2, XX, nestedIfNode2);
 
         outerIfNode2.setProvider(dp);
 
@@ -159,7 +159,7 @@ public class ProviderVsListenerTest {
             for (int j = 0; j < 1000000; j++) {
                 adu.publish("X", 200.0);
             }
-            double result = outerIfNode.evaluate();
+            double result = ((Number)outerIfNode.evaluate()).doubleValue();
             long t2 = System.nanoTime();
             long dataListenerExecutionTime = t2 - t1;
 
@@ -168,7 +168,7 @@ public class ProviderVsListenerTest {
             for (int j = 0; j < 1000000; j++) {
                 dp.setValueForCurrentTimestep("XX", 200.0);
             }
-            double result2 = outerIfNode2.evaluate();
+            double result2 = ((Number)outerIfNode2.evaluate()).doubleValue();
             t2 = System.nanoTime();
             long dataProviderExecutionTime = t2 - t1;
             if (dataListenerExecutionTime > dataProviderExecutionTime){

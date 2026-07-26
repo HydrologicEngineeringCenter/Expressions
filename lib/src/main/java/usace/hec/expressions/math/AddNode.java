@@ -10,21 +10,21 @@ import java.io.Serial;
 
 
 
-public class AddNode extends DoubleBinaryExpressionNode {
+public class AddNode extends NumericalBinaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
      * A numerical {@link BinaryExpressionNode} that evaluates two children (numerical {@link ExpressionNode}s), returning the summation {@code +} of the childs' values (e.g. {@code 2 + 2 == 4})
      */
-    public AddNode(ExpressionNode<Double> left, ExpressionNode<Double> right) {
+    public AddNode(ExpressionNode<Number> left, ExpressionNode<Number> right) {
         super(left, right);
         
     }
     @Override
     public Double evaluate() {
-        Double lv = leftnode.evaluate();
-        Double rv = rightnode.evaluate();
+        Double lv = ((Number)leftnode.evaluate()).doubleValue();
+        Double rv = ((Number)rightnode.evaluate()).doubleValue();
         return lv+rv;
     }
     @Override

@@ -1,5 +1,9 @@
 package usace.hec.expressions;
 
-public interface DoubleExpressionNode {
-    double evaluateDouble();
+public interface DoubleExpressionNode extends ExpressionNode<Double> {
+    Double evaluate();
+    @Override
+    default ExpressionType resultType() {
+        return ExpressionType.DOUBLE;
+    }
 }

@@ -2,8 +2,6 @@ package usace.hec.expressions.math;
 
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.ExpressionType;
-import usace.hec.expressions.UnaryExpressionNode;
 
 import java.io.Serial;
 
@@ -13,7 +11,7 @@ public class AbsNode extends DoubleUnaryExpressionNode<Double> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * A numerical {@link UnaryExpressionNode} that evaluates a child (numerical {@link ExpressionNode}), returning the absolute value {@code Math.abs} of the child's value (e.g. {@code |-2| == 2})
+     * A numerical {@link DoubleUnaryExpressionNode} that evaluates a child (numerical {@link ExpressionNode}), returning the absolute value {@code Math.abs} of the child's value (e.g. {@code |-2| == 2})
      */
     public AbsNode(ExpressionNode<Double> child) {
         super(child);
