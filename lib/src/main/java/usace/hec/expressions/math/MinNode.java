@@ -43,8 +43,4 @@ public class MinNode extends DoubleBinaryExpressionNode {
     public String ExcelSyntax() {
         return PreFixSyntax(); //for excel syntax in this case prefix is the correct syntax
     }
-    @Override
-    public ExpressionType resultType() {
-        return ExpressionType.DOUBLE;//placeholder
-    }
 }

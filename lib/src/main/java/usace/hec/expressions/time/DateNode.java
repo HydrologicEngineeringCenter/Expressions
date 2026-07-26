@@ -6,7 +6,6 @@ import java.io.Serial;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import usace.hec.expressions.ConstantLeafNode;
 import usace.hec.expressions.DataListener;
 import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.ExpressionOperator;
@@ -17,10 +16,7 @@ public class DateNode implements ExpressionNode<LocalDateTime> {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final ExpressionNode _dd;
-    private final ExpressionNode _mm;
-    private final ExpressionNode _yyyy;
-/*    private final ExpressionNode<Integer> _dd;
+    private final ExpressionNode<Integer> _dd;
     private final ExpressionNode<Integer> _mm;
     private final ExpressionNode<Integer> _yyyy;
  
@@ -28,37 +24,12 @@ public class DateNode implements ExpressionNode<LocalDateTime> {
         _dd = dd;
         _mm = mm;
         _yyyy = yyyy;
-    }*/
-    public DateNode(ExpressionNode yyyy, ExpressionNode mm, ExpressionNode dd) {
-        _dd = dd;
-        _mm = mm;
-        _yyyy = yyyy;
     }
+
     @Override
     public LocalDateTime evaluate() {
+        return LocalDateTime.of((Integer)_yyyy.evaluate(),(Integer)_mm.evaluate(),(Integer)_dd.evaluate(),0,0);
 
-        //this should not be necessary the parser should evaluate the generic types and perform this right. the tokenizer should produce ints or doubles correctly
-        var y = _yyyy.evaluate();
-        var mm = _mm.evaluate();
-        var dd = _dd.evaluate();
-        if(y instanceof Double){
-            if(mm instanceof Double){
-                if(dd instanceof Double){
-                    Double dy = (Double)y;
-                    Double dmm = (Double)mm;
-                    Double ddd = (Double)dd;
-                    return LocalDateTime.of(dy.intValue(),dmm.intValue(),ddd.intValue(),0,0);
-                }
-            }
-        }else if(y instanceof Integer){
-            if(mm instanceof Integer){
-                if(dd instanceof Integer){
-
-                    return LocalDateTime.of((Integer)y,(Integer)mm,(Integer)dd,0,0);
-                }
-            }
-        }
-        return LocalDateTime.now();
     }
     
     @Override

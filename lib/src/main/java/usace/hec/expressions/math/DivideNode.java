@@ -42,8 +42,4 @@ public class DivideNode extends DoubleBinaryExpressionNode {
     public ExpressionOperator Operator() {
         return ExpressionOperator.DIVIDE;
     }
-    @Override
-    public ExpressionType resultType() {
-        return ExpressionType.DOUBLE;//placeholder
-    }
 }

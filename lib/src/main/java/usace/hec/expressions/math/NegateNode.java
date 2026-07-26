@@ -2,13 +2,12 @@ package usace.hec.expressions.math;
 
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.ExpressionType;
 import usace.hec.expressions.UnaryExpressionNode;
 
 import java.io.Serial;
 
 
-public class NegateNode extends UnaryExpressionNode<Double, Double> {
+public class NegateNode extends DoubleUnaryExpressionNode<Double> {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -36,9 +35,5 @@ public class NegateNode extends UnaryExpressionNode<Double, Double> {
     @Override
     public ExpressionOperator Operator() {
         return ExpressionOperator.NEGATE;
-    }
-    @Override
-    public ExpressionType resultType() {
-        return ExpressionType.DOUBLE;//placeholder
     }
 }

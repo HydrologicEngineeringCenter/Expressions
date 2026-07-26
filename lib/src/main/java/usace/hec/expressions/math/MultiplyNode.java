@@ -43,8 +43,4 @@ public class MultiplyNode extends DoubleBinaryExpressionNode {
     public ExpressionOperator Operator() {
         return ExpressionOperator.MULTIPLY;
     }
-    @Override
-    public ExpressionType resultType() {
-        return ExpressionType.DOUBLE;//placeholder
-    }
 }

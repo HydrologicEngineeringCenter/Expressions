@@ -42,8 +42,4 @@ public class ExponentNode extends DoubleBinaryExpressionNode {
     public ExpressionOperator Operator() {
         return ExpressionOperator.POW;
     }
-    @Override
-    public ExpressionType resultType() {
-        return ExpressionType.DOUBLE;//placeholder
-    }
 }

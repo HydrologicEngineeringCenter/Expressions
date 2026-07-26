@@ -7,7 +7,7 @@ import usace.hec.expressions.UnaryExpressionNode;
 
 import java.io.Serial;
 
-public class FloorNode extends UnaryExpressionNode<Double, Double> {
+public class FloorNode extends DoubleUnaryExpressionNode<Double> {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -40,9 +40,5 @@ public class FloorNode extends UnaryExpressionNode<Double, Double> {
     @Override
     public String ExcelSyntax() {
         return PreFixSyntax(); //for excel syntax in this case prefix is the correct syntax
-    }
-    @Override
-    public ExpressionType resultType() {
-        return ExpressionType.DOUBLE;//placeholder
     }
 }

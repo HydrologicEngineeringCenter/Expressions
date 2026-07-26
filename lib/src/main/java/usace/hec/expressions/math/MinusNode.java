@@ -39,8 +39,4 @@ public class MinusNode extends DoubleBinaryExpressionNode {
     public ExpressionOperator Operator() {
         return ExpressionOperator.MINUS;
     }
-    @Override
-    public ExpressionType resultType() {
-        return ExpressionType.DOUBLE;//placeholder
-    }
 }

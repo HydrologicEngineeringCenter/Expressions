@@ -8,7 +8,7 @@ import usace.hec.expressions.UnaryExpressionNode;
 import java.io.Serial;
 
 
-public class AbsNode extends UnaryExpressionNode<Double, Double> {
+public class AbsNode extends DoubleUnaryExpressionNode<Double> {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -42,9 +42,5 @@ public class AbsNode extends UnaryExpressionNode<Double, Double> {
     @Override
     public String ExcelSyntax() {
         return Operator().getInfixName() +  child.ExcelSyntax() + Operator().getInfixName();
-    }
-    @Override
-    public ExpressionType resultType() {
-        return ExpressionType.DOUBLE;//placeholder
     }
 }

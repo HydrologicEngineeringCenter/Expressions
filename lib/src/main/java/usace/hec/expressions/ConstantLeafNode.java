@@ -39,7 +39,9 @@ public class ConstantLeafNode<T extends Serializable> implements ExpressionNode<
     }
     @Override
     public ExpressionType resultType() {
-        return ExpressionType.DOUBLE;//placeholder
+        if (value instanceof Integer) return ExpressionType.INTEGER;
+        if (value instanceof Boolean) return ExpressionType.BOOLEAN;
+        return ExpressionType.DOUBLE;
     }
 
 }
