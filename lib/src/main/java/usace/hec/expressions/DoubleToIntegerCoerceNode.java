@@ -34,7 +34,7 @@ public class DoubleToIntegerCoerceNode implements IntegerExpressionNode {
 
     @Override
     public ExpressionType resultType() {
-        return ExpressionType.DOUBLE;
+        return ExpressionType.INTEGER;
     }
 
     // --- Accessor ---
