@@ -1,39 +1,31 @@
 package usace.hec.expressions.logical;
 
 import usace.hec.expressions.BinaryExpressionNode;
+import usace.hec.expressions.BooleanExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.ExpressionType;
+import usace.hec.expressions.comparison.BooleanBinaryExpressionNode;
 
 import java.io.Serial;
 
 
-public class XorNode extends BinaryExpressionNode<Boolean,Boolean,Boolean> {
+public class XorNode extends BooleanBinaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
-
+    private BooleanExpressionNode left;
+    private BooleanExpressionNode right;
     /**
      * A boolean {@link BinaryExpressionNode} that evaluates two children (boolean {@link ExpressionNode}s), returning the XOR of
      * the childs' values (e.g. {@code true} if only one child is true, otherwise {@code false})
      */
-    public XorNode(ExpressionNode<Boolean> left, ExpressionNode<Boolean> right) {
-        super(left, right);
-        
+    public XorNode(BooleanExpressionNode left, BooleanExpressionNode right) {
+        this.left = left;
+        this.right = right;
     }
     @Override
-    public Boolean evaluate() {
-        Boolean left = leftnode.evaluate();
-        Boolean right = rightnode.evaluate();
-        Boolean result = left ^ right;
-        return result;
-    }
-    @Override
-    public String OpName() {
-        return Operator().getPrefixName();
-    }
-    @Override
-    public String InfixOpName() {
-        return Operator().getInfixName();
+    public boolean evaluate() {
+        return left.evaluate() ^ right.evaluate();
     }
     @Override
     public ExpressionOperator Operator() {
@@ -42,6 +34,14 @@ public class XorNode extends BinaryExpressionNode<Boolean,Boolean,Boolean> {
     @Override
     public ExpressionType resultType() {
         return ExpressionType.BOOLEAN;
+    }
+    @Override
+    public ExpressionNode left() {
+        return this.left;
+    }
+    @Override
+    public ExpressionNode right() {
+        return this.right;
     }
 }
 

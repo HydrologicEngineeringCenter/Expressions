@@ -7,13 +7,13 @@ import org.apache.commons.math3.analysis.function.Constant;
 import org.junit.Test;
 
 import usace.hec.expressions.*;
-import usace.hec.expressions.comparison.GreaterThanNode;
+import usace.hec.expressions.comparison.DoubleGreaterThanNode;
 import usace.hec.expressions.comparison.LessThanOrEqualNode;
 import usace.hec.expressions.logical.AndNode;
 import usace.hec.expressions.logical.OrNode;
 import usace.hec.expressions.logical.XorNode;
-import usace.hec.expressions.math.AddNode;
-import usace.hec.expressions.math.MultiplyNode;
+import usace.hec.expressions.math.DoubleAddNode;
+import usace.hec.expressions.math.DoubleMultiplyNode;
 
 public class GeneralComparisonsTest {
     @Test
@@ -66,7 +66,7 @@ public class GeneralComparisonsTest {
         UpdateableLeafNode<Double> Y = new UpdateableLeafNode<>("Y");
 
         BaseDataUpdater adu = new BaseDataUpdater();
-        ExpressionNode<Boolean> gtNode = new GreaterThanNode<>(X,Y);
+        ExpressionNode<Boolean> gtNode = new DoubleGreaterThanNode<>(X,Y);
         ExpressionNode<Boolean> gteNode = new GreaterThanOrEqualNode<>(X,Y);
 
         String expression = gtNode.PreFixSyntax();
@@ -108,7 +108,7 @@ public class GeneralComparisonsTest {
         UpdateableLeafNode<Double> Y = new UpdateableLeafNode<>("Y");
 
         BaseDataUpdater adu = new BaseDataUpdater();
-        ExpressionNode<Boolean> eqNode = new EqualToNode<>(X,Y);
+        ExpressionNode<Boolean> eqNode = new DoubleEqualToNode<>(X,Y);
 
         String expression = eqNode.PreFixSyntax();
         System.out.print(expression + "\n");

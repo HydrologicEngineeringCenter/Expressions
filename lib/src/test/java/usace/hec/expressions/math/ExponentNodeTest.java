@@ -19,7 +19,7 @@ public class ExponentNodeTest {
         UpdateableLeafNode<Number> Y = new UpdateableLeafNode<>("Y");
 
         BaseDataUpdater adu = new BaseDataUpdater();
-        ExpressionNode<Number> Exp = new ExponentNode(X, Y);
+        ExpressionNode<Number> Exp = new DoubleExponentNode(X, Y);
         List<DataListener<?>> list = Exp.fetchListeners();
         for(DataListener<?> d : list){
             adu.register(d);
@@ -50,7 +50,7 @@ public class ExponentNodeTest {
         UpdateableLeafNode<Number> Y = new UpdateableLeafNode<>("Y");
 
         BaseDataUpdater adu = new BaseDataUpdater();
-        ExpressionNode<Number> Exp = new ExponentNode(X, Y);
+        ExpressionNode<Number> Exp = new DoubleExponentNode(X, Y);
 
         String expression = Exp.PreFixSyntax();
         System.out.print(expression + "\n");

@@ -1,5 +1,6 @@
 package usace.hec.expressions.math;
 
+import usace.hec.expressions.DoubleExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.ExpressionType;
@@ -7,30 +8,20 @@ import usace.hec.expressions.UnaryExpressionNode;
 
 import java.io.Serial;
 
-public class FloorNode extends DoubleUnaryExpressionNode<Double> {
+public class DoubleFloorNode extends DoubleUnaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
-
+    private DoubleExpressionNode child;
     /**
      * A numerical {@link UnaryExpressionNode} that evaluates a child (numerical {@link ExpressionNode}), returning the {@code Math.floor} of the child's value (e.g. {@code Math.floor(6.6) == 6})
      */
-    public FloorNode(ExpressionNode<Double> child) {
-        super(child);
+    public DoubleFloorNode(DoubleExpressionNode child) {
+        this.child = child;
     }
 
     @Override
-    public Double evaluate() {
-        Double value = child.evaluate();
-        Double result = Math.floor(value);
-        return result;
-    }
-    @Override
-    public String OpName() {
-        return Operator().getPrefixName();
-    }
-    @Override
-    public String InfixOpName() {
-        return Operator().getInfixName();
+    public double evaluate() {
+        return Math.floor(child.evaluate());
     }
 
     @Override
@@ -40,5 +31,10 @@ public class FloorNode extends DoubleUnaryExpressionNode<Double> {
     @Override
     public String ExcelSyntax() {
         return PreFixSyntax(); //for excel syntax in this case prefix is the correct syntax
+    }
+
+    @Override
+    public ExpressionNode child() {
+        return this.child;
     }
 }

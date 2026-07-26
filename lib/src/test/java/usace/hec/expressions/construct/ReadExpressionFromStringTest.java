@@ -20,7 +20,7 @@ public class ReadExpressionFromStringTest {
     @Test
     public void simpleString() {
         //ADD(2.0,3.4)
-        ExpressionNode<Number> expected = new AddNode(new ConstantLeafNode<>(2.0), new ConstantLeafNode<>(3.4));
+        ExpressionNode<Number> expected = new DoubleAddNode(new ConstantLeafNode<>(2.0), new ConstantLeafNode<>(3.4));
         String expression = expected.PreFixSyntax();
         System.out.println(expected.PreFixSyntax());
         ExpressionNode<Double> result = ExpressionNode.fromPreFixSyntax(expression, Double.class);
@@ -29,8 +29,8 @@ public class ReadExpressionFromStringTest {
     @Test
     public void nestedString(){
         //ADD(MULT(2.0,3.4), 3.4)
-        ExpressionNode<Number> multNode = new MultiplyNode(new ConstantLeafNode<Number>(2.0), new ConstantLeafNode<Number>(3.4));
-        ExpressionNode<Number> expected = new AddNode(multNode, new ConstantLeafNode<Number>(3.4));
+        ExpressionNode<Number> multNode = new DoubleMultiplyNode(new ConstantLeafNode<Number>(2.0), new ConstantLeafNode<Number>(3.4));
+        ExpressionNode<Number> expected = new DoubleAddNode(multNode, new ConstantLeafNode<Number>(3.4));
         String expression = expected.PreFixSyntax();
         System.out.println(expected.PreFixSyntax());
         ExpressionNode<Double> result = ExpressionNode.fromPreFixSyntax(expression, Double.class);
@@ -44,8 +44,8 @@ public class ReadExpressionFromStringTest {
         UpdateableLeafNode<Number> Y = new UpdateableLeafNode<>("Y");
 
         BaseDataUpdater adu = new BaseDataUpdater();
-        ExpressionNode<Number> Add = new AddNode(X, Y);
-        ExpressionNode<Number> Minus = new MinusNode(X, Y);
+        ExpressionNode<Number> Add = new DoubleAddNode(X, Y);
+        ExpressionNode<Number> Minus = new DoubleMinusNode(X, Y);
         List<DataListener<?>> list = Add.fetchListeners();
         for(DataListener<?> d : list){
             adu.register(d);
@@ -104,7 +104,7 @@ public class ReadExpressionFromStringTest {
         ExpressionNode<Boolean> condition1 = new AndNode(intermediateCondition1, intermediateCondition2);
 
         ExpressionNode<Boolean> nextCondition = new LessThanNode<>(X,const1);
-        ExpressionNode<Number> nextThenNode = new AddNode(X, const1);
+        ExpressionNode<Number> nextThenNode = new DoubleAddNode(X, const1);
 
         ExpressionNode<Number> nestedIfNode = new IfNode<Number>(nextCondition, nextThenNode, const2);
         ExpressionNode<Number> outerIfNode = new IfNode<Number>(condition1, X, nestedIfNode);

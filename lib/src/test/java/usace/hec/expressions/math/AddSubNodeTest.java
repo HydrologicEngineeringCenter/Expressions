@@ -18,8 +18,8 @@ public class AddSubNodeTest {
         UpdateableLeafNode<Number> Y = new UpdateableLeafNode<>("Y");
 
         BaseDataUpdater adu = new BaseDataUpdater();
-        ExpressionNode<Number> Add = new AddNode(X, Y);
-        ExpressionNode<Number> Minus = new MinusNode(X, Y);
+        ExpressionNode<Number> Add = new DoubleAddNode(X, Y);
+        ExpressionNode<Number> Minus = new DoubleMinusNode(X, Y);
         List<DataListener<?>> list = Add.fetchListeners();
         for(DataListener<?> d : list){
             adu.register(d);
@@ -53,8 +53,8 @@ public class AddSubNodeTest {
         UpdateableLeafNode<Number> Y = new UpdateableLeafNode<>("Y");
 
         BaseDataUpdater adu = new BaseDataUpdater();
-        ExpressionNode<Number> Add = new AddNode(X, Y);
-        ExpressionNode<Number> Minus = new MinusNode(X, Y);
+        ExpressionNode<Number> Add = new DoubleAddNode(X, Y);
+        ExpressionNode<Number> Minus = new DoubleMinusNode(X, Y);
 
         String expression = Add.PreFixSyntax();
         System.out.print(expression + "\n");

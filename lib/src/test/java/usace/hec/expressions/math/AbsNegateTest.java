@@ -17,8 +17,8 @@ public class AbsNegateTest {
         UpdateableLeafNode<Double> X = new UpdateableLeafNode<>("X");
 
         BaseDataUpdater adu = new BaseDataUpdater();
-        ExpressionNode<Double> neg = new NegateNode(X); // -X
-        ExpressionNode<Double> abs = new AbsNode(neg); // |-X|
+        ExpressionNode<Double> neg = new DoubleNegateNode(X); // -X
+        ExpressionNode<Double> abs = new DoubleAbsNode(neg); // |-X|
         List<DataListener<?>> list = abs.fetchListeners();
         for(DataListener<?> d : list){
             adu.register(d);
@@ -38,7 +38,7 @@ public class AbsNegateTest {
         assertEquals(0.0, result, 0.0);
         result = abs.evaluate();//|0| = 0
         assertEquals(0.0, result, 0.0);
-        ExpressionNode<Double> doubleNeg = new NegateNode(neg); // -(-X)
+        ExpressionNode<Double> doubleNeg = new DoubleNegateNode(neg); // -(-X)
         adu.publish("X",500.0);
         result = doubleNeg.evaluate(); //-(-500)
         assertEquals(500.0, result, 0.0);
@@ -53,8 +53,8 @@ public class AbsNegateTest {
         UpdateableLeafNode<Double> X = new UpdateableLeafNode<>("X");
 
         BaseDataUpdater adu = new BaseDataUpdater();
-        ExpressionNode<Double> neg = new NegateNode(X);
-        ExpressionNode<Double> abs = new AbsNode(neg);
+        ExpressionNode<Double> neg = new DoubleNegateNode(X);
+        ExpressionNode<Double> abs = new DoubleAbsNode(neg);
 
         String expression = neg.PreFixSyntax();
         System.out.print(expression + "\n");
@@ -66,7 +66,7 @@ public class AbsNegateTest {
         String expression2Infix = abs.ExcelSyntax();
         System.out.print(expression2Infix+ "\n");
 
-        ExpressionNode<Double> doubleNeg = new NegateNode(neg);
+        ExpressionNode<Double> doubleNeg = new DoubleNegateNode(neg);
 
         String expression3 = doubleNeg.PreFixSyntax();
         System.out.print(expression3 + "\n");

@@ -1,7 +1,7 @@
 package usace.hec.expressions;
 
-import usace.hec.expressions.comparison.EqualToNode;
-import usace.hec.expressions.comparison.GreaterThanNode;
+import usace.hec.expressions.comparison.DoubleEqualToNode;
+import usace.hec.expressions.comparison.DoubleGreaterThanNode;
 import usace.hec.expressions.comparison.GreaterThanOrEqualNode;
 import usace.hec.expressions.comparison.LessThanNode;
 import usace.hec.expressions.comparison.LessThanOrEqualNode;
@@ -9,17 +9,17 @@ import usace.hec.expressions.logical.AndNode;
 import usace.hec.expressions.logical.IfNode;
 import usace.hec.expressions.logical.OrNode;
 import usace.hec.expressions.logical.XorNode;
-import usace.hec.expressions.math.AbsNode;
-import usace.hec.expressions.math.AddNode;
-import usace.hec.expressions.math.CeilingNode;
-import usace.hec.expressions.math.DivideNode;
-import usace.hec.expressions.math.ExponentNode;
-import usace.hec.expressions.math.FloorNode;
-import usace.hec.expressions.math.MaxNode;
-import usace.hec.expressions.math.MinNode;
-import usace.hec.expressions.math.MinusNode;
-import usace.hec.expressions.math.MultiplyNode;
-import usace.hec.expressions.math.NegateNode;
+import usace.hec.expressions.math.DoubleAbsNode;
+import usace.hec.expressions.math.DoubleAddNode;
+import usace.hec.expressions.math.DoubleCeilingNode;
+import usace.hec.expressions.math.DoubleDivideNode;
+import usace.hec.expressions.math.DoubleExponentNode;
+import usace.hec.expressions.math.DoubleFloorNode;
+import usace.hec.expressions.math.DoubleMaxNode;
+import usace.hec.expressions.math.DoubleMinNode;
+import usace.hec.expressions.math.DoubleMinusNode;
+import usace.hec.expressions.math.DoubleMultiplyNode;
+import usace.hec.expressions.math.DoubleNegateNode;
 import usace.hec.expressions.time.AfterNode;
 import usace.hec.expressions.time.BeforeNode;
 import usace.hec.expressions.time.DayOfYearNode;
@@ -309,7 +309,7 @@ public class ExpressionParser {
 
         if (t instanceof Token.DoubleLiteral num) {
             s.advance();
-            return new ConstantLeafNode<Double>(num.value());
+            return new DoubleExpressionNode(num.value());
         }
         if (t instanceof Token.IntegerLiteral num) {
             s.advance();
@@ -382,18 +382,18 @@ public class ExpressionParser {
     private ExpressionNode makeBinaryNode(ParseState s, ExpressionOperator op,
             ExpressionNode left, ExpressionNode right) {
         switch (op) {
-            case PLUS: return new AddNode(left, right);
-            case MINUS: return new MinusNode(left, right);
-            case MULTIPLY: return new MultiplyNode(left, right);
-            case POW: return new ExponentNode(left, right);
-            case DIVIDE: return new DivideNode(left, right);
-            case MAX: return new MaxNode(left, right);
-            case MIN: return new MinNode(left, right);
-            case GT: return new GreaterThanNode<>(left, right);
+            case PLUS: return new DoubleAddNode(left, right);
+            case MINUS: return new DoubleMinusNode(left, right);
+            case MULTIPLY: return new DoubleMultiplyNode(left, right);
+            case POW: return new DoubleExponentNode(left, right);
+            case DIVIDE: return new DoubleDivideNode(left, right);
+            case MAX: return new DoubleMaxNode(left, right);
+            case MIN: return new DoubleMinNode(left, right);
+            case GT: return new DoubleGreaterThanNode<>(left, right);
             case GTE: return new GreaterThanOrEqualNode<>(left, right);
             case LT: return new LessThanNode<>(left, right);
             case LTE: return new LessThanOrEqualNode<>(left, right);
-            case EQ: return new EqualToNode<>(left, right);
+            case EQ: return new DoubleEqualToNode<>(left, right);
             case AND: return new AndNode(left, right);
             case OR: return new OrNode(left, right);
             case XOR: return new XorNode(left, right);
@@ -413,10 +413,10 @@ public class ExpressionParser {
     private ExpressionNode makeUnaryNode(ParseState s, ExpressionOperator op,
             ExpressionNode child) {
         switch (op) {
-            case NEGATE: return new NegateNode(child);
-            case ABS: return new AbsNode(child);
-            case FLOOR: return new FloorNode(child);
-            case CEILING: return new CeilingNode(child);
+            case NEGATE: return new DoubleNegateNode(child);
+            case ABS: return new DoubleAbsNode(child);
+            case FLOOR: return new DoubleFloorNode(child);
+            case CEILING: return new DoubleCeilingNode(child);
             case DOY: return new DayOfYearNode(child);
             default:
                 setError(s, currentPos(s), "Unknown unary operator: " + op, "");
@@ -440,7 +440,7 @@ public class ExpressionParser {
                 }
                 ExpressionNode result = args.get(0);
                 for (int i = 1; i < args.size(); i++) {
-                    result = new MaxNode(result, args.get(i));
+                    result = new DoubleMaxNode(result, args.get(i));
                 }
                 return result;
             }
@@ -451,7 +451,7 @@ public class ExpressionParser {
                 }
                 ExpressionNode result = args.get(0);
                 for (int i = 1; i < args.size(); i++) {
-                    result = new MinNode(result, args.get(i));
+                    result = new DoubleMinNode(result, args.get(i));
                 }
                 return result;
             }

@@ -8,8 +8,8 @@ import org.junit.Test;
 import usace.hec.expressions.ConstantLeafNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.logical.IfNode;
-import usace.hec.expressions.math.AddNode;
-import usace.hec.expressions.math.MultiplyNode;
+import usace.hec.expressions.math.DoubleAddNode;
+import usace.hec.expressions.math.DoubleMultiplyNode;
 
 public class GeneralTimeNodeTest {
     @Test
@@ -24,8 +24,8 @@ public class GeneralTimeNodeTest {
         ConstantLeafNode<Number> one = new ConstantLeafNode<>(1.0);
         ConstantLeafNode<Number> two = new ConstantLeafNode<>(2.0);
 
-        AddNode Add = new AddNode(one, two);
-        MultiplyNode Multiply = new MultiplyNode(one, two);
+        DoubleAddNode Add = new DoubleAddNode(one, two);
+        DoubleMultiplyNode Multiply = new DoubleMultiplyNode(one, two);
 
         IfNode<Number> ifNodeAfter = new IfNode<>(after, Add, Multiply);
         IfNode<Number> ifNodeBefore = new IfNode<>(before, Add, Multiply);

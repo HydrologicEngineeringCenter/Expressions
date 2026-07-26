@@ -15,10 +15,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-import usace.hec.expressions.comparison.GreaterThanNode;
+import usace.hec.expressions.comparison.DoubleGreaterThanNode;
 import usace.hec.expressions.logical.IfNode;
-import usace.hec.expressions.math.AddNode;
-import usace.hec.expressions.math.MultiplyNode;
+import usace.hec.expressions.math.DoubleAddNode;
+import usace.hec.expressions.math.DoubleMultiplyNode;
 import usace.hec.expressions.misc.LagNode;
 
 public class SerializationTest {
@@ -48,7 +48,7 @@ public class SerializationTest {
 
     @Test
     public void expressionTreeRoundTrips() throws Exception {
-        ExpressionNode<Number> original = new AddNode(new ConstantLeafNode<>(2.0), new ConstantLeafNode<>(3.4));
+        ExpressionNode<Number> original = new DoubleAddNode(new ConstantLeafNode<>(2.0), new ConstantLeafNode<>(3.4));
 
         ExpressionNode<Number> copy = roundTrip(original);
 
@@ -94,9 +94,9 @@ public class SerializationTest {
         values.add(2.0);
         values.add(3.0);
         ArrayDataUpdater adu = new ArrayDataUpdater(values);
-        ExpressionNode<Boolean> condition = new GreaterThanNode<>(X,Y);
-        ExpressionNode<Number> Add = new AddNode(X, Y);
-        ExpressionNode<Number> Multiply = new MultiplyNode(X, Y);
+        ExpressionNode<Boolean> condition = new DoubleGreaterThanNode<>(X,Y);
+        ExpressionNode<Number> Add = new DoubleAddNode(X, Y);
+        ExpressionNode<Number> Multiply = new DoubleMultiplyNode(X, Y);
 
         ExpressionNode<Number> ifNode = new IfNode<>(condition, Add, Multiply);
 

@@ -1,34 +1,26 @@
 package usace.hec.expressions.time;
 
+import usace.hec.expressions.DateTimeExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.ExpressionType;
+import usace.hec.expressions.IntegerExpressionNode;
 import usace.hec.expressions.UnaryExpressionNode;
 
 import java.io.Serial;
 import java.time.LocalDateTime;
 
-public class DayOfYearNode extends UnaryExpressionNode<Integer, LocalDateTime> {
+public class DayOfYearNode implements UnaryExpressionNode, IntegerExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
-    public DayOfYearNode(ExpressionNode<LocalDateTime> child) {
-        super(child);
-    }
-
-    @Override
-    public Integer evaluate() {
-        //return the day of year
-        LocalDateTime childDate = child.evaluate();
-        Integer dayOfTheYear = childDate.getDayOfYear();
-        return dayOfTheYear.intValue();
+    private DateTimeExpressionNode child;
+    public DayOfYearNode(DateTimeExpressionNode child) {
+        this.child = child;
     }
     @Override
-    public String OpName() {
-        return Operator().getPrefixName();
-    }
-    @Override
-    public String InfixOpName() {
-        return Operator().getInfixName();
+    public int evaluate() {
+        LocalDateTime childDate = ((DateTimeExpressionNode)child).evaluate();
+        return childDate.getDayOfYear();
     }
     @Override
     public ExpressionOperator Operator() {
@@ -42,5 +34,9 @@ public class DayOfYearNode extends UnaryExpressionNode<Integer, LocalDateTime> {
     @Override
     public ExpressionType resultType() {
         return ExpressionType.INTEGER;
+    }
+    @Override
+    public ExpressionNode child() {
+        return this.child;
     }
 }

@@ -6,12 +6,12 @@ import java.util.List;
 import org.junit.Test;
 
 import usace.hec.expressions.*;
-import usace.hec.expressions.comparison.GreaterThanNode;
+import usace.hec.expressions.comparison.DoubleGreaterThanNode;
 import usace.hec.expressions.comparison.GreaterThanOrEqualNode;
 import usace.hec.expressions.comparison.LessThanNode;
 import usace.hec.expressions.comparison.LessThanOrEqualNode;
-import usace.hec.expressions.math.AddNode;
-import usace.hec.expressions.math.MultiplyNode;
+import usace.hec.expressions.math.DoubleAddNode;
+import usace.hec.expressions.math.DoubleMultiplyNode;
 
 public class IfNodeTest {
     @Test
@@ -27,9 +27,9 @@ public class IfNodeTest {
         values.add(2.0);
         values.add(3.0);
         ArrayDataUpdater adu = new ArrayDataUpdater(values);
-        ExpressionNode<Boolean> condition = new GreaterThanNode<>(X,Y);
-        ExpressionNode<Number> Add = new AddNode(X, Y);
-        ExpressionNode<Number> Multiply = new MultiplyNode(X, Y);
+        ExpressionNode<Boolean> condition = new DoubleGreaterThanNode<>(X,Y);
+        ExpressionNode<Number> Add = new DoubleAddNode(X, Y);
+        ExpressionNode<Number> Multiply = new DoubleMultiplyNode(X, Y);
 
         ExpressionNode<Number> ifNode = new IfNode<>(condition, Add, Multiply);
 
@@ -79,9 +79,9 @@ public class IfNodeTest {
         values.add(8.0);
         values.add(6.0);
         ArrayDataUpdater adu = new ArrayDataUpdater(values);
-        ExpressionNode<Boolean> condition = new GreaterThanNode<>(Y,X);
-        ExpressionNode<Number> Add = new AddNode(X, Y);
-        ExpressionNode<Number> Multiply = new MultiplyNode(X, Y);
+        ExpressionNode<Boolean> condition = new DoubleGreaterThanNode<>(Y,X);
+        ExpressionNode<Number> Add = new DoubleAddNode(X, Y);
+        ExpressionNode<Number> Multiply = new DoubleMultiplyNode(X, Y);
 
         //ifNode = IF(([X]>[Y]),([X]+[Y]),([X]*[Y]))
         ExpressionNode<Number> ifNode = new IfNode<>(condition, Add, Multiply);
@@ -141,7 +141,7 @@ public class IfNodeTest {
         ExpressionNode<Boolean> condition1 = new AndNode(intermediateCondition1, intermediateCondition2);
 
         ExpressionNode<Boolean> nextCondition = new LessThanNode<>(X,const1);
-        ExpressionNode<Number> nextThenNode = new AddNode(X, const1);
+        ExpressionNode<Number> nextThenNode = new DoubleAddNode(X, const1);
 
         ExpressionNode<Number> nestedIfNode = new IfNode<>(nextCondition, nextThenNode, const2);
         ExpressionNode<Number> outerIfNode = new IfNode<>(condition1, X, nestedIfNode);

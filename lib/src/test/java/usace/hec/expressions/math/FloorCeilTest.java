@@ -17,8 +17,8 @@ public class FloorCeilTest {
         UpdateableLeafNode<Double> X = new UpdateableLeafNode<>("X");
 
         BaseDataUpdater adu = new BaseDataUpdater();
-        ExpressionNode<Double> ceil = new CeilingNode(X); // Math.ceil(-X)
-        ExpressionNode<Double> floor = new FloorNode(X); // Math.floor(X)
+        ExpressionNode<Double> ceil = new DoubleCeilingNode(X); // Math.ceil(-X)
+        ExpressionNode<Double> floor = new DoubleFloorNode(X); // Math.floor(X)
         List<DataListener<?>> list = ceil.fetchListeners();
         for(DataListener<?> d : list){
             adu.register(d);
@@ -46,8 +46,8 @@ public class FloorCeilTest {
         UpdateableLeafNode<Double> X = new UpdateableLeafNode<>("X");
 
         BaseDataUpdater adu = new BaseDataUpdater();
-        ExpressionNode<Double> ceil = new CeilingNode(X); // Math.ceil(-X)
-        ExpressionNode<Double> floor = new FloorNode(X); // Math.floor(X)
+        ExpressionNode<Double> ceil = new DoubleCeilingNode(X); // Math.ceil(-X)
+        ExpressionNode<Double> floor = new DoubleFloorNode(X); // Math.floor(X)
 
         String expression = ceil.PreFixSyntax();
         System.out.print(expression + "\n");

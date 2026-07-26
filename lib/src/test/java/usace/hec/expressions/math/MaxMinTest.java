@@ -18,8 +18,8 @@ public class MaxMinTest {
         UpdateableLeafNode<Number> Y = new UpdateableLeafNode<>("Y");
 
         BaseDataUpdater adu = new BaseDataUpdater();
-        ExpressionNode<Number> Max = new MaxNode(X, Y);
-        ExpressionNode<Number> Min = new MinNode(X, Y);
+        ExpressionNode<Number> Max = new DoubleMaxNode(X, Y);
+        ExpressionNode<Number> Min = new DoubleMinNode(X, Y);
 
 
 
@@ -60,8 +60,8 @@ public class MaxMinTest {
         UpdateableLeafNode<Number> X = new UpdateableLeafNode<>("X");
         UpdateableLeafNode<Number> Y = new UpdateableLeafNode<>("Y");
 
-        ExpressionNode<Number> Max = new MaxNode(X, Y);
-        ExpressionNode<Number> Min = new MinNode(X, Y);
+        ExpressionNode<Number> Max = new DoubleMaxNode(X, Y);
+        ExpressionNode<Number> Min = new DoubleMinNode(X, Y);
 
         String expression = Max.PreFixSyntax();
         System.out.print(expression + "\n");

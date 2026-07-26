@@ -19,8 +19,8 @@ public class MultiDivTest {
         UpdateableLeafNode<Number> Y = new UpdateableLeafNode<>("Y");
 
         BaseDataUpdater adu = new BaseDataUpdater();
-        ExpressionNode<Number> Multi = new MultiplyNode(X, Y);
-        ExpressionNode<Number> Div = new DivideNode(X, Y);
+        ExpressionNode<Number> Multi = new DoubleMultiplyNode(X, Y);
+        ExpressionNode<Number> Div = new DoubleDivideNode(X, Y);
         List<DataListener<?>> list = Multi.fetchListeners();
         for(DataListener<?> d : list){
             adu.register(d);
@@ -55,8 +55,8 @@ public class MultiDivTest {
         UpdateableLeafNode<Number> Y = new UpdateableLeafNode<>("Y");
 
         BaseDataUpdater adu = new BaseDataUpdater();
-        ExpressionNode<Number> Multi = new MultiplyNode(X, Y);
-        ExpressionNode<Number> Div = new DivideNode(X, Y);
+        ExpressionNode<Number> Multi = new DoubleMultiplyNode(X, Y);
+        ExpressionNode<Number> Div = new DoubleDivideNode(X, Y);
 
         String expression = Multi.PreFixSyntax();
         System.out.print(expression + "\n");

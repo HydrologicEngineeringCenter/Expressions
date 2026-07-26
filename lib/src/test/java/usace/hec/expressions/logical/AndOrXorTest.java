@@ -7,10 +7,10 @@ import org.apache.commons.math3.analysis.function.Constant;
 import org.junit.Test;
 
 import usace.hec.expressions.*;
-import usace.hec.expressions.comparison.GreaterThanNode;
+import usace.hec.expressions.comparison.DoubleGreaterThanNode;
 import usace.hec.expressions.comparison.LessThanOrEqualNode;
-import usace.hec.expressions.math.AddNode;
-import usace.hec.expressions.math.MultiplyNode;
+import usace.hec.expressions.math.DoubleAddNode;
+import usace.hec.expressions.math.DoubleMultiplyNode;
 
 public class AndOrXorTest {
     @Test

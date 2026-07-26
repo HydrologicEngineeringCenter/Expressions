@@ -8,19 +8,20 @@ import java.util.List;
 
 import usace.hec.expressions.DataListener;
 import usace.hec.expressions.DataProvider;
+import usace.hec.expressions.DateTimeExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.ExpressionType;
-import usace.hec.expressions.ExpressionNode;
+import usace.hec.expressions.IntegerExpressionNode;
 
-public class DateNode implements ExpressionNode<LocalDateTime> {
+public class DateNode implements DateTimeExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final ExpressionNode<Integer> _dd;
-    private final ExpressionNode<Integer> _mm;
-    private final ExpressionNode<Integer> _yyyy;
+    private final IntegerExpressionNode _dd;
+    private final IntegerExpressionNode _mm;
+    private final IntegerExpressionNode _yyyy;
  
-    public DateNode(ExpressionNode<Integer> yyyy, ExpressionNode<Integer> mm, ExpressionNode<Integer>dd) {
+    public DateNode(IntegerExpressionNode yyyy, IntegerExpressionNode mm, IntegerExpressionNode dd) {
         _dd = dd;
         _mm = mm;
         _yyyy = yyyy;
@@ -28,10 +29,9 @@ public class DateNode implements ExpressionNode<LocalDateTime> {
 
     @Override
     public LocalDateTime evaluate() {
-        return LocalDateTime.of(((Number)_yyyy.evaluate()).intValue(),((Number)_mm.evaluate()).intValue(),((Number)_dd.evaluate()).intValue(),0,0);
+        return LocalDateTime.of(_yyyy.evaluate(),_mm.evaluate(),_dd.evaluate(),0,0);
 
     }
-    
     @Override
     public String PreFixSyntax() {
         return "DATE(" + _yyyy.PreFixSyntax() + ","
@@ -51,13 +51,13 @@ public class DateNode implements ExpressionNode<LocalDateTime> {
         return ExpressionOperator.DATE;
     }
     @Override
-    public List<DataListener<?>> fetchListeners() {
-        List<DataListener<?>> list = _yyyy.fetchListeners();
+    public List<DataListener> fetchListeners() {
+        List<DataListener> list = _yyyy.fetchListeners();
        list.addAll(_mm.fetchListeners());
        list.addAll(_dd.fetchListeners());
        return list;  
     }
-        @Override
+    @Override
     public void setProvider(DataProvider dp) {
         _yyyy.setProvider(dp);
         _mm.setProvider(dp);

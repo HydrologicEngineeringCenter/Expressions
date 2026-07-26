@@ -6,7 +6,7 @@ import usace.hec.expressions.comparison.LessThanNode;
 import usace.hec.expressions.comparison.LessThanOrEqualNode;
 import usace.hec.expressions.logical.AndNode;
 import usace.hec.expressions.logical.IfNode;
-import usace.hec.expressions.math.AddNode;
+import usace.hec.expressions.math.DoubleAddNode;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class ProviderVsListenerTest {
         ExpressionNode<Boolean> condition1 = new AndNode(intermediateCondition1, intermediateCondition2);
 
         ExpressionNode<Boolean> nextCondition = new LessThanNode<>(X,const1);
-        ExpressionNode<Number> nextThenNode = new AddNode(X, const1);
+        ExpressionNode<Number> nextThenNode = new DoubleAddNode(X, const1);
 
         ExpressionNode<Number> nestedIfNode = new IfNode<>(nextCondition, nextThenNode, const2);
         ExpressionNode<Number> outerIfNode = new IfNode<>(condition1, X, nestedIfNode);
@@ -79,7 +79,7 @@ public class ProviderVsListenerTest {
         ExpressionNode<Boolean> condition2 = new AndNode(intermediateCondition3, intermediateCondition4);
 
         ExpressionNode<Boolean> nextCondition2 = new LessThanNode<>(XX,const1);
-        ExpressionNode<Number> nextThenNode2 = new AddNode(XX, const1);
+        ExpressionNode<Number> nextThenNode2 = new DoubleAddNode(XX, const1);
 
         ExpressionNode<Number> nestedIfNode2 = new IfNode<>(nextCondition2, nextThenNode2, const2);
         ExpressionNode<Number> outerIfNode2 = new IfNode<>(condition2, XX, nestedIfNode2);
@@ -121,7 +121,7 @@ public class ProviderVsListenerTest {
         ExpressionNode<Boolean> condition1 = new AndNode(intermediateCondition1, intermediateCondition2);
 
         ExpressionNode<Boolean> nextCondition = new LessThanNode<>(X,const1);
-        ExpressionNode<Number> nextThenNode = new AddNode(X, const1);
+        ExpressionNode<Number> nextThenNode = new DoubleAddNode(X, const1);
 
         ExpressionNode<Number> nestedIfNode = new IfNode<>(nextCondition, nextThenNode, const2);
         ExpressionNode<Number> outerIfNode = new IfNode<>(condition1, X, nestedIfNode);
@@ -147,7 +147,7 @@ public class ProviderVsListenerTest {
         ExpressionNode<Boolean> condition2 = new AndNode(intermediateCondition3, intermediateCondition4);
 
         ExpressionNode<Boolean> nextCondition2 = new LessThanNode<>(XX,const1);
-        ExpressionNode<Number> nextThenNode2 = new AddNode(XX, const1);
+        ExpressionNode<Number> nextThenNode2 = new DoubleAddNode(XX, const1);
 
         ExpressionNode<Number> nestedIfNode2 = new IfNode<>(nextCondition2, nextThenNode2, const2);
         ExpressionNode<Number> outerIfNode2 = new IfNode<>(condition2, XX, nestedIfNode2);

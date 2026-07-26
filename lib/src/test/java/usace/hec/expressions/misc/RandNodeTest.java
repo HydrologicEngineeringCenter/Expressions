@@ -9,8 +9,8 @@ import java.util.Random;
 import org.junit.Test;
 
 import usace.hec.expressions.*;
-import usace.hec.expressions.math.AddNode;
-import usace.hec.expressions.math.MinusNode;
+import usace.hec.expressions.math.DoubleAddNode;
+import usace.hec.expressions.math.DoubleMinusNode;
 
 public class RandNodeTest {
     @Test
