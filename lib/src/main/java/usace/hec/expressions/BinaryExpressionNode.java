@@ -1,62 +1,47 @@
 package usace.hec.expressions;
 
-import java.io.Serial;
-import java.io.Serializable;
+
 import java.util.List;
 
 /**
  * A generic {@link ExpressionNode} that evaluates two {@link ExpressionNode}s to evaluate simple mathematical operations between them
  */
-public abstract class BinaryExpressionNode<T extends Serializable,R extends Serializable,L extends Serializable> implements ExpressionNode<T>{
-    @Serial
-    private static final long serialVersionUID = 1L;
-    protected ExpressionNode<L> leftnode;
-    protected ExpressionNode<R> rightnode;
-    public BinaryExpressionNode(ExpressionNode<L> left, ExpressionNode<R> right){
-        leftnode = left;
-        rightnode = right;
-    }
+public interface BinaryExpressionNode extends ExpressionNode{
+    ExpressionNode left();
+    ExpressionNode right();
     @Override
-    public List<DataListener<?>> fetchListeners() {
-       List<DataListener<?>> list = leftnode.fetchListeners();
-       list.addAll(rightnode.fetchListeners());
+    public default List<DataListener> fetchListeners() {
+       List<DataListener> list = left().fetchListeners();
+       list.addAll(right().fetchListeners());
        return list;
     }
     @Override
-    public String PreFixSyntax() {
+    public default String PreFixSyntax() {
         StringBuilder sb = new StringBuilder();
-        sb.append(OpName());
+        sb.append(Operator().getPrefixName());
         sb.append('(');
-        sb.append(leftnode.PreFixSyntax());
+        sb.append(left().PreFixSyntax());
         sb.append(',');
-        sb.append(rightnode.PreFixSyntax());
+        sb.append(right().PreFixSyntax());
         sb.append(')');
         return sb.toString();
     }
-
     @Override
-    public String ExcelSyntax(){
+    public default String ExcelSyntax(){
         StringBuilder sb = new StringBuilder();
         sb.append('(');
-        sb.append(leftnode.ExcelSyntax());
+        sb.append(left().ExcelSyntax());
         sb.append(' ');
-        sb.append(InfixOpName());
+        sb.append(Operator().getInfixName());
         sb.append(' ');
-        sb.append(rightnode.ExcelSyntax());
+        sb.append(right().ExcelSyntax());
         sb.append(')');
         return sb.toString();
     }
 
-    public void excelAppend(StringBuilder sb) {
-
-    }
-
     @Override
-    public void setProvider(DataProvider dp){
-        leftnode.setProvider(dp);
-        rightnode.setProvider(dp);
+    public default void setProvider(DataProvider dp){
+        left().setProvider(dp);
+        right().setProvider(dp);
     }
-
-    public abstract String OpName();
-    public abstract String InfixOpName();
 }

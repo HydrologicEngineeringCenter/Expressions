@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.UpdateableLeafNode;
 
-public class CurrentTimestepNode extends UpdateableLeafNode<LocalDateTime> {
+public class CurrentTimestepNode extends UpdateableLeafNode {
     @Serial
     private static final long serialVersionUID = 1L;
 

@@ -1,34 +1,40 @@
 package usace.hec.expressions.time;
 
 import java.io.Serial;
-import java.time.LocalDateTime;
-
-
-import usace.hec.expressions.BinaryExpressionNode;
+import usace.hec.expressions.DateTimeExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.ExpressionType;
+import usace.hec.expressions.comparison.BooleanBinaryExpressionNode;
 
 
-public class AfterNode extends BinaryExpressionNode<Boolean, LocalDateTime, LocalDateTime> {
+public class AfterNode extends BooleanBinaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
-    public AfterNode(ExpressionNode<LocalDateTime> left, ExpressionNode<LocalDateTime> right){
-        super(left, right);
+    private DateTimeExpressionNode left;
+    private DateTimeExpressionNode right;
+    public AfterNode(DateTimeExpressionNode left, DateTimeExpressionNode right){
+        this.left = left;
+        this.right = right;
     }
     @Override
-    public Boolean evaluate() {
-        return leftnode.evaluate().isAfter(rightnode.evaluate());
-    }
-    @Override
-    public String OpName() {
-        return Operator().getPrefixName();
-    }
-    @Override
-    public String InfixOpName() {
-        return Operator().getInfixName();
+    public boolean evaluate() {
+        return left.evaluate().isAfter(right.evaluate());
     }
     @Override
     public ExpressionOperator Operator() {
         return ExpressionOperator.AFTER;
+    }
+    @Override
+    public ExpressionType resultType() {
+        return ExpressionType.BOOLEAN;
+    }
+    @Override
+    public ExpressionNode left() {
+        return this.left;
+    }
+    @Override
+    public ExpressionNode right() {
+        return this.right;
     }
 }

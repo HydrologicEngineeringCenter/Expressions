@@ -6,22 +6,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import usace.hec.expressions.DataListener;
-import usace.hec.expressions.ExpressionNode;
+import usace.hec.expressions.DateTimeExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.LeafNode;
+import usace.hec.expressions.ExpressionType;
 
-public class TodayNode implements ExpressionNode<LocalDateTime>, LeafNode<LocalDateTime> {
+
+public class TodayNode implements DateTimeExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Override
     public LocalDateTime evaluate() {
-        LocalDateTime t = LocalDateTime.now();
-        return t;
+        return LocalDateTime.now();
     }
 
     @Override
-    public List<DataListener<?>> fetchListeners() {
+    public List<DataListener> fetchListeners() {
         return new ArrayList<>();
     }
 
@@ -39,5 +39,9 @@ public class TodayNode implements ExpressionNode<LocalDateTime>, LeafNode<LocalD
     @Override
     public ExpressionOperator Operator() {
         return ExpressionOperator.TODAY;
+    }
+    @Override
+    public ExpressionType resultType() {
+        return ExpressionType.DATE;
     }
 }

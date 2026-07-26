@@ -9,7 +9,7 @@ public class DataHub implements DataProvider{
 
     //Unsafe?
     @Override
-    public <T> T provideValueForCurrentTimestep(String name) {
+    public <T> T provideValue(String name) {
         Object value = currentValues.get(name);
         if (value == null){
             throw new IllegalArgumentException("No value available for: " + name);
@@ -17,7 +17,7 @@ public class DataHub implements DataProvider{
         return (T) value;
     }
 
-    public void setValueForCurrentTimestep(String name, Object value) {
+    public void setValue(String name, Object value) {
         currentValues.put(name, value);
     }
 

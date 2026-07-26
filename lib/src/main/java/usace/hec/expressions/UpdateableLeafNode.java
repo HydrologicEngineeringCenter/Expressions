@@ -1,13 +1,12 @@
 package usace.hec.expressions;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UpdateableLeafNode<T extends Serializable> implements ExpressionNode<T>, DataListener<T>, DataRequester{
+public class UpdateableLeafNode implements ExpressionNode, DataListener, DataRequester{
     protected String name;
-    protected T value;
+    protected Object value;
     protected transient DataProvider dp = null;
     @Serial
     private static final long serialVersionUID = 1L;
@@ -17,17 +16,16 @@ public class UpdateableLeafNode<T extends Serializable> implements ExpressionNod
         this.value = null;
     }
 
-    @Override
-    public T evaluate() {
+    public Object evaluate() {
         if(dp!=null){
-            return dp.provideValueForCurrentTimestep(name);
+            return dp.provideValue(name);
         }
         return this.value;
     }
 
     // Listens directly to data changes without tree traversal
     @Override
-    public void onDataUpdate(DataUpdate<T> update) {
+    public void onDataUpdate(DataUpdate update) {
         if (this.name.equals(update.variableName())) {
             this.value = update.newValue();
         }
@@ -38,8 +36,8 @@ public class UpdateableLeafNode<T extends Serializable> implements ExpressionNod
     }
 
     @Override
-    public List<DataListener<?>> fetchListeners() {
-        List<DataListener<?>> list = new ArrayList<>();
+    public List<DataListener> fetchListeners() {
+        List<DataListener> list = new ArrayList<>();
         list.add(this);
         return list;
         
@@ -55,7 +53,7 @@ public class UpdateableLeafNode<T extends Serializable> implements ExpressionNod
     }
 
     @Override
-    public ExpressionNode<T> owner() {
+    public ExpressionNode owner() {
         return this;
     }
   @Override
@@ -71,5 +69,9 @@ public class UpdateableLeafNode<T extends Serializable> implements ExpressionNod
     @Override
     public String getName() {
         return this.name;
+    }
+    @Override
+    public ExpressionType resultType() {
+        return ExpressionType.DOUBLE;//placeholder
     }
 }
