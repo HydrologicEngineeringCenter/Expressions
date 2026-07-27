@@ -11,7 +11,7 @@ import usace.hec.expressions.comparison.BooleanBinaryExpressionNode;
 import java.io.Serial;
 
 
-public class OrNode extends BooleanBinaryExpressionNode implements DisplayNode {
+public class OrNode extends BooleanBinaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
     private BooleanExpressionNode left;
@@ -35,6 +35,9 @@ public class OrNode extends BooleanBinaryExpressionNode implements DisplayNode {
     }
     @Override
     public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator() {
         return ExpressionOperator.OR;
     }
     @Override
@@ -49,25 +52,27 @@ public class OrNode extends BooleanBinaryExpressionNode implements DisplayNode {
     public ExpressionNode right() {
         return this.right;
     }
-    @Override
-    public String displayName(boolean infix) {
-        if(infix){
-            return Operator().getInfixName();
-        }else{
-            return Operator().getPrefixName();
+    public static final DisplayNode DisplayData = new DisplayNode() {
+        @Override
+        public String displayName(boolean infix) {
+            if(infix){
+                return StaticOperator().getInfixName();
+            }else{
+                return StaticOperator().getPrefixName();
+            }
         }
-    }
-    @Override
-    public String category() {
-        return "Logical";
-    }
-    @Override
-    public String defaultSyntax(boolean infix) {
-        if (infix){
-            return Operator().getInfixName();
-        }else{
-            return Operator().getPrefixName() + "(,)";
+        @Override
+        public String category() {
+            return "Logical";
         }
-    }
+        @Override
+        public String defaultSyntax(boolean infix) {
+            if (infix){
+                return StaticOperator().getInfixName();
+            }else{
+                return StaticOperator().getPrefixName() + "(,)";
+            }
+        }
+    };
 }
 

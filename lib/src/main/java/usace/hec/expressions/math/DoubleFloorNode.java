@@ -4,12 +4,11 @@ import usace.hec.expressions.DisplayNode;
 import usace.hec.expressions.DoubleExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.ExpressionType;
 import usace.hec.expressions.UnaryExpressionNode;
 
 import java.io.Serial;
 
-public class DoubleFloorNode extends DoubleUnaryExpressionNode implements DisplayNode {
+public class DoubleFloorNode extends DoubleUnaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
     private DoubleExpressionNode child;
@@ -27,6 +26,9 @@ public class DoubleFloorNode extends DoubleUnaryExpressionNode implements Displa
 
     @Override
     public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator(){
         return ExpressionOperator.FLOOR;
     }
     @Override
@@ -38,24 +40,26 @@ public class DoubleFloorNode extends DoubleUnaryExpressionNode implements Displa
     public ExpressionNode child() {
         return this.child;
     }
-    @Override
-    public String displayName(boolean infix) {
-        if(infix){
-            return Operator().getInfixName();
-        }else{
-            return Operator().getPrefixName();
+    public static final DisplayNode DisplayData = new DisplayNode() {
+        @Override
+        public String displayName(boolean infix) {
+            if(infix){
+                return StaticOperator().getInfixName();
+            }else{
+                return StaticOperator().getPrefixName();
+            }
         }
-    }
-    @Override
-    public String category() {
-        return "Math";
-    }
-    @Override
-    public String defaultSyntax(boolean infix) {
-        if (infix){
-            return Operator().getInfixName();
-        }else{
-            return Operator().getPrefixName() + "()";
+        @Override
+        public String category() {
+            return "Math";
         }
-    }
+        @Override
+        public String defaultSyntax(boolean infix) {
+            if (infix){
+                return StaticOperator().getInfixName();
+            }else{
+                return StaticOperator().getPrefixName() + "()";
+            }
+        }
+    };
 }

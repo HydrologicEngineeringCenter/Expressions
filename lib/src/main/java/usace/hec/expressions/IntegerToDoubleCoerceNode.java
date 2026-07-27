@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @see ExpressionType#canWiden(ExpressionType, ExpressionType)
  */
-public class IntegerToDoubleCoerceNode implements DoubleExpressionNode, DisplayNode {
+public class IntegerToDoubleCoerceNode implements DoubleExpressionNode {
 
     private final IntegerExpressionNode child;
 
@@ -67,19 +67,25 @@ public class IntegerToDoubleCoerceNode implements DoubleExpressionNode, DisplayN
 
     @Override
     public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator(){
         return ExpressionOperator.DOUBLECOERSION;
     }
-    @Override
-    public String displayName(boolean infix) {
-        return Operator().getInfixName();
-    }
-    @Override
-    public String category() {
-        return "Conversion";
-    }
-    @Override
-    public String defaultSyntax(boolean infix) {
-        return Operator().getInfixName() + "()";
+    public static final DisplayNode DisplayData = new DisplayNode() {
+        @Override
+        public String displayName(boolean infix) {
+            return StaticOperator().getInfixName();
 
-    }
+        }
+        @Override
+        public String category() {
+            return "Conversion";
+        }
+        @Override
+        public String defaultSyntax(boolean infix) {
+            return StaticOperator().getInfixName() + "()";
+
+        }
+    };
 }

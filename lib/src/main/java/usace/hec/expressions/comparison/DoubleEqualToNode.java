@@ -9,7 +9,7 @@ import usace.hec.expressions.ExpressionType;
 
 import java.io.Serial;
 
-public class DoubleEqualToNode extends BooleanBinaryExpressionNode implements DisplayNode{
+public class DoubleEqualToNode extends BooleanBinaryExpressionNode{
     @Serial
     private static final long serialVersionUID = 1L;
     private DoubleExpressionNode left;
@@ -28,6 +28,9 @@ public class DoubleEqualToNode extends BooleanBinaryExpressionNode implements Di
     }
     @Override
     public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator() {
         return ExpressionOperator.EQ;
     }
     @Override
@@ -42,24 +45,27 @@ public class DoubleEqualToNode extends BooleanBinaryExpressionNode implements Di
     public ExpressionNode right() {
         return this.right;
     }
-    @Override
-    public String displayName(boolean infix) {
-        if(infix){
-            return Operator().getInfixName();
-        }else{
-            return Operator().getPrefixName();
+    public static final DisplayNode DisplayData = new DisplayNode() {
+        @Override
+        public String displayName(boolean infix) {
+            if(infix){
+                return StaticOperator().getInfixName();
+            }else{
+                return StaticOperator().getPrefixName();
+            }
         }
-    }
-    @Override
-    public String category() {
-        return "Comparison";
-    }
-    @Override
-    public String defaultSyntax(boolean infix) {
-        if (infix){
-            return Operator().getInfixName();
-        }else{
-            return Operator().getPrefixName() + "(,)";
+        @Override
+        public String category() {
+            return "Comparison";
         }
-    }
+        @Override
+        public String defaultSyntax(boolean infix) {
+            if (infix){
+                return StaticOperator().getInfixName();
+            }else{
+                return StaticOperator().getPrefixName() + "(,)";
+            }
+        }        
+    };
+
 }

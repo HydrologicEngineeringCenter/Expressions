@@ -12,7 +12,7 @@ import usace.hec.expressions.ExpressionType;
 import usace.hec.expressions.comparison.BooleanBinaryExpressionNode;
 
 
-public class BeforeNode extends BooleanBinaryExpressionNode implements DisplayNode {
+public class BeforeNode extends BooleanBinaryExpressionNode {
     private DateTimeExpressionNode left;
     private DateTimeExpressionNode right;
     public BeforeNode(DateTimeExpressionNode left, DateTimeExpressionNode right){
@@ -25,6 +25,9 @@ public class BeforeNode extends BooleanBinaryExpressionNode implements DisplayNo
     }
     @Override
     public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator(){
         return ExpressionOperator.BEFORE;
     }
     @Override
@@ -39,24 +42,26 @@ public class BeforeNode extends BooleanBinaryExpressionNode implements DisplayNo
     public ExpressionNode right() {
         return this.right;
     }
-    @Override
-    public String displayName(boolean infix) {
-        if(infix){
-            return Operator().getInfixName();
-        }else{
-            return Operator().getPrefixName();
+    public static final DisplayNode DisplayData = new DisplayNode() {
+        @Override
+        public String displayName(boolean infix) {
+            if(infix){
+                return StaticOperator().getInfixName();
+            }else{
+                return StaticOperator().getPrefixName();
+            }
         }
-    }
-    @Override
-    public String category() {
-        return "Time";
-    }
-    @Override
-    public String defaultSyntax(boolean infix) {
-        if (infix){
-            return Operator().getInfixName();
-        }else{
-            return Operator().getPrefixName() + "(,)";
+        @Override
+        public String category() {
+            return "Time";
         }
-    }
+        @Override
+        public String defaultSyntax(boolean infix) {
+            if (infix){
+                return StaticOperator().getInfixName();
+            }else{
+                return StaticOperator().getPrefixName() + "(,)";
+            }
+        }
+    };
 }

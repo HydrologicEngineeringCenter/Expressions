@@ -11,7 +11,7 @@ import usace.hec.expressions.UnaryExpressionNode;
 import java.io.Serial;
 
 
-public class DayOfYearNode implements UnaryExpressionNode, IntegerExpressionNode, DisplayNode {
+public class DayOfYearNode implements UnaryExpressionNode, IntegerExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
     private DateTimeExpressionNode child;
@@ -24,6 +24,9 @@ public class DayOfYearNode implements UnaryExpressionNode, IntegerExpressionNode
     }
     @Override
     public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator(){
         return ExpressionOperator.DOY;
     }
 
@@ -39,24 +42,26 @@ public class DayOfYearNode implements UnaryExpressionNode, IntegerExpressionNode
     public ExpressionNode child() {
         return this.child;
     }
-    @Override
-    public String displayName(boolean infix) {
-        if(infix){
-            return Operator().getInfixName();
-        }else{
-            return Operator().getPrefixName();
+    public static final DisplayNode DisplayData = new DisplayNode() {
+        @Override
+        public String displayName(boolean infix) {
+            if(infix){
+                return StaticOperator().getInfixName();
+            }else{
+                return StaticOperator().getPrefixName();
+            }
         }
-    }
-    @Override
-    public String category() {
-        return "Time";
-    }
-    @Override
-    public String defaultSyntax(boolean infix) {
-        if (infix){
-            return Operator().getInfixName()+ "()";
-        }else{
-            return Operator().getPrefixName() + "()";
+        @Override
+        public String category() {
+            return "Time";
         }
-    }
+        @Override
+        public String defaultSyntax(boolean infix) {
+            if (infix){
+                return StaticOperator().getInfixName()+ "()";
+            }else{
+                return StaticOperator().getPrefixName() + "()";
+            }
+        }
+    };
 }
