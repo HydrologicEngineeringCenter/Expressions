@@ -2,6 +2,7 @@ package usace.hec.expressions.logical;
 
 import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.BooleanExpressionNode;
+import usace.hec.expressions.DisplayNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.ExpressionType;
@@ -10,7 +11,7 @@ import usace.hec.expressions.comparison.BooleanBinaryExpressionNode;
 import java.io.Serial;
 
 
-public class AndNode extends BooleanBinaryExpressionNode {
+public class AndNode extends BooleanBinaryExpressionNode implements DisplayNode {
     @Serial
     private static final long serialVersionUID = 1L;
     private BooleanExpressionNode left;
@@ -42,6 +43,26 @@ public class AndNode extends BooleanBinaryExpressionNode {
     @Override
     public ExpressionNode right() {
         return this.right;
+    }
+        @Override
+    public String displayName(boolean infix) {
+        if(infix){
+            return Operator().getInfixName();
+        }else{
+            return Operator().getPrefixName();
+        }
+    }
+    @Override
+    public String category() {
+        return "Logical";
+    }
+    @Override
+    public String defaultSyntax(boolean infix) {
+        if (infix){
+            return Operator().getInfixName();
+        }else{
+            return Operator().getPrefixName() + "(,)";
+        }
     }
 }
 

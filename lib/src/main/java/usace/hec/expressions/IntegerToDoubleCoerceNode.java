@@ -2,12 +2,7 @@ package usace.hec.expressions;
 
 
 
-import usace.hec.expressions.DoubleExpressionNode;
-import usace.hec.expressions.ExpressionNode;
-import usace.hec.expressions.ExpressionType;
-import usace.hec.expressions.IntegerExpressionNode;
-import usace.hec.expressions.DataProvider;
-import usace.hec.expressions.DataListener;
+
 
 import java.util.List;
 
@@ -21,7 +16,7 @@ import java.util.List;
  *
  * @see ExpressionType#canWiden(ExpressionType, ExpressionType)
  */
-public class IntegerToDoubleCoerceNode implements DoubleExpressionNode {
+public class IntegerToDoubleCoerceNode implements DoubleExpressionNode, DisplayNode {
 
     private final IntegerExpressionNode child;
 
@@ -61,17 +56,30 @@ public class IntegerToDoubleCoerceNode implements DoubleExpressionNode {
     @Override
     public String PreFixSyntax() {
         // Explicit cast representation for debugging/prefix output
-        return "CONVERTTODOUBLE(" + child.ExcelSyntax() + ")";
+        return Operator().getInfixName() +"(" + child.ExcelSyntax() + ")";
     }
 
     @Override
     public String ExcelSyntax() {
         // Excel doesn't require explicit widening casts, so we just render the child.
-        return child.ExcelSyntax();
+        return Operator().getInfixName() +"(" + child.ExcelSyntax() + ")";
     }
 
     @Override
     public ExpressionOperator Operator() {
         return ExpressionOperator.DOUBLECOERSION;
+    }
+    @Override
+    public String displayName(boolean infix) {
+        return Operator().getInfixName();
+    }
+    @Override
+    public String category() {
+        return "Conversion";
+    }
+    @Override
+    public String defaultSyntax(boolean infix) {
+        return Operator().getInfixName() + "()";
+
     }
 }
