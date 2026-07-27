@@ -71,6 +71,9 @@ public abstract class IfNode implements ExpressionNode{
     }
     @Override
     public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator() {
         return ExpressionOperator.IF;
     }
 }

@@ -9,7 +9,7 @@ import usace.hec.expressions.ExpressionOperator;
 import java.io.Serial;
 
 
-public class DoubleDivideNode extends DoubleBinaryExpressionNode implements DisplayNode {
+public class DoubleDivideNode extends DoubleBinaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
     private DoubleExpressionNode left;
@@ -31,6 +31,9 @@ public class DoubleDivideNode extends DoubleBinaryExpressionNode implements Disp
     }
     @Override
     public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator(){
         return ExpressionOperator.DIVIDE;
     }
     @Override
@@ -41,24 +44,26 @@ public class DoubleDivideNode extends DoubleBinaryExpressionNode implements Disp
     public ExpressionNode right() {
         return right;
     }
+    public static final DisplayNode DisplayData = new DisplayNode() {
         @Override
-    public String displayName(boolean infix) {
-        if(infix){
-            return Operator().getInfixName();
-        }else{
-            return Operator().getPrefixName();
+        public String displayName(boolean infix) {
+            if(infix){
+                return StaticOperator().getInfixName();
+            }else{
+                return StaticOperator().getPrefixName();
+            }
         }
-    }
-    @Override
-    public String category() {
-        return "Math";
-    }
-    @Override
-    public String defaultSyntax(boolean infix) {
-        if (infix){
-            return Operator().getInfixName();
-        }else{
-            return Operator().getPrefixName() + "(,)";
+        @Override
+        public String category() {
+            return "Math";
         }
-    }
+        @Override
+        public String defaultSyntax(boolean infix) {
+            if (infix){
+                return StaticOperator().getInfixName();
+            }else{
+                return StaticOperator().getPrefixName() + "(,)";
+            }
+        }
+    };
 }

@@ -9,7 +9,7 @@ import usace.hec.expressions.UnaryExpressionNode;
 import java.io.Serial;
 
 
-public class DoubleCeilingNode extends DoubleUnaryExpressionNode implements DisplayNode {
+public class DoubleCeilingNode extends DoubleUnaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
     private DoubleExpressionNode child;
@@ -27,9 +27,11 @@ public class DoubleCeilingNode extends DoubleUnaryExpressionNode implements Disp
 
     @Override
     public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator(){
         return ExpressionOperator.CEILING;
     }
-
     @Override
     public String ExcelSyntax() {
         return PreFixSyntax(); //for excel syntax in this case prefix is the correct syntax
@@ -39,24 +41,26 @@ public class DoubleCeilingNode extends DoubleUnaryExpressionNode implements Disp
     public ExpressionNode child() {
         return this.child;
     }
-    @Override
-    public String displayName(boolean infix) {
-        if(infix){
-            return Operator().getInfixName();
-        }else{
-            return Operator().getPrefixName();
+    public static final DisplayNode DisplayData = new DisplayNode() {
+        @Override
+        public String displayName(boolean infix) {
+            if(infix){
+                return StaticOperator().getInfixName();
+            }else{
+                return StaticOperator().getPrefixName();
+            }
         }
-    }
-    @Override
-    public String category() {
-        return "Math";
-    }
-    @Override
-    public String defaultSyntax(boolean infix) {
-        if (infix){
-            return Operator().getInfixName();
-        }else{
-            return Operator().getPrefixName() + "()";
+        @Override
+        public String category() {
+            return "Math";
         }
-    }
+        @Override
+        public String defaultSyntax(boolean infix) {
+            if (infix){
+                return StaticOperator().getInfixName();
+            }else{
+                return StaticOperator().getPrefixName() + "()";
+            }
+        }
+    };
 }

@@ -12,7 +12,7 @@ import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.ExpressionType;
 
 
-public class TodayNode implements DateTimeExpressionNode, DisplayNode {
+public class TodayNode implements DateTimeExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -39,30 +39,35 @@ public class TodayNode implements DateTimeExpressionNode, DisplayNode {
 
     @Override
     public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator(){
         return ExpressionOperator.TODAY;
     }
     @Override
     public ExpressionType resultType() {
         return ExpressionType.DATE;
     }
-    @Override
-    public String displayName(boolean infix) {
-        if(infix){
-            return Operator().getInfixName();
-        }else{
-            return Operator().getPrefixName();
+    public static final DisplayNode DisplayData = new DisplayNode() {
+        @Override
+        public String displayName(boolean infix) {
+            if(infix){
+                return StaticOperator().getInfixName();
+            }else{
+                return StaticOperator().getPrefixName();
+            }
         }
-    }
-    @Override
-    public String category() {
-        return "Time";
-    }
-    @Override
-    public String defaultSyntax(boolean infix) {
-        if (infix){
-            return Operator().getInfixName()+ "()";
-        }else{
-            return Operator().getPrefixName() + "()";
+        @Override
+        public String category() {
+            return "Time";
         }
-    }
+        @Override
+        public String defaultSyntax(boolean infix) {
+            if (infix){
+                return StaticOperator().getInfixName()+ "()";
+            }else{
+                return StaticOperator().getPrefixName() + "()";
+            }
+        }
+    };
 }

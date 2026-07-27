@@ -6,6 +6,8 @@ import java.io.Serial;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.apache.commons.math3.stat.descriptive.StatisticalMultivariateSummary;
+
 import usace.hec.expressions.DataListener;
 import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.DateTimeExpressionNode;
@@ -14,7 +16,7 @@ import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.ExpressionType;
 import usace.hec.expressions.IntegerExpressionNode;
 
-public class DateNode implements DateTimeExpressionNode, DisplayNode {
+public class DateNode implements DateTimeExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -49,6 +51,9 @@ public class DateNode implements DateTimeExpressionNode, DisplayNode {
 
     @Override
     public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator(){
         return ExpressionOperator.DATE;
     }
     @Override
@@ -68,24 +73,26 @@ public class DateNode implements DateTimeExpressionNode, DisplayNode {
     public ExpressionType resultType() {
         return ExpressionType.DATE;
     }
-    @Override
-    public String displayName(boolean infix) {
-        if(infix){
-            return Operator().getInfixName();
-        }else{
-            return Operator().getPrefixName();
+    public static final DisplayNode DisplayData = new DisplayNode() {
+        @Override
+        public String displayName(boolean infix) {
+            if(infix){
+                return StaticOperator().getInfixName();
+            }else{
+                return StaticOperator().getPrefixName();
+            }
         }
-    }
-    @Override
-    public String category() {
-        return "Time";
-    }
-    @Override
-    public String defaultSyntax(boolean infix) {
-        if (infix){
-            return Operator().getInfixName()+ "(yyyy,mm,dd)";
-        }else{
-            return Operator().getPrefixName() + "(yyyy,mm,dd)";
+        @Override
+        public String category() {
+            return "Time";
         }
-    }
+        @Override
+        public String defaultSyntax(boolean infix) {
+            if (infix){
+                return StaticOperator().getInfixName()+ "(yyyy,mm,dd)";
+            }else{
+                return StaticOperator().getPrefixName() + "(yyyy,mm,dd)";
+            }
+        }
+    };
 }
