@@ -30,8 +30,8 @@ public enum ExpressionOperator {
     CEILING("CEILING"),
     CONSTANT(""),
     VARIABLE("["),
-    INTCOERSION("INT"),
-    DOUBLECOERSION("DOUBLE"),
+    INTCOERSION("TOINT"),
+    DOUBLECOERSION("TODOUBLE"),
     IF("IF");
 
     private final String op;
