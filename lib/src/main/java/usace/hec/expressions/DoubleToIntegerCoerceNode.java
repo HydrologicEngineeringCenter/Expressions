@@ -76,14 +76,14 @@ public class DoubleToIntegerCoerceNode implements IntegerExpressionNode, Display
     }
     @Override
     public String category() {
-        return "Time";
+        return "Conversion";
     }
     @Override
     public String defaultSyntax(boolean infix) {
         if (infix){
-            return Operator().getInfixName()+ "(yyyy,mm,dd)";
+            return Operator().getPrefixName();
         }else{
-            return Operator().getPrefixName() + "(yyyy,mm,dd)";
+            return Operator().getPrefixName();
         }
     }
 }

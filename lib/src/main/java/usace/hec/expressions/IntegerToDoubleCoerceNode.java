@@ -71,22 +71,15 @@ public class IntegerToDoubleCoerceNode implements DoubleExpressionNode, DisplayN
     }
     @Override
     public String displayName(boolean infix) {
-        if(infix){
-            return Operator().getInfixName();
-        }else{
-            return Operator().getPrefixName();
-        }
+        return Operator().getPrefixName();
     }
     @Override
     public String category() {
-        return "Time";
+        return "Conversion";
     }
     @Override
     public String defaultSyntax(boolean infix) {
-        if (infix){
-            return Operator().getInfixName()+ "(yyyy,mm,dd)";
-        }else{
-            return Operator().getPrefixName() + "(yyyy,mm,dd)";
-        }
+        return Operator().getPrefixName() + "()";
+
     }
 }
