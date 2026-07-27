@@ -68,11 +68,8 @@ public class DoubleToIntegerCoerceNode implements IntegerExpressionNode, Display
     }
     @Override
     public String displayName(boolean infix) {
-        if(infix){
-            return Operator().getInfixName();
-        }else{
-            return Operator().getPrefixName();
-        }
+        return Operator().getInfixName();
+
     }
     @Override
     public String category() {
@@ -80,10 +77,7 @@ public class DoubleToIntegerCoerceNode implements IntegerExpressionNode, Display
     }
     @Override
     public String defaultSyntax(boolean infix) {
-        if (infix){
-            return Operator().getPrefixName();
-        }else{
-            return Operator().getPrefixName();
-        }
+        return Operator().getPrefixName() + "()";
+
     }
 }
