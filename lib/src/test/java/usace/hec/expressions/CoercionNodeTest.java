@@ -20,8 +20,8 @@ public class CoercionNodeTest {
         IntegerConstantNode intNode = new IntegerConstantNode(42);
         DoubleExpressionNode coerceNode = new IntegerToDoubleCoerceNode(intNode);
 
-        assertEquals("CONVERTTODOUBLE(42)", coerceNode.PreFixSyntax());
-        assertEquals("42", coerceNode.ExcelSyntax());
+        assertEquals("TODOUBLE(42)", coerceNode.PreFixSyntax());
+        assertEquals("TODOUBLE(42)", coerceNode.ExcelSyntax());
     }
 
     @Test
@@ -59,8 +59,8 @@ public class CoercionNodeTest {
         DoubleConstantNode doubleNode = new DoubleConstantNode(42.7);
         IntegerExpressionNode coerceNode = new DoubleToIntegerCoerceNode(doubleNode);
 
-        assertEquals("CONVERTTOINT(42.7)", coerceNode.PreFixSyntax());
-        assertEquals("42.7", coerceNode.ExcelSyntax());
+        assertEquals("TOINT(42.7)", coerceNode.PreFixSyntax());
+        assertEquals("TOINT(42.7)", coerceNode.ExcelSyntax());
     }
 
     @Test
