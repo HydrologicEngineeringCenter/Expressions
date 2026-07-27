@@ -32,7 +32,19 @@ public enum ExpressionOperator {
     VARIABLE("["),
     INTCOERSION("TOINT"),
     DOUBLECOERSION("TODOUBLE"),
-    IF("IF");
+    IF("IF"),
+    CONCAT("CONCAT"),
+    SUBSTRING("SUBSTRING"),
+    LENGTH("LENGTH"),
+    LOWER("LOWER"),
+    UPPER("UPPER"),
+    TRIM("TRIM"),
+    REPLACE("REPLACE"),
+    CONTAINS("CONTAINS"),
+    STARTSWITH("STARTSWITH"),
+    ENDSWITH("ENDSWITH"),
+    SPLIT("SPLIT"),
+    JOIN("JOIN");
 
     private final String op;
     ExpressionOperator(){ //used for time nodes
