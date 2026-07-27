@@ -48,6 +48,9 @@ public class TodayNode implements DateTimeExpressionNode {
     public ExpressionType resultType() {
         return ExpressionType.DATE;
     }
+    public static DisplayNode displayData(){
+        return DisplayData;
+    }
     public static final DisplayNode DisplayData = new DisplayNode() {
         @Override
         public String displayName(boolean infix) {

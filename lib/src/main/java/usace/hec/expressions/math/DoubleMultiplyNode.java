@@ -44,6 +44,9 @@ public class DoubleMultiplyNode extends DoubleBinaryExpressionNode {
     public ExpressionNode right() {
         return this.right;
     }
+    public static DisplayNode displayData(){
+        return DisplayData;
+    }
     public static final DisplayNode DisplayData = new DisplayNode() {
         @Override
         public String displayName(boolean infix) {

@@ -69,6 +69,9 @@ public class DoubleToIntegerCoerceNode implements IntegerExpressionNode {
     public static ExpressionOperator StaticOperator(){
         return ExpressionOperator.INTCOERSION;
     }
+    public static DisplayNode displayData(){
+        return DisplayData;
+    }
     public static final DisplayNode DisplayData = new DisplayNode() {
         @Override
         public String displayName(boolean infix) {
