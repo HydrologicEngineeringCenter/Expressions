@@ -7,11 +7,12 @@ import java.util.List;
 
 import usace.hec.expressions.DataListener;
 import usace.hec.expressions.DateTimeExpressionNode;
+import usace.hec.expressions.DisplayNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.ExpressionType;
 
 
-public class TodayNode implements DateTimeExpressionNode {
+public class TodayNode implements DateTimeExpressionNode, DisplayNode {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -43,5 +44,25 @@ public class TodayNode implements DateTimeExpressionNode {
     @Override
     public ExpressionType resultType() {
         return ExpressionType.DATE;
+    }
+    @Override
+    public String displayName(boolean infix) {
+        if(infix){
+            return Operator().getInfixName();
+        }else{
+            return Operator().getPrefixName();
+        }
+    }
+    @Override
+    public String category() {
+        return "Time";
+    }
+    @Override
+    public String defaultSyntax(boolean infix) {
+        if (infix){
+            return Operator().getInfixName()+ "()";
+        }else{
+            return Operator().getPrefixName() + "()";
+        }
     }
 }

@@ -4,17 +4,18 @@ import java.io.Serial;
 
 import java.time.LocalDateTime;
 
+import usace.hec.expressions.DisplayNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.UpdateableLeafNode;
 
-public class CurrentTimestepNode extends UpdateableLeafNode {
+public class CurrentTimestepNode extends UpdateableLeafNode implements DisplayNode {
     @Serial
     private static final long serialVersionUID = 1L;
 
     private LocalDateTime date;
 
     public CurrentTimestepNode() {
-        super("CurrentTimestep");
+        super("CurrentTimeStep");
     }
     @Override
     public LocalDateTime evaluate() {
@@ -25,5 +26,21 @@ public class CurrentTimestepNode extends UpdateableLeafNode {
     @Override
     public ExpressionOperator Operator() {
         return ExpressionOperator.CURRENTTIMESTEP;
+    }
+    @Override
+    public String displayName(boolean infix) {
+        if(infix){
+            return Operator().getInfixName();
+        }else{
+            return Operator().getPrefixName();
+        }
+    }
+    @Override
+    public String category() {
+        return "Time";
+    }
+    @Override
+    public String defaultSyntax(boolean infix) {
+        return "[CurrentTimeStep]";
     }
 }

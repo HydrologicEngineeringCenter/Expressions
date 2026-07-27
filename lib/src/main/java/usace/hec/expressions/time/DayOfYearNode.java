@@ -1,6 +1,7 @@
 package usace.hec.expressions.time;
 
 import usace.hec.expressions.DateTimeExpressionNode;
+import usace.hec.expressions.DisplayNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.ExpressionType;
@@ -10,7 +11,7 @@ import usace.hec.expressions.UnaryExpressionNode;
 import java.io.Serial;
 
 
-public class DayOfYearNode implements UnaryExpressionNode, IntegerExpressionNode {
+public class DayOfYearNode implements UnaryExpressionNode, IntegerExpressionNode, DisplayNode {
     @Serial
     private static final long serialVersionUID = 1L;
     private DateTimeExpressionNode child;
@@ -37,5 +38,25 @@ public class DayOfYearNode implements UnaryExpressionNode, IntegerExpressionNode
     @Override
     public ExpressionNode child() {
         return this.child;
+    }
+    @Override
+    public String displayName(boolean infix) {
+        if(infix){
+            return Operator().getInfixName();
+        }else{
+            return Operator().getPrefixName();
+        }
+    }
+    @Override
+    public String category() {
+        return "Time";
+    }
+    @Override
+    public String defaultSyntax(boolean infix) {
+        if (infix){
+            return Operator().getInfixName()+ "()";
+        }else{
+            return Operator().getPrefixName() + "()";
+        }
     }
 }

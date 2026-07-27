@@ -2,12 +2,7 @@ package usace.hec.expressions;
 
 
 
-import usace.hec.expressions.DoubleExpressionNode;
-import usace.hec.expressions.ExpressionNode;
-import usace.hec.expressions.ExpressionType;
-import usace.hec.expressions.IntegerExpressionNode;
-import usace.hec.expressions.DataProvider;
-import usace.hec.expressions.DataListener;
+
 
 import java.util.List;
 
@@ -21,7 +16,7 @@ import java.util.List;
  *
  * @see ExpressionType#canWiden(ExpressionType, ExpressionType)
  */
-public class IntegerToDoubleCoerceNode implements DoubleExpressionNode {
+public class IntegerToDoubleCoerceNode implements DoubleExpressionNode, DisplayNode {
 
     private final IntegerExpressionNode child;
 
@@ -73,5 +68,25 @@ public class IntegerToDoubleCoerceNode implements DoubleExpressionNode {
     @Override
     public ExpressionOperator Operator() {
         return ExpressionOperator.DOUBLECOERSION;
+    }
+    @Override
+    public String displayName(boolean infix) {
+        if(infix){
+            return Operator().getInfixName();
+        }else{
+            return Operator().getPrefixName();
+        }
+    }
+    @Override
+    public String category() {
+        return "Time";
+    }
+    @Override
+    public String defaultSyntax(boolean infix) {
+        if (infix){
+            return Operator().getInfixName()+ "(yyyy,mm,dd)";
+        }else{
+            return Operator().getPrefixName() + "(yyyy,mm,dd)";
+        }
     }
 }

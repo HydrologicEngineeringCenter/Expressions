@@ -1,6 +1,7 @@
 package usace.hec.expressions.comparison;
 
 import usace.hec.expressions.BinaryExpressionNode;
+import usace.hec.expressions.DisplayNode;
 import usace.hec.expressions.DoubleExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
@@ -8,7 +9,7 @@ import usace.hec.expressions.ExpressionType;
 
 import java.io.Serial;
 
-public class DoubleGreaterThanNode extends BooleanBinaryExpressionNode {
+public class DoubleGreaterThanNode extends BooleanBinaryExpressionNode implements DisplayNode {
     @Serial
     private static final long serialVersionUID = 1L;
     private DoubleExpressionNode left;
@@ -40,5 +41,25 @@ public class DoubleGreaterThanNode extends BooleanBinaryExpressionNode {
     @Override
     public ExpressionNode right() {
         return this.right;
+    }
+        @Override
+    public String displayName(boolean infix) {
+        if(infix){
+            return Operator().getInfixName();
+        }else{
+            return Operator().getPrefixName();
+        }
+    }
+    @Override
+    public String category() {
+        return "Comparison";
+    }
+    @Override
+    public String defaultSyntax(boolean infix) {
+        if (infix){
+            return Operator().getInfixName();
+        }else{
+            return Operator().getPrefixName() + "(,)";
+        }
     }
 }

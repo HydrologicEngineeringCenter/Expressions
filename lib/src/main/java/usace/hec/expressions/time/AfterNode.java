@@ -2,13 +2,14 @@ package usace.hec.expressions.time;
 
 import java.io.Serial;
 import usace.hec.expressions.DateTimeExpressionNode;
+import usace.hec.expressions.DisplayNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.ExpressionType;
 import usace.hec.expressions.comparison.BooleanBinaryExpressionNode;
 
 
-public class AfterNode extends BooleanBinaryExpressionNode {
+public class AfterNode extends BooleanBinaryExpressionNode implements DisplayNode {
     @Serial
     private static final long serialVersionUID = 1L;
     private DateTimeExpressionNode left;
@@ -36,5 +37,25 @@ public class AfterNode extends BooleanBinaryExpressionNode {
     @Override
     public ExpressionNode right() {
         return this.right;
+    }
+    @Override
+    public String displayName(boolean infix) {
+        if(infix){
+            return Operator().getInfixName();
+        }else{
+            return Operator().getPrefixName();
+        }
+    }
+    @Override
+    public String category() {
+        return "Time";
+    }
+    @Override
+    public String defaultSyntax(boolean infix) {
+        if (infix){
+            return Operator().getInfixName();
+        }else{
+            return Operator().getPrefixName() + "(,)";
+        }
     }
 }

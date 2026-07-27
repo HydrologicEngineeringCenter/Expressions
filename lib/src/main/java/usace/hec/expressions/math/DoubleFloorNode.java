@@ -1,5 +1,6 @@
 package usace.hec.expressions.math;
 
+import usace.hec.expressions.DisplayNode;
 import usace.hec.expressions.DoubleExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
@@ -8,7 +9,7 @@ import usace.hec.expressions.UnaryExpressionNode;
 
 import java.io.Serial;
 
-public class DoubleFloorNode extends DoubleUnaryExpressionNode {
+public class DoubleFloorNode extends DoubleUnaryExpressionNode implements DisplayNode {
     @Serial
     private static final long serialVersionUID = 1L;
     private DoubleExpressionNode child;
@@ -36,5 +37,25 @@ public class DoubleFloorNode extends DoubleUnaryExpressionNode {
     @Override
     public ExpressionNode child() {
         return this.child;
+    }
+    @Override
+    public String displayName(boolean infix) {
+        if(infix){
+            return Operator().getInfixName();
+        }else{
+            return Operator().getPrefixName();
+        }
+    }
+    @Override
+    public String category() {
+        return "Math";
+    }
+    @Override
+    public String defaultSyntax(boolean infix) {
+        if (infix){
+            return Operator().getInfixName();
+        }else{
+            return Operator().getPrefixName() + "()";
+        }
     }
 }
