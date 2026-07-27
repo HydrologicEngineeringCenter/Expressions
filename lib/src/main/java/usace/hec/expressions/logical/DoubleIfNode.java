@@ -18,6 +18,9 @@ public class DoubleIfNode extends IfNode implements DoubleExpressionNode{
         
         return conditionNode.evaluate() ? thenBranch.evaluate() : elseBranch.evaluate();
     }
+    public static DisplayNode displayData(){
+        return DisplayData;
+    }
     public static final DisplayNode DisplayData = new DisplayNode() {
         @Override
         public String displayName(boolean infix) {

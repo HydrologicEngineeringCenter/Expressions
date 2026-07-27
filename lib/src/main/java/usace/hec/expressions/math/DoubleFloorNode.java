@@ -40,6 +40,9 @@ public class DoubleFloorNode extends DoubleUnaryExpressionNode {
     public ExpressionNode child() {
         return this.child;
     }
+    public static DisplayNode displayData(){
+        return DisplayData;
+    }
     public static final DisplayNode DisplayData = new DisplayNode() {
         @Override
         public String displayName(boolean infix) {

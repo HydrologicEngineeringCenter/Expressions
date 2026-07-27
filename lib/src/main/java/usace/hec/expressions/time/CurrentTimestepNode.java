@@ -30,6 +30,9 @@ public class CurrentTimestepNode extends UpdateableLeafNode {
     public static ExpressionOperator StaticOperator(){
         return ExpressionOperator.CURRENTTIMESTEP;
     }
+    public static DisplayNode displayData(){
+        return DisplayData;
+    }
     public static final DisplayNode DisplayData = new DisplayNode() {
         @Override
         public String displayName(boolean infix) {
