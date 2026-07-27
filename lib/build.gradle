@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "mil.army.usace.hec"
-version = "1.0.14"
+version = "1.0.15"
 
 repositories {
     // Use Maven Central for resolving dependencies.
