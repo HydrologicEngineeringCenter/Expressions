@@ -24,11 +24,7 @@ public class DoubleIfNode extends IfNode implements DoubleExpressionNode{
     public static final DisplayNode DisplayData = new DisplayNode() {
         @Override
         public String displayName(boolean infix) {
-            if(infix){
-                return StaticOperator().getInfixName();
-            }else{
-                return StaticOperator().getPrefixName();
-            }
+            return StaticOperator().getPrefixName();
         }
         @Override
         public String category() {
@@ -36,11 +32,7 @@ public class DoubleIfNode extends IfNode implements DoubleExpressionNode{
         }
         @Override
         public String defaultSyntax(boolean infix) {
-            if (infix){
-                return StaticOperator().getInfixName();
-            }else{
-                return StaticOperator().getPrefixName() + "(,)";
-            }
+            return StaticOperator().getPrefixName() + "(,,)";
         }
     };
 }
