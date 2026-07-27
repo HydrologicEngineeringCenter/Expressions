@@ -56,13 +56,13 @@ public class IntegerToDoubleCoerceNode implements DoubleExpressionNode, DisplayN
     @Override
     public String PreFixSyntax() {
         // Explicit cast representation for debugging/prefix output
-        return "CONVERTTODOUBLE(" + child.ExcelSyntax() + ")";
+        return Operator().getInfixName() +"(" + child.ExcelSyntax() + ")";
     }
 
     @Override
     public String ExcelSyntax() {
         // Excel doesn't require explicit widening casts, so we just render the child.
-        return child.ExcelSyntax();
+        return Operator().getInfixName() +"(" + child.ExcelSyntax() + ")";
     }
 
     @Override
@@ -71,7 +71,7 @@ public class IntegerToDoubleCoerceNode implements DoubleExpressionNode, DisplayN
     }
     @Override
     public String displayName(boolean infix) {
-        return Operator().getPrefixName();
+        return Operator().getInfixName();
     }
     @Override
     public String category() {
@@ -79,7 +79,7 @@ public class IntegerToDoubleCoerceNode implements DoubleExpressionNode, DisplayN
     }
     @Override
     public String defaultSyntax(boolean infix) {
-        return Operator().getPrefixName() + "()";
+        return Operator().getInfixName() + "()";
 
     }
 }
