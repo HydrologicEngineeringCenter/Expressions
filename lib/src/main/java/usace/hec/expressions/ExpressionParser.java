@@ -255,12 +255,21 @@ public class ExpressionParser {
     private ExpressionNode parseExponent(ParseState s) {
         ExpressionNode left = parseUnary(s);
         if (s.hasError) return null;
-        Token t = peek(s);
-        if (t instanceof Token.Operator op && op.op() == ExpressionOperator.POW) {
-            s.advance();
-            ExpressionNode right = parseExponent(s);
-            if (s.hasError) return null;
-            return buildBinaryNode(s, ExpressionOperator.POW, left, right);
+        while (!s.hasError) {
+            Token t = peek(s);
+            if (t instanceof Token.Operator op) {
+                if (op.op() == ExpressionOperator.POW) {
+                    s.advance();
+                    ExpressionNode right = parseUnary(s);
+                    if (s.hasError) return null;
+                    left = buildBinaryNode(s, op.op(), left, right);
+                    if (s.hasError) return null;
+                } else {
+                    break;
+                }
+            } else {
+                break;
+            }
         }
         return left;
     }
@@ -529,7 +538,7 @@ public class ExpressionParser {
                             : new DoubleMinNode((DoubleExpressionNode)result, (DoubleExpressionNode)promotedArgs.get(i));
                     }
                     // Add Int support if IntMaxNode/IntMinNode exist
-                    if (commonType == ExpressionType.DOUBLE) {
+                    if (commonType == ExpressionType.INTEGER) {
                         result = (fn == ExpressionOperator.MAX)
                                 ? new IntegerMaxNode((IntegerExpressionNode) result, (IntegerExpressionNode)promotedArgs.get(i))
                                 : new IntegerMinNode((IntegerExpressionNode)result, (IntegerExpressionNode)promotedArgs.get(i));

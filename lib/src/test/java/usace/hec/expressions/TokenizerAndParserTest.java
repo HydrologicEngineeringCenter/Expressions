@@ -18,6 +18,7 @@ public class TokenizerAndParserTest {
         TEST_CASES.add(Map.of("input", "IF(MIN(1.0,2.0) > MAX(2.0,1.0), 11.0, 12.0)", "error", false, "msg", "", "result", 12.0));
         TEST_CASES.add(Map.of("input", "IF(MIN(1.0,2.0) < MAX(2.0,1.0), 11.0, 12.0)", "error", false, "msg", "", "result", 11.0));
         TEST_CASES.add(Map.of("input", "3.0 > 11.0", "error", false, "msg", "", "result", false));
+        TEST_CASES.add(Map.of("input", "2^2^3", "error", false, "msg", "", "result", 64));
         TEST_CASES.add(Map.of("input", "3.0 < 11.0", "error", false, "msg", "", "result", true));
         TEST_CASES.add(Map.of("input", "3.0 >= 11.0", "error", false, "msg", "", "result", false));
         TEST_CASES.add(Map.of("input", "3.0 <= 11.0", "error", false, "msg", "", "result", true));
@@ -70,6 +71,7 @@ public class TokenizerAndParserTest {
             boolean expectError = (boolean) testCase.get("error");
             String expectedMsg = (String) testCase.get("msg");
 
+            System.out.println(testCase);
             ParseResult result = parser.parse(input);
 
             assertEquals("Input: \"" + input + "\"", expectError, result.hasError());
