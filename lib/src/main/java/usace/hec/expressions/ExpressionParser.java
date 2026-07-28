@@ -10,11 +10,7 @@ import usace.hec.expressions.comparison.IntegerGreaterThanNode;
 import usace.hec.expressions.comparison.IntegerGreaterThanOrEqualNode;
 import usace.hec.expressions.comparison.IntegerLessThanNode;
 import usace.hec.expressions.comparison.IntegerLessThanOrEqualNode;
-import usace.hec.expressions.logical.AndNode;
-import usace.hec.expressions.logical.DoubleIfNode;
-import usace.hec.expressions.logical.IntegerIfNode;
-import usace.hec.expressions.logical.OrNode;
-import usace.hec.expressions.logical.XorNode;
+import usace.hec.expressions.logical.*;
 import usace.hec.expressions.math.DoubleAbsNode;
 import usace.hec.expressions.math.DoubleAddNode;
 import usace.hec.expressions.math.DoubleCeilingNode;
@@ -499,8 +495,10 @@ public class ExpressionParser {
                     return new DoubleIfNode((BooleanExpressionNode) cond, (DoubleExpressionNode) promotedThen, (DoubleExpressionNode) promotedElse);
                 } else if (resultType == ExpressionType.INTEGER) {
                     return new IntegerIfNode((BooleanExpressionNode) cond, (IntegerExpressionNode) promotedThen, (IntegerExpressionNode) promotedElse);
+                } else if (resultType == ExpressionType.DATE){
+                    return new DateTimeIfNode((BooleanExpressionNode) cond, (DateTimeExpressionNode)  promotedThen, (DateTimeExpressionNode) promotedElse);
                 }
-                
+
                 setError(s, currentPos(s), "IF branch type " + resultType + " not supported", "");
                 return null;
             }

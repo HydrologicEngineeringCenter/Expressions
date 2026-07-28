@@ -3,6 +3,7 @@ package usace.hec.expressions;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,7 @@ public class TokenizerAndParserTest {
         TEST_CASES.add(Map.of("input", "DOY(Date(1983,12,25))", "error", false, "msg", "", "result", 359));
         TEST_CASES.add(Map.of("input", "AFTER(Date(1983,12,25),Date(1982,12,25))", "error", false, "msg", "", "result", true));
         TEST_CASES.add(Map.of("input", "BEFORE(Date(1983,12,25),Date(1982,12,25))", "error", false, "msg", "", "result", false));
+        TEST_CASES.add(Map.of("input", "IF(AFTER(TODAY(),Date(1982,12,25)), TODAY(), Date(1982,12,25))", "error", false, "msg", "", "result", LocalDateTime.now()));
 
         // ERROR EXPRESSIONS
         TEST_CASES.add(Map.of("input", "", "error", true, "msg", "Empty expression"));
