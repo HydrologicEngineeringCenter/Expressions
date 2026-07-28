@@ -72,7 +72,7 @@ import java.util.List;
  * <h3>Type Safety & Coercion</h3>
  * <ul>
  *   <li>The parser enforces type compatibility at parse time.</li>
- *   <li>Widening coercion (e.g., int -> double) is applied automatically via {@link IntToDoubleCoerceNode}.</li>
+ *   <li>Widening coercion (e.g., int -> double) is applied automatically via {@link IntegerToDoubleCoerceNode}.</li>
  *   <li>Narrowing coercion is generally rejected to prevent silent precision loss, except where explicit (e.g., DATE args).</li>
  * </ul>
  */
@@ -529,6 +529,11 @@ public class ExpressionParser {
                             : new DoubleMinNode((DoubleExpressionNode)result, (DoubleExpressionNode)promotedArgs.get(i));
                     }
                     // Add Int support if IntMaxNode/IntMinNode exist
+                    if (commonType == ExpressionType.DOUBLE) {
+                        result = (fn == ExpressionOperator.MAX)
+                                ? new IntegerMaxNode((IntegerExpressionNode) result, (IntegerExpressionNode)promotedArgs.get(i))
+                                : new IntegerMinNode((IntegerExpressionNode)result, (IntegerExpressionNode)promotedArgs.get(i));
+                    }
                 }
                 return result;
             }
