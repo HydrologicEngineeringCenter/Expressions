@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static usace.hec.expressions.ExpressionOperator.DOUBLECOERSION;
+import static usace.hec.expressions.ExpressionOperator.INTCOERSION;
+
 public class Tokenizer {
 
     private static final Map<String, ExpressionOperator> INFIX_MAP = new HashMap<>();
@@ -153,6 +156,19 @@ public class Tokenizer {
 
                 if (FUNCTION_MAP.containsKey(upper)) {
                     tokens.add(new Token.Function(FUNCTION_MAP.get(upper), pos, ""));
+                    pos = end;
+                    continue;
+                }
+                //added support for TODOUBLE and TOINT
+
+                if("TODOUBLE".equals(upper)){
+                    tokens.add(new Token.Function(DOUBLECOERSION, pos, ""));
+                    pos = end;
+                    continue;
+                }
+
+                if("TOINT".equals(upper)){
+                    tokens.add(new Token.Function(INTCOERSION, pos, ""));
                     pos = end;
                     continue;
                 }

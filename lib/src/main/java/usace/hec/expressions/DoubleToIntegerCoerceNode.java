@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @see ExpressionType#canWiden(ExpressionType, ExpressionType)
  */
-public class DoubleToIntegerCoerceNode implements IntegerExpressionNode {
+public class DoubleToIntegerCoerceNode implements UnaryExpressionNode, IntegerExpressionNode {
 
     private final DoubleExpressionNode child;
 

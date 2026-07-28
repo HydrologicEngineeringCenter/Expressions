@@ -46,6 +46,10 @@ public class TokenizerAndParserTest {
         TEST_CASES.add(Map.of("input", "AFTER(Date(1983,12,25),Date(1982,12,25))", "error", false, "msg", "", "result", true));
         TEST_CASES.add(Map.of("input", "BEFORE(Date(1983,12,25),Date(1982,12,25))", "error", false, "msg", "", "result", false));
         TEST_CASES.add(Map.of("input", "IF(AFTER(TODAY(),Date(1982,12,25)), TODAY(), Date(1982,12,25))", "error", false, "msg", "", "result", LocalDateTime.now()));
+        TEST_CASES.add(Map.of("input", "TOINT(2^2^3)", "error", false, "msg", "", "result", 64));
+        TEST_CASES.add(Map.of("input", "TODOUBLE(2^2^3)", "error", false, "msg", "", "result", 64.0));
+        TEST_CASES.add(Map.of("input", "TOINT(2.0^2.0^3.0)", "error", false, "msg", "", "result", 64));
+        TEST_CASES.add(Map.of("input", "TODOUBLE(2.0^2.0^3.0)", "error", false, "msg", "", "result", 64.0));
 
         // ERROR EXPRESSIONS
         TEST_CASES.add(Map.of("input", "", "error", true, "msg", "Empty expression"));

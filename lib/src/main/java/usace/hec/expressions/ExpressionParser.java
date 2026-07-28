@@ -283,7 +283,8 @@ public class ExpressionParser {
 
         // Prefix functions: ABS, FLOOR, CEILING
         if (t instanceof Token.Function fn) {
-            if (fn.op() == ExpressionOperator.ABS || fn.op() == ExpressionOperator.FLOOR || fn.op() == ExpressionOperator.CEILING) {
+            if (fn.op() == ExpressionOperator.ABS || fn.op() == ExpressionOperator.FLOOR || fn.op() == ExpressionOperator.CEILING
+            || fn.op() == ExpressionOperator.DOUBLECOERSION || fn.op() == ExpressionOperator.INTCOERSION) {
                 s.advance();
                 // Check for functional syntax ABS(x) or prefix syntax ABS x
                 if (peek(s) instanceof Token.LeftParen) {
@@ -435,6 +436,8 @@ public class ExpressionParser {
                 case ABS -> new DoubleAbsNode((DoubleExpressionNode) child);
                 case FLOOR -> new DoubleFloorNode((DoubleExpressionNode) child);
                 case CEILING -> new DoubleCeilingNode((DoubleExpressionNode) child);
+                case INTCOERSION -> new DoubleToIntegerCoerceNode((DoubleExpressionNode) child);
+                case DOUBLECOERSION -> child;
                 default -> { setError(s, currentPos(s), "Unknown unary operator: " + op, ""); yield new DoubleConstantNode(0.0);}
             };
         } else if (type == ExpressionType.INTEGER) {
@@ -442,7 +445,9 @@ public class ExpressionParser {
                 case NEGATE -> new IntegerNegateNode((IntegerExpressionNode) child);
                 case ABS -> new IntegerAbsNode((IntegerExpressionNode) child);
                 case FLOOR -> new IntegerFloorNode((IntegerExpressionNode) child);
-                //case CEILING -> new IntegerCeilingNode((DoubleExpressionNode) child);
+                case CEILING -> new IntegerCeilingNode((IntegerExpressionNode) child);
+                case DOUBLECOERSION -> new IntegerToDoubleCoerceNode((IntegerExpressionNode) child);
+                case INTCOERSION -> child;
                 default -> { setError(s, currentPos(s), "Unary " + op + " not implemented for Int", ""); yield new IntegerConstantNode(0); }
             };
         } else if (type == ExpressionType.DATE){
