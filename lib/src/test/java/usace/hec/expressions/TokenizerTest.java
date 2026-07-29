@@ -40,6 +40,20 @@ public class TokenizerTest {
     }
 
     @Test
+    public void testTokenizeString() {
+        Tokenizer tokenizer = new Tokenizer();
+        List<Token> result = tokenizer.tokenize("\"Hello World!\"");
+
+        assertEquals(1, result.size());
+
+        // First token should be StringLiteral
+        Token first = result.get(0);
+        assertTrue(first instanceof Token.StringLiteral);
+        assertEquals("Hello World", ((Token.StringLiteral) first).value());
+
+    }
+
+    @Test
     public void testTokenizeBoolean() {
         Tokenizer tokenizer = new Tokenizer();
         List<Token> result = tokenizer.tokenize("TRUE && FALSE");
