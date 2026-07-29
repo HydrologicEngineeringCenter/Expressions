@@ -12,11 +12,11 @@ import java.io.Serial;
 public class IntegerCeilingNode extends IntegerUnaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
-    private DoubleExpressionNode child;
+    private IntegerExpressionNode child;
     /**
      * A numerical {@link UnaryExpressionNode} that evaluates a child (numerical {@link IntegerExpressionNode}), returning the {@code Math.ceil} of the child's value (e.g. {@code Math.ceil(6.6) == 7})
      */
-    public IntegerCeilingNode(DoubleExpressionNode child) {
+    public IntegerCeilingNode(IntegerExpressionNode child) {
         this.child = child;
     }
 

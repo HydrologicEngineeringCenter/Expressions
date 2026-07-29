@@ -10,11 +10,7 @@ import usace.hec.expressions.comparison.IntegerGreaterThanNode;
 import usace.hec.expressions.comparison.IntegerGreaterThanOrEqualNode;
 import usace.hec.expressions.comparison.IntegerLessThanNode;
 import usace.hec.expressions.comparison.IntegerLessThanOrEqualNode;
-import usace.hec.expressions.logical.AndNode;
-import usace.hec.expressions.logical.DoubleIfNode;
-import usace.hec.expressions.logical.IntegerIfNode;
-import usace.hec.expressions.logical.OrNode;
-import usace.hec.expressions.logical.XorNode;
+import usace.hec.expressions.logical.*;
 import usace.hec.expressions.math.DoubleAbsNode;
 import usace.hec.expressions.math.DoubleAddNode;
 import usace.hec.expressions.math.DoubleCeilingNode;
@@ -72,7 +68,7 @@ import java.util.List;
  * <h3>Type Safety & Coercion</h3>
  * <ul>
  *   <li>The parser enforces type compatibility at parse time.</li>
- *   <li>Widening coercion (e.g., int -> double) is applied automatically via {@link IntToDoubleCoerceNode}.</li>
+ *   <li>Widening coercion (e.g., int -> double) is applied automatically via {@link IntegerToDoubleCoerceNode}.</li>
  *   <li>Narrowing coercion is generally rejected to prevent silent precision loss, except where explicit (e.g., DATE args).</li>
  * </ul>
  */
@@ -255,12 +251,21 @@ public class ExpressionParser {
     private ExpressionNode parseExponent(ParseState s) {
         ExpressionNode left = parseUnary(s);
         if (s.hasError) return null;
-        Token t = peek(s);
-        if (t instanceof Token.Operator op && op.op() == ExpressionOperator.POW) {
-            s.advance();
-            ExpressionNode right = parseExponent(s);
-            if (s.hasError) return null;
-            return buildBinaryNode(s, ExpressionOperator.POW, left, right);
+        while (!s.hasError) {
+            Token t = peek(s);
+            if (t instanceof Token.Operator op) {
+                if (op.op() == ExpressionOperator.POW) {
+                    s.advance();
+                    ExpressionNode right = parseUnary(s);
+                    if (s.hasError) return null;
+                    left = buildBinaryNode(s, op.op(), left, right);
+                    if (s.hasError) return null;
+                } else {
+                    break;
+                }
+            } else {
+                break;
+            }
         }
         return left;
     }
@@ -278,7 +283,8 @@ public class ExpressionParser {
 
         // Prefix functions: ABS, FLOOR, CEILING
         if (t instanceof Token.Function fn) {
-            if (fn.op() == ExpressionOperator.ABS || fn.op() == ExpressionOperator.FLOOR || fn.op() == ExpressionOperator.CEILING) {
+            if (fn.op() == ExpressionOperator.ABS || fn.op() == ExpressionOperator.FLOOR || fn.op() == ExpressionOperator.CEILING
+            || fn.op() == ExpressionOperator.DOUBLECOERSION || fn.op() == ExpressionOperator.INTCOERSION) {
                 s.advance();
                 // Check for functional syntax ABS(x) or prefix syntax ABS x
                 if (peek(s) instanceof Token.LeftParen) {
@@ -430,6 +436,8 @@ public class ExpressionParser {
                 case ABS -> new DoubleAbsNode((DoubleExpressionNode) child);
                 case FLOOR -> new DoubleFloorNode((DoubleExpressionNode) child);
                 case CEILING -> new DoubleCeilingNode((DoubleExpressionNode) child);
+                case INTCOERSION -> new DoubleToIntegerCoerceNode((DoubleExpressionNode) child);
+                case DOUBLECOERSION -> child;
                 default -> { setError(s, currentPos(s), "Unknown unary operator: " + op, ""); yield new DoubleConstantNode(0.0);}
             };
         } else if (type == ExpressionType.INTEGER) {
@@ -437,7 +445,9 @@ public class ExpressionParser {
                 case NEGATE -> new IntegerNegateNode((IntegerExpressionNode) child);
                 case ABS -> new IntegerAbsNode((IntegerExpressionNode) child);
                 case FLOOR -> new IntegerFloorNode((IntegerExpressionNode) child);
-                //case CEILING -> new IntegerCeilingNode((DoubleExpressionNode) child);
+                case CEILING -> new IntegerCeilingNode((IntegerExpressionNode) child);
+                case DOUBLECOERSION -> new IntegerToDoubleCoerceNode((IntegerExpressionNode) child);
+                case INTCOERSION -> child;
                 default -> { setError(s, currentPos(s), "Unary " + op + " not implemented for Int", ""); yield new IntegerConstantNode(0); }
             };
         } else if (type == ExpressionType.DATE){
@@ -490,8 +500,10 @@ public class ExpressionParser {
                     return new DoubleIfNode((BooleanExpressionNode) cond, (DoubleExpressionNode) promotedThen, (DoubleExpressionNode) promotedElse);
                 } else if (resultType == ExpressionType.INTEGER) {
                     return new IntegerIfNode((BooleanExpressionNode) cond, (IntegerExpressionNode) promotedThen, (IntegerExpressionNode) promotedElse);
+                } else if (resultType == ExpressionType.DATE){
+                    return new DateTimeIfNode((BooleanExpressionNode) cond, (DateTimeExpressionNode)  promotedThen, (DateTimeExpressionNode) promotedElse);
                 }
-                
+
                 setError(s, currentPos(s), "IF branch type " + resultType + " not supported", "");
                 return null;
             }
@@ -529,6 +541,11 @@ public class ExpressionParser {
                             : new DoubleMinNode((DoubleExpressionNode)result, (DoubleExpressionNode)promotedArgs.get(i));
                     }
                     // Add Int support if IntMaxNode/IntMinNode exist
+                    if (commonType == ExpressionType.INTEGER) {
+                        result = (fn == ExpressionOperator.MAX)
+                                ? new IntegerMaxNode((IntegerExpressionNode) result, (IntegerExpressionNode)promotedArgs.get(i))
+                                : new IntegerMinNode((IntegerExpressionNode)result, (IntegerExpressionNode)promotedArgs.get(i));
+                    }
                 }
                 return result;
             }
