@@ -61,7 +61,7 @@ public class DoubleAbsNode extends DoubleUnaryExpressionNode {
         @Override
         public String defaultSyntax(boolean infix) {
             if (infix){
-                return StaticOperator().getInfixName() + " " + StaticOperator().getInfixName();
+                return StaticOperator().getInfixName() + "0.0" + StaticOperator().getInfixName();
             }else{
                 return StaticOperator().getPrefixName() + "()";
             }
