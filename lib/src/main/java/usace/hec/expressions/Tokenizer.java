@@ -88,6 +88,40 @@ public class Tokenizer {
                 }
                 continue;
             }
+            if (c == '"') {
+                StringBuilder sb = new StringBuilder();
+                int scan = pos + 1;
+                boolean closed = false;
+                while (scan < len) {
+                    char cs = input.charAt(scan);
+                    if (cs == '"') {
+                        closed = true;
+                        break;
+                    }
+                    if (cs == '\\' && scan + 1 < len) {
+                        char next = input.charAt(scan + 1);
+                        switch (next) {
+                            case '"' -> { sb.append('"'); scan += 2; }
+                            case '\\' -> { sb.append('\\'); scan += 2; }
+                            case 'n' -> { sb.append('\n'); scan += 2; }
+                            case 't' -> { sb.append('\t'); scan += 2; }
+                            case 'r' -> { sb.append('\r'); scan += 2; }
+                            default -> { sb.append(cs); scan++; }
+                        }
+                    } else {
+                        sb.append(cs);
+                        scan++;
+                    }
+                }
+                if (!closed) {
+                    tokens.add(new Token.Unknown("\"" + remaining(input, pos + 1), pos,
+                            "Unclosed '\"' for string literal", remaining(input, pos)));
+                    return tokens;
+                }
+                tokens.add(new Token.StringLiteral(sb.toString(), pos, ""));
+                pos = scan + 1;
+                continue;
+            }
 
             if (c == '[') {
                 int close = input.indexOf(']', pos + 1);

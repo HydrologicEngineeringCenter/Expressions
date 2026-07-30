@@ -48,8 +48,18 @@ public class TokenizerTest {
 
         // First token should be StringLiteral
         Token first = result.get(0);
-        assertTrue(first instanceof Token.Unknown);
-        //assertEquals("Hello World", ((Token.StringLiteral) first).value());
+        assertTrue(first instanceof Token.StringLiteral);
+        assertEquals("Hello World!", ((Token.StringLiteral) first).value());
+
+        result = tokenizer.tokenize("\"123.45\"");
+        first = result.get(0);
+        assertTrue(first instanceof Token.StringLiteral);
+        assertEquals("123.45", ((Token.StringLiteral) first).value());
+
+        result = tokenizer.tokenize("\"_\"");
+        first = result.get(0);
+        assertTrue(first instanceof Token.StringLiteral);
+        assertEquals("_", ((Token.StringLiteral) first).value());
 
     }
 
