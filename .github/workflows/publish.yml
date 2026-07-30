@@ -33,10 +33,6 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Make Gradle Wrapper Executable
-        if: steps.check.outputs.on_main == 'true'
-        run: git update-index --chmod=+x gradlew
-
       - name: Build with Gradle
         if: steps.check.outputs.on_main == 'true'
         run: ./gradlew.bat build
