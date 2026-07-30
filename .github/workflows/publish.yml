@@ -1,10 +1,13 @@
 # This workflow will build a Java project with Gradle
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
+# This workflow will build a Java project with Gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
 name: publish
 on:
   push:
-    branches: [ main ]
+    tags: [ 'v*' ]
 jobs:
   build:
     runs-on: windows-latest
@@ -13,20 +16,34 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Check tag is on main
+        id: check
+        shell: bash
+        run: |
+          if git merge-base --is-ancestor ${{ github.sha }} origin/main; then
+            echo "on_main=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "on_main=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Set up JDK
+        if: steps.check.outputs.on_main == 'true'
         uses: actions/setup-java@v3
         with:
           java-version: '21'
           distribution: 'temurin'
 
       - name: Make Gradle Wrapper Executable
+        if: steps.check.outputs.on_main == 'true'
         run: git update-index --chmod=+x gradlew
 
       - name: Build with Gradle
+        if: steps.check.outputs.on_main == 'true'
         run: ./gradlew.bat build
         working-directory: ${{ github.workspace }}
 
       - name: Publish package
+        if: steps.check.outputs.on_main == 'true'
         run: ./gradlew.bat publish
         working-directory: ${{ github.workspace }}
         env:
