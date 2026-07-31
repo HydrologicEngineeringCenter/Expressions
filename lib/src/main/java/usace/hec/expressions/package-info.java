@@ -1,43 +1,80 @@
 /**
- * Core abstract syntax tree interfaces and leaf node types.
+ * Core expression tree interfaces and node implementations for the HEC expression library.
  *
- * <h2>Architecture</h2>
- * <p>
- * Expression trees are composed of {@link ExpressionNode} instances arranged
- * in a directed acyclic graph. Leaf nodes ({@link IntegerVariableNode},
- * {@link BooleanVariableNode}, {@link DoubleVariableNode}, {@link DateTimeVariableNode}) hold or reference data({@link UpdateableLeafNode}). Interior
- * nodes ({@link BinaryExpressionNode} and {@link UnaryExpressionNode}) apply
- * operators to their children.
- * </p>
+ * <p>The expression library parses strings into typed expression trees that evaluate to
+ * primitive types: {@code boolean}, {@code int}, {@code double}, {@code String}, or
+ * {@link java.time.LocalDateTime}. Each node type implements a typed expression interface
+ * that declares {@code evaluate()} returning the appropriate type.</p>
  *
- * <h2>Usage Pattern</h2>
- * <pre>{@code
- * DoubleExpressionNode x = DoubleVariableNode(1.0);
- * DoubleExpresionNode y = DoubleVariableNode(2.0);
- * double result = DoubleIfNode(
- *     DoubleEaualToNode(x, y),
- *     DoubleAddNode(x, y),
- *     DoubleMultiplyNode(x, y)
- * );
- * // Optionally register listeners with a DataProvider when using UpdatableLeafNodes, then call result.evaluate()
- * }</pre>
+ * <h2>Core Interfaces</h2>
+ * <ul>
+ *   <li>{@link ExpressionNode} — base interface for all expression nodes. Declares
+ *       {@link ExpressionNode#PreFixSyntax()}, {@link ExpressionNode#ExcelSyntax()},
+ *       {@link ExpressionNode#fetchListeners()}, {@link ExpressionNode#resultType()},
+ *       and {@link ExpressionNode#Operator()}.</li>
+ *   <li>{@link BooleanExpressionNode} — evaluates to {@code boolean}. Used for logical
+ *       operators ({@code AND}, {@code OR}, {@code XOR}), comparisons ({@code ==},
+ *       {@code >}, {@code <}, {@code >=}, {@code <=}), and boolean constants.</li>
+ *   <li>{@link IntegerExpressionNode} — evaluates to {@code int}. Used for integer
+ *       constants and type coercion via {@code TOINT()}.</li>
+ *   <li>{@link DoubleExpressionNode} — evaluates to {@code double}. Used for numeric
+ *       constants, arithmetic operators ({@code +}, {@code -}, {@code *}, {@code /},
+ *       {@code ^}), and math functions ({@code ABS}, {@code FLOOR}, {@code CEILING},
+ *       {@code MAX}, {@code MIN}).</li>
+ *   <li>{@link StringExpressionNode} — evaluates to {@code String}. Used for string
+ *       constants and string functions ({@code CONCAT}, {@code UPPER}, {@code LOWER},
+ *       {@code TRIM}, {@code SUBSTRING}, {@code LENGTH}, {@code CONTAINS},
+ *       {@code STARTSWITH}, {@code ENDSWITH}, {@code REPLACE}).</li>
+ *   <li>{@link DateTimeExpressionNode} — evaluates to {@link java.time.LocalDateTime}.
+ *       Used for {@code TODAY()}, {@code Date(year,month,day)}, and date comparisons
+ *       ({@code AFTER}, {@code BEFORE}).</li>
+ * </ul>
  *
- * <h2>Thread Safety</h2>
- * <p>
- * Expression trees are immutable once constructed. {@code evaluate()} is
- * thread-safe as long as the underlying {@link DataProvider} is thread-safe.
- * Calling {@code setProvider()} on a tree that is already being evaluated
- * concurrently is not safe.
- * </p>
+ * <h2>Constant Nodes</h2>
+ * <ul>
+ *   <li>{@link BooleanConstantNode} — holds a {@code boolean} literal (TRUE/FALSE)</li>
+ *   <li>{@link IntegerConstantNode} — holds an {@code int} literal</li>
+ *   <li>{@link DoubleConstantNode} — holds a {@code double} literal</li>
+ *   <li>{@link StringConstantNode} — holds a {@code String} literal</li>
+ * </ul>
+ *
+ * <h2>Variable Nodes</h2>
+ * <p>Variable nodes reference external data by name using bracket syntax: {@code [variableName]}.
+ * {@link UpdateableLeafNode} is the base class for variable nodes that listen to data
+ * changes through the {@link DataListener} interface.</p>
+ *
+ * <h2>Data Flow</h2>
+ * <p>Variable nodes can receive values from a {@link DataProvider}. Attach a provider
+ * using {@link ExpressionNode#setProvider(DataProvider)}. When data changes,
+ * {@link DataUpdater} notifies registered {@link DataListener} instances via
+ * {@link DataUpdate} objects.</p>
+ *
+ * <h2>Parsing</h2>
+ * <p>Use {@link ExpressionParser} to parse expression strings into {@link ExpressionNode}
+ * trees. The parser returns a {@link ParseResult} containing either the root node or
+ * an error. Expression syntax supports:</p>
+ * <ul>
+ *   <li>Infix operators: {@code +}, {@code -}, {@code *}, {@code /}, {@code ^},
+ *       {@code ==}, {@code >}, {@code <}, {@code >=}, {@code <=}, {@code &&}, {@code ||}</li>
+ *   <li>Function calls: {@code IF(condition, then, else)}, {@code MAX(a,b)},
+ *       {@code ABS(x)}, {@code CONCAT(s1, s2)}, {@code TODAY()}, etc.</li>
+ *   <li>Variables: {@code [variableName]}</li>
+ *   <li>Literals: numeric ({@code 1}, {@code 3.14}), boolean ({@code TRUE}, {@code FALSE}),
+ *       string ({@code "text"})</li>
+ * </ul>
+ *
+ * <h2>Operator Precedence</h2>
+ * <p>Operator precedence follows Excel conventions. Exponentiation ({@code ^}) is
+ * left-associative: {@code 2^2^3} evaluates as {@code (2^2)^3 = 64}.</p>
  *
  * <h2>Serialization</h2>
- * <p>
- * All node types implement {@link java.io.Serializable}. Use
- * {@code ObjectOutputStream} / {@code ObjectInputStream} to persist and
- * restore expression trees. See {@link SerializationTest} for examples.
- * </p>
+ * <p>All expression nodes implement {@link java.io.Serializable}. Trees can be
+ * serialized and deserialized for persistence or network transfer.</p>
  *
- * @see usace.hec.expressions.parsing
+ * @see ExpressionParser
+ * @see ParseResult
+ * @see ExpressionType
+ * @see ExpressionOperator
  * @see usace.hec.expressions.math
  * @see usace.hec.expressions.logical
  * @see usace.hec.expressions.comparison
