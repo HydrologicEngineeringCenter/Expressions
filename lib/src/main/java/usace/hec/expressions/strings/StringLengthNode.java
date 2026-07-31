@@ -34,10 +34,13 @@ public class StringLengthNode extends IntegerUnaryExpressionNode {
     public String ExcelSyntax() {
         return Operator().getPrefixName() + "(" + source.ExcelSyntax() + ")";
     }
-
     @Override
-    public ExpressionOperator Operator() { return ExpressionOperator.LENGTH; }
-
+    public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator() {
+        return ExpressionOperator.LENGTH;
+    }
     @Override
     public ExpressionNode child() {
         return this.source;

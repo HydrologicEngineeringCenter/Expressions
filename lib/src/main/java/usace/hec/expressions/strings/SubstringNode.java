@@ -1,13 +1,11 @@
 package usace.hec.expressions.strings;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.util.List;
 
 import usace.hec.expressions.DataListener;
 import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.ExpressionType;
 import usace.hec.expressions.IntegerExpressionNode;
 import usace.hec.expressions.StringExpressionNode;
 
@@ -57,9 +55,13 @@ public class SubstringNode implements StringExpressionNode {
         endIndex.setProvider(dp);
     }
 
-    @Override
-    public ExpressionType resultType() { return ExpressionType.STRING; }
+
 
     @Override
-    public ExpressionOperator Operator() { return ExpressionOperator.SUBSTRING; }
+    public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator() {
+        return ExpressionOperator.SUBSTRING;
+    }
 }

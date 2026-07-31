@@ -25,6 +25,9 @@ public class IntegerFloorNode extends IntegerUnaryExpressionNode {
 
     @Override
     public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator() {
         return ExpressionOperator.FLOOR;
     }
     @Override

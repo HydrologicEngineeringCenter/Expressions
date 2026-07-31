@@ -26,6 +26,9 @@ public class IntegerAbsNode extends IntegerUnaryExpressionNode {
 
     @Override
     public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator() {
         return ExpressionOperator.ABS;
     }
 

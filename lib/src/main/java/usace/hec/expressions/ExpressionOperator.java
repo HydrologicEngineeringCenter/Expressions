@@ -122,14 +122,5 @@ public enum ExpressionOperator {
     public boolean isLeaf() {
         return arity == Arity.LEAF;
     }
-    public DisplayNode asDisplayNode() {
 
-        return new DisplayNode() {
-            public String displayName(boolean infix) { return infix ? getInfixName() : getPrefixName(); }
-            public String category() { return getCategory(); }
-            public String defaultSyntax(boolean infix) { 
-                return infix ? getInfixSyntax(): getPrefixSyntax(); 
-            }
-        };
-    }
 }

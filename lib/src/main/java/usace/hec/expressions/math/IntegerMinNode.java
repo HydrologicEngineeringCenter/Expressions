@@ -27,6 +27,9 @@ public class IntegerMinNode extends IntegerBinaryExpressionNode {
     }
     @Override
     public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator() {
         return ExpressionOperator.MIN;
     }
 

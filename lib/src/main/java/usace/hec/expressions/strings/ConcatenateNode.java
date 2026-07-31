@@ -31,5 +31,10 @@ public class ConcatenateNode implements StringExpressionNode, BinaryExpressionNo
     public StringExpressionNode right() { return right; }
 
     @Override
-    public ExpressionOperator Operator() { return ExpressionOperator.CONCAT; }
+    public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator() {
+        return ExpressionOperator.CONCAT;
+    }
 }

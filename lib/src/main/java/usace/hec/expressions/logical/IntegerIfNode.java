@@ -1,6 +1,7 @@
 package usace.hec.expressions.logical;
 
 import usace.hec.expressions.BooleanExpressionNode;
+import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.IntegerExpressionNode;
 
 public class IntegerIfNode extends IfNode implements IntegerExpressionNode{
@@ -16,5 +17,7 @@ public class IntegerIfNode extends IfNode implements IntegerExpressionNode{
         
         return conditionNode.evaluate() ? thenBranch.evaluate() : elseBranch.evaluate();
     }
-    
+    public static ExpressionOperator StaticOperator() {
+        return ExpressionOperator.IF;
+    }
 }

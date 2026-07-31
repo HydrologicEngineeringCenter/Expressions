@@ -32,5 +32,10 @@ public class ContainsNode implements BooleanExpressionNode, BinaryExpressionNode
     public ExpressionNode right() { return search; }
 
     @Override
-    public ExpressionOperator Operator() { return ExpressionOperator.CONTAINS; }
+    public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator() {
+        return ExpressionOperator.CONTAINS;
+    }
 }
