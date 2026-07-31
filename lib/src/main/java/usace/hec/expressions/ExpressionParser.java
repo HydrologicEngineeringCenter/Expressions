@@ -1,76 +1,86 @@
 package usace.hec.expressions;
 
-import usace.hec.expressions.comparison.DoubleEqualToNode;
-import usace.hec.expressions.comparison.DoubleGreaterThanNode;
-import usace.hec.expressions.comparison.DoubleGreaterThanOrEqualNode;
-import usace.hec.expressions.comparison.DoubleLessThanNode;
-import usace.hec.expressions.comparison.DoubleLessThanOrEqualNode;
-import usace.hec.expressions.comparison.IntegerEqualToNode;
-import usace.hec.expressions.comparison.IntegerGreaterThanNode;
-import usace.hec.expressions.comparison.IntegerGreaterThanOrEqualNode;
-import usace.hec.expressions.comparison.IntegerLessThanNode;
-import usace.hec.expressions.comparison.IntegerLessThanOrEqualNode;
-import usace.hec.expressions.logical.*;
-import usace.hec.expressions.math.DoubleAbsNode;
-import usace.hec.expressions.math.DoubleAddNode;
-import usace.hec.expressions.math.DoubleCeilingNode;
-import usace.hec.expressions.math.DoubleDivideNode;
-import usace.hec.expressions.math.DoubleExponentNode;
-import usace.hec.expressions.math.DoubleFloorNode;
-import usace.hec.expressions.math.DoubleMaxNode;
-import usace.hec.expressions.math.DoubleMinNode;
-import usace.hec.expressions.math.DoubleMinusNode;
-import usace.hec.expressions.math.DoubleMultiplyNode;
-import usace.hec.expressions.math.DoubleNegateNode;
-import usace.hec.expressions.math.IntegerAbsNode;
-import usace.hec.expressions.math.IntegerAddNode;
-import usace.hec.expressions.math.IntegerCeilingNode;
-import usace.hec.expressions.math.IntegerDivideNode;
-import usace.hec.expressions.math.IntegerExponentNode;
-import usace.hec.expressions.math.IntegerFloorNode;
-import usace.hec.expressions.math.IntegerMaxNode;
-import usace.hec.expressions.math.IntegerMinNode;
-import usace.hec.expressions.math.IntegerMinusNode;
-import usace.hec.expressions.math.IntegerMultiplyNode;
-import usace.hec.expressions.math.IntegerNegateNode;
-import usace.hec.expressions.time.AfterNode;
-import usace.hec.expressions.time.BeforeNode;
-import usace.hec.expressions.time.DayOfYearNode;
-import usace.hec.expressions.time.TodayNode;
-import usace.hec.expressions.time.DateNode;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Recursive-descent parser for Excel-like expression syntax.
+ * Recursive-descent parser for Excel-compatible expression syntax.
  *
- * <h3>Supported grammar</h3>
- * <pre>
- * expression     -> logicalOr
- * logicalOr      -> logicalXor ( '||' logicalXor )*
- * logicalXor     -> logicalAnd ( '^^' logicalAnd )*
- * logicalAnd     -> comparison ( '&&' comparison )*
- * comparison     -> additive ( ( '>' | '>=' | '<' | '<=' | '==' ) additive )*
- * additive       -> multiplicative ( ( '+' | '-' ) multiplicative )*
- * multiplicative -> exponent ( ( '*' | '/' ) exponent )*
- * exponent       -> unary ( '^' unary )*          // right-associative
- * unary          -> ( '-' | 'ABS' | 'FLOOR' | 'CEILING' ) unary
- *                | primary
- * primary        -> NUMBER
- *                | VARIABLE                     // [name]
- *                | FUNCTION '(' arguments ')'   // IF, MAX, MIN, PLUS, MULTIPLY, ...
- *                | '(' expression ')'
- * arguments      -> expression ( ',' expression )*
- * </pre>
+ * Converts a string expression into a typed Abstract Syntax Tree (AST) of 
+ * {@link ExpressionNode} objects. The parser tokenizes input using {@link Tokenizer},
+ * validates token sequences, and constructs the tree using {@link NodeFactory}.
  *
- * <h3>Type Safety & Coercion</h3>
+ * <h2>Usage</h2>
+ * <pre>{@code
+ * ExpressionParser parser = new ExpressionParser();
+ * ParseResult<ExpressionNode> result = parser.parse("IF([a] > 5, 10.0, 20.0)");
+ * 
+ * if (result.isSuccess()) {
+ *     ExpressionNode tree = result.getNode();
+ *     // evaluate or traverse tree...
+ * } else {
+ *     ParseError err = result.getError();
+ *     System.err.println(err.message());
+ * }
+ * }</pre>
+ *
+ * <h2>Grammar & Operator Precedence</h2>
+ * <p>The parser implements precedence through layered recursive-descent methods.
+ * Operators at the same precedence level are evaluated left-to-right. Precedence 
+ * from lowest to highest:</p>
+ * <ol>
+ *   <li>Logical OR ({@code ||})</li>
+ *   <li>Logical XOR ({@code ^^})</li>
+ *   <li>Logical AND ({@code &&})</li>
+ *   <li>Comparisons ({@code >, >=, <, <=, ==})</li>
+ *   <li>Additive ({@code +, -})</li>
+ *   <li>Multiplicative ({@code *, /})</li>
+ *   <li>Exponentiation ({@code ^})</li>
+ *   <li>Unary prefix ({@code -, ABS, FLOOR, CEILING, TOINT, TODOUBLE})</li>
+ *   <li>Primary: literals, variables, parenthesized expressions, function calls</li>
+ * </ol>
+ *
+ * <h2>Supported Syntax</h2>
  * <ul>
- *   <li>The parser enforces type compatibility at parse time.</li>
- *   <li>Widening coercion (e.g., int -> double) is applied automatically via {@link IntegerToDoubleCoerceNode}.</li>
- *   <li>Narrowing coercion is generally rejected to prevent silent precision loss, except where explicit (e.g., DATE args).</li>
+ *   <li><b>Numeric Literals</b>: {@code 42} (Integer), {@code 3.14} (Double)</li>
+ *   <li><b>Boolean Literals</b>: {@code TRUE}, {@code FALSE}</li>
+ *   <li><b>String Literals</b>: {@code "text"}</li>
+ *   <li><b>Variables</b>: {@code [variableName]} (parsed as {@link DoubleVariableNode})</li>
+ *   <li><b>Infix Operators</b>: {@code + - * / ^ == > < >= <= && || ^^}</li>
+ *   <li><b>Function Calls</b>: {@code IF(cond, then, else)}, {@code MAX(a,b)}, {@code TODAY()}, etc.</li>
+ *   <li><b>Unary Prefix Functions</b>: Support both functional {@code ABS(x)} and prefix {@code ABS x} syntax.</li>
  * </ul>
+ *
+ * <h2>Type Resolution & Coercion</h2>
+ * <p>The parser delegates node construction to {@link NodeFactory}, which resolves 
+ * operand types at parse time. Binary and unary operators are constructed via 
+ * {@link NodeFactory#buildBinaryNode} and {@link NodeFactory#buildUnaryNode}, 
+ * which automatically insert widening coercion nodes (e.g., {@link IntegerToDoubleCoerceNode}) 
+ * when mixing {@code int} and {@code double} operands. Explicit coercion functions 
+ * {@code TOINT()} and {@code TODOUBLE()} are available for narrowing or explicit typing.</p>
+ *
+ * <h2>Error Handling</h2>
+ * <p>The parser halts on the first unrecoverable syntax error. Errors are returned 
+ * via {@link ParseResult} containing a {@link ParseError} with:</p>
+ * <ul>
+ *   <li>Character position index in the original input string</li>
+ *   <li>Descriptive error message</li>
+ *   <li>Remaining input snippet (up to 40 characters) for context</li>
+ * </ul>
+ *
+ * <h2>Internal Structure</h2>
+ * <p>Parsing state is tracked in {@link ParseState}, which maintains the token list, 
+ * current position, input string, and error flags. Helper methods {@code peek()}, 
+ * {@code expect()}, and {@code setError()} manage lookahead and validation. 
+ * The {@code parseFunctionCall()} method handles arbitrary-arity functions by 
+ * recursively parsing comma-separated arguments until a closing parenthesis is found.</p>
+ *
+ * @see Tokenizer
+ * @see NodeFactory
+ * @see ParseResult
+ * @see ParseState
+ * @see ExpressionNode
+ * @see ExpressionOperator
  */
 public class ExpressionParser {
 
