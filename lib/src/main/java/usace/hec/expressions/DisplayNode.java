@@ -7,4 +7,5 @@ public interface DisplayNode {
     String category();
     String defaultSyntax(boolean infix);
     List<ExpressionType> getExpressionResultTypes();
+    ExpressionOperator getOperator();
 }

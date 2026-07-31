@@ -165,6 +165,10 @@ public class DisplayNodeRegistry implements DisplayNodeProvider{
             public List<ExpressionType> getExpressionResultTypes() {
                 return immutableTypes;
             }
+            @Override
+            public ExpressionOperator getOperator() {
+                return op;
+            }
         };
     }
 }
