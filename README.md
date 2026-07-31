@@ -1,7 +1,7 @@
-Expressions
+# Expressions
 A Java 21 library that parses Excel-compatible expression strings into typed Abstract Syntax Trees (ASTs). The ASTs evaluate to primitives, support serialization, and update external variables through a data observer pattern.
 
-Quick Start
+# Quick Start
 ```java
 ExpressionParser parser = new ExpressionParser();
 
@@ -27,14 +27,14 @@ if (!result.hasError()) {
     System.err.println("Parse error at " + err.position() + ": " + err.message());
 }
 ```
-Supported Syntax
-Literals
+# Supported Syntax
+## Literals
 Type	Examples
 Integer	42, 0, -17
 Double	3.14, 0.0, 1e10
 Boolean	TRUE, FALSE
 String	"Hello, World!"
-Variables
+## Variables
 Bracket syntax references external data:
 
 ```css
@@ -51,7 +51,7 @@ Lowest	||	a || b
 Highest	^	2 ^ 2 ^ 3
 Note: Operator precedence follows Excel conventions. Exponentiation is left-associative: 2^2^3 evaluates as (2^2)^3 = 64.
 
-Functions
+# Functions
 Function	Arguments	Returns	Description
 IF(cond, then, else)	3	double/int/date	Conditional branching
 MAX(a, b, ...)	1+	double/int	Maximum of arguments
@@ -76,7 +76,7 @@ CONTAINS(s, sub)	2	boolean	Check substring
 STARTSWITH(s, prefix)	2	boolean	Check prefix
 ENDSWITH(s, suffix)	2	boolean	Check suffix
 REPLACE(s, target, rep)	3	string	Replace text
-Examples
+#  Examples
 ```css
 IF([flow] > 100.0, [flow] * 0.8, [flow])
 MAX([a], [b], [c])
@@ -85,7 +85,7 @@ CONCAT([firstName], " ", [lastName])
 DOY(Date(2024, 12, 25))
 ```
 
-#Type System
+# Type System
 The library uses five typed expression interfaces, each declaring a typed evaluate() method:
 
 Interface	Return Type	Example Nodes
@@ -121,7 +121,7 @@ tree.setProvider(provider);
 DoubleExpressionNode typedTree = (DoubleExpressionNode) tree;
 double result = typedTree.evaluate(); // 70.0
 ```
-#Listener Collection
+# Listener Collection
 Collect all variable listeners from a tree to register with a DataUpdater:
 
 ```java
@@ -131,7 +131,7 @@ for (DataListener listener : listeners) {
 }
 // When data changes, DataUpdater calls onDataUpdate() on each listener
 ```
-#UpdateableLeafNode
+# UpdateableLeafNode
 For manual tree construction (without parsing), UpdateableLeafNode is the base class for variable nodes:
 
 ```java
@@ -139,7 +139,7 @@ UpdateableLeafNode var = new UpdateableLeafNode("flowRate");
 var.setProvider(provider);
 Object value = var.evaluate(); // delegates to provider.provideValue("flowRate")
 ```
-#Error Handling
+# Error Handling
 ParseResult<T> returns either a success node or a typed error:
 
 ```java
@@ -160,7 +160,7 @@ Unknown identifiers PLU(1,2)
 Invalid characters 1 @ 2
 Wrong argument count IF(a, b) (missing third arg)
 Type mismatch TRUE + 5
-#Serialization
+# Serialization
 All expression nodes implement java.io.Serializable. Trees can be persisted and restored:
 
 ```java
@@ -175,7 +175,7 @@ try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("tree.ser
 }
 ```
 
-#Syntax Generation
+# Syntax Generation
 Each node can render its tree as a string in two formats:
 
 ```java
@@ -184,13 +184,13 @@ ExpressionNode tree = parser.parse("ABS([x] + 1.0)").getNode();
 System.out.println(tree.PreFixSyntax());  // + [x] 1.0 (operator-first)
 System.out.println(tree.ExcelSyntax());   // ABS([x]+1.0) (Excel-style)
 ```
-#Build
+# Build
 bash
 ./gradlew build
 Requires Java 21. The build produces a JAR with all node classes, parser, and type system.
 
-#Project Structure
-##Package	Contents
+# Project Structure
+## Package	Contents
 usace.hec.expressions	Core interfaces, constant nodes, variable nodes, parser, factory
 usace.hec.expressions.math	Arithmetic and math operator nodes (Add, Subtract, Multiply, Divide, Exponent, Abs, Floor, Ceiling, Max, Min)
 usace.hec.expressions.logical	Logical operator nodes (And, Or, Xor, If)
