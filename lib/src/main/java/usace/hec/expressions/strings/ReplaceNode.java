@@ -61,5 +61,10 @@ public class ReplaceNode implements StringExpressionNode {
     public ExpressionType resultType() { return ExpressionType.STRING; }
 
     @Override
-    public ExpressionOperator Operator() { return ExpressionOperator.REPLACE; }
+    public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator() {
+        return ExpressionOperator.REPLACE;
+    }
 }

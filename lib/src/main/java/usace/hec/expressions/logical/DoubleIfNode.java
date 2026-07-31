@@ -18,21 +18,4 @@ public class DoubleIfNode extends IfNode implements DoubleExpressionNode{
         
         return conditionNode.evaluate() ? thenBranch.evaluate() : elseBranch.evaluate();
     }
-    public static DisplayNode displayData(){
-        return DisplayData;
-    }
-    public static final DisplayNode DisplayData = new DisplayNode() {
-        @Override
-        public String displayName(boolean infix) {
-            return StaticOperator().getPrefixName();
-        }
-        @Override
-        public String category() {
-            return "Logical";
-        }
-        @Override
-        public String defaultSyntax(boolean infix) {
-            return StaticOperator().getPrefixName() + "(,,)";
-        }
-    };
 }

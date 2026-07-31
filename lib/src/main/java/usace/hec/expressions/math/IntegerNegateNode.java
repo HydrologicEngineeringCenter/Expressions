@@ -26,6 +26,9 @@ public class IntegerNegateNode extends IntegerUnaryExpressionNode {
 
     @Override
     public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator() {
         return ExpressionOperator.NEGATE;
     }
 

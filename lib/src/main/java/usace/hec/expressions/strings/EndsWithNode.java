@@ -32,5 +32,10 @@ public class EndsWithNode implements BooleanExpressionNode, BinaryExpressionNode
     public ExpressionNode right() { return search; }
 
     @Override
-    public ExpressionOperator Operator() { return ExpressionOperator.ENDSWITH; }
+    public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator() {
+        return ExpressionOperator.ENDSWITH;
+    }
 }

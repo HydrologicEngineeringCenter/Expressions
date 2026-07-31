@@ -27,6 +27,9 @@ public class IntegerGreaterThanNode extends BooleanBinaryExpressionNode {
     }
     @Override
     public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator() {
         return ExpressionOperator.GT;
     }
     @Override

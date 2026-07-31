@@ -32,5 +32,10 @@ public class StartsWithNode implements BooleanExpressionNode, BinaryExpressionNo
     public ExpressionNode right() { return search; }
 
     @Override
-    public ExpressionOperator Operator() { return ExpressionOperator.STARTSWITH; }
+    public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator() {
+        return ExpressionOperator.STARTSWITH;
+    }
 }

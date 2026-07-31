@@ -52,30 +52,5 @@ public class OrNode extends BooleanBinaryExpressionNode {
     public ExpressionNode right() {
         return this.right;
     }
-    public static DisplayNode displayData(){
-        return DisplayData;
-    }
-    public static final DisplayNode DisplayData = new DisplayNode() {
-        @Override
-        public String displayName(boolean infix) {
-            if(infix){
-                return StaticOperator().getInfixName();
-            }else{
-                return StaticOperator().getPrefixName();
-            }
-        }
-        @Override
-        public String category() {
-            return "Logical";
-        }
-        @Override
-        public String defaultSyntax(boolean infix) {
-            if (infix){
-                return StaticOperator().getInfixName();
-            }else{
-                return StaticOperator().getPrefixName() + "(,)";
-            }
-        }
-    };
 }
 

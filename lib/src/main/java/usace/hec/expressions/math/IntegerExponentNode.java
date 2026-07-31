@@ -31,6 +31,9 @@ public class IntegerExponentNode extends IntegerBinaryExpressionNode {
 
     @Override
     public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator() {
         return ExpressionOperator.POW;
     }
     @Override

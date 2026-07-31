@@ -40,7 +40,11 @@ public class ToUpperNode implements StringExpressionNode {
         this.dp = dp;
         source.setProvider(dp);
     }
-
     @Override
-    public ExpressionOperator Operator() { return ExpressionOperator.UPPER; }
+    public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator() {
+        return ExpressionOperator.UPPER;
+    }
 }

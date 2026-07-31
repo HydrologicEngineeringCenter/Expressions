@@ -41,29 +41,4 @@ public class DoubleCeilingNode extends DoubleUnaryExpressionNode {
     public ExpressionNode child() {
         return this.child;
     }
-    public static DisplayNode displayData(){
-        return DisplayData;
-    }
-    public static final DisplayNode DisplayData = new DisplayNode() {
-        @Override
-        public String displayName(boolean infix) {
-            if(infix){
-                return StaticOperator().getInfixName();
-            }else{
-                return StaticOperator().getPrefixName();
-            }
-        }
-        @Override
-        public String category() {
-            return "Math";
-        }
-        @Override
-        public String defaultSyntax(boolean infix) {
-            if (infix){
-                return StaticOperator().getInfixName();
-            }else{
-                return StaticOperator().getPrefixName() + "()";
-            }
-        }
-    };
 }

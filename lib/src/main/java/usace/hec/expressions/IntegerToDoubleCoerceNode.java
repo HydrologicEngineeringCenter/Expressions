@@ -72,23 +72,4 @@ public class IntegerToDoubleCoerceNode implements UnaryExpressionNode, DoubleExp
     public static ExpressionOperator StaticOperator(){
         return ExpressionOperator.DOUBLECOERSION;
     }
-    public static DisplayNode displayData(){
-        return DisplayData;
-    }
-    public static final DisplayNode DisplayData = new DisplayNode() {
-        @Override
-        public String displayName(boolean infix) {
-            return StaticOperator().getInfixName();
-
-        }
-        @Override
-        public String category() {
-            return "Conversion";
-        }
-        @Override
-        public String defaultSyntax(boolean infix) {
-            return StaticOperator().getInfixName() + "()";
-
-        }
-    };
 }

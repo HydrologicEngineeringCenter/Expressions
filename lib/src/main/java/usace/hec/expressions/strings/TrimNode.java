@@ -33,5 +33,10 @@ public class TrimNode implements StringExpressionNode {
     public void setProvider(DataProvider dp) { this.dp = dp; source.setProvider(dp); }
 
     @Override
-    public ExpressionOperator Operator() { return ExpressionOperator.TRIM; }
+    public ExpressionOperator Operator() {
+        return StaticOperator();
+    }
+    public static ExpressionOperator StaticOperator() {
+        return ExpressionOperator.TRIM;
+    }
 }
