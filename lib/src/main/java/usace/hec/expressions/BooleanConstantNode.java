@@ -8,9 +8,9 @@ public class BooleanConstantNode implements BooleanExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
     
-    private final Boolean value;
+    private final boolean value;
 
-    public BooleanConstantNode(Boolean value) {
+    public BooleanConstantNode(boolean value) {
         this.value = value;
     }
 
