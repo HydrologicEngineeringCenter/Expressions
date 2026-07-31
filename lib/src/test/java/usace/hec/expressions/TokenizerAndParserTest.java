@@ -50,6 +50,20 @@ public class TokenizerAndParserTest {
         TEST_CASES.add(Map.of("input", "TODOUBLE(2^2^3)", "error", false, "msg", "", "result", 64.0));
         TEST_CASES.add(Map.of("input", "TOINT(2.0^2.0^3.0)", "error", false, "msg", "", "result", 64));
         TEST_CASES.add(Map.of("input", "TODOUBLE(2.0^2.0^3.0)", "error", false, "msg", "", "result", 64.0));
+        TEST_CASES.add(Map.of("input", "CONCAT(\"Hello, \",\"World!\")", "error", false, "msg", "", "result", "Hello, World!"));
+        TEST_CASES.add(Map.of("input", "UPPER(CONCAT(\"foo\",\"bar\"))", "error", false, "msg", "", "result", "FOOBAR"));
+        TEST_CASES.add(Map.of("input", "CONTAINS(\"Hello World\",\"World\")", "error", false, "msg", "", "result", true));
+        TEST_CASES.add(Map.of("input", "CONTAINS(\"Hello World\",\"xyz\")", "error", false, "msg", "", "result", false));
+        TEST_CASES.add(Map.of("input", "STARTSWITH(\"Hello World\",\"Hello\")", "error", false, "msg", "", "result", true));
+        TEST_CASES.add(Map.of("input", "STARTSWITH(\"Hello World\",\"World\")", "error", false, "msg", "", "result", false));
+        TEST_CASES.add(Map.of("input", "ENDSWITH(\"Hello World\",\"World\")", "error", false, "msg", "", "result", true));
+        TEST_CASES.add(Map.of("input", "ENDSWITH(\"Hello World\",\"Hello\")", "error", false, "msg", "", "result", false));
+        TEST_CASES.add(Map.of("input", "REPLACE(\"Hello World\",\"World\",\"There\")", "error", false, "msg", "", "result", "Hello There"));
+        TEST_CASES.add(Map.of("input", "SUBSTRING(\"Hello World\",0,5)", "error", false, "msg", "", "result", "Hello"));
+        TEST_CASES.add(Map.of("input", "LENGTH(\"Hello\")", "error", false, "msg", "", "result", 5));
+        TEST_CASES.add(Map.of("input", "LOWER(\"Hello World\")", "error", false, "msg", "", "result", "hello world"));
+        TEST_CASES.add(Map.of("input", "UPPER(\"Hello World\")", "error", false, "msg", "", "result", "HELLO WORLD"));
+        TEST_CASES.add(Map.of("input", "TRIM(\"  Hello  \")", "error", false, "msg", "", "result", "Hello"));
 
         // ERROR EXPRESSIONS
         TEST_CASES.add(Map.of("input", "", "error", true, "msg", "Empty expression"));
@@ -108,6 +122,9 @@ public class TokenizerAndParserTest {
                 } else if (expected instanceof Integer) {
                     int actualInt = ((IntegerExpressionNode) node).evaluate();
                     assertEquals("Input: \"" + input + "\"", (int) expected, actualInt);
+                } else if (expected instanceof String) {
+                    String actualString = ((StringExpressionNode) node).evaluate();
+                    assertEquals("Input: \"" + input + "\"", expected, actualString);
                 } else {
                     assertEquals("Input: \"" + input + "\"", expected, "nothing worked");
                 }

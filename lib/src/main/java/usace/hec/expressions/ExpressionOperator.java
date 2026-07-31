@@ -57,7 +57,7 @@ public enum ExpressionOperator {
     LOWER("String", "LOWER", "LOWER","LOWER()", "LOWER()", Arity.UNARY),
     UPPER("String", "UPPER", "UPPER", "UPPER()", "UPPER()",Arity.UNARY),
     TRIM("String", "TRIM", "TRIM","TRIM()", "TRIM()", Arity.UNARY),
-    REPLACE("String", "REPLACE", "REPLACE","REPLACE(,)", "REPLACE(,)", Arity.BINARY),
+    REPLACE("String", "REPLACE", "REPLACE","REPLACE(,,)", "REPLACE(,,)", Arity.TERNARY),
     CONTAINS("String", "CONTAINS", "CONTAINS","CONTAINS(,)", "CONTAINS(,)", Arity.BINARY),
     STARTSWITH("String", "STARTSWITH", "STARTSWITH","STARTSWITH(,)", "STARTSWITH(,)", Arity.BINARY),
     ENDSWITH("String", "ENDSWITH", "ENDSWITH","ENDSWITH(,)", "ENDSWITH(,)", Arity.BINARY),

@@ -3,6 +3,7 @@ package usace.hec.expressions;
 import usace.hec.expressions.comparison.*;
 import usace.hec.expressions.logical.*;
 import usace.hec.expressions.math.*;
+import usace.hec.expressions.strings.*;
 import usace.hec.expressions.time.*;
 
 import java.util.ArrayList;
@@ -43,6 +44,8 @@ public class NodeFactory {
             return createBooleanBinaryNode(op, (BooleanExpressionNode) lNode, (BooleanExpressionNode) rNode);
         } else if (commonType == ExpressionType.DATE){
             return createDateBinaryNode(op,(DateTimeExpressionNode)lNode,(DateTimeExpressionNode) rNode);
+        } else if (commonType == ExpressionType.STRING){
+            return createStringBinaryNode(op, (StringExpressionNode) lNode, (StringExpressionNode) rNode);
         }
 
         setError(s, currentPos(s), "Unsupported binary operator type: " + commonType, "");
@@ -76,6 +79,14 @@ public class NodeFactory {
             return switch (op) {
                 case DOY -> new DayOfYearNode((DateTimeExpressionNode)child);
                 default -> { setError(s, currentPos(s), "Unary " + op + " not implemented for DATE", ""); yield new IntegerConstantNode(0); }
+            };
+        } else if (type == ExpressionType.STRING){
+            return switch (op) {
+              case LENGTH -> new StringLengthNode((StringExpressionNode) child);
+              case LOWER -> new ToLowerNode((StringExpressionNode) child);
+              case UPPER -> new ToUpperNode((StringExpressionNode) child);
+              case TRIM -> new TrimNode((StringExpressionNode) child);
+              default-> {setError(s, currentPos(s), "Unary " + op + " not implemented for STRING", ""); yield new StringConstantNode(""); }
             };
         }
 
@@ -122,8 +133,8 @@ public class NodeFactory {
                     return new DoubleIfNode((BooleanExpressionNode) cond, (DoubleExpressionNode) promotedThen, (DoubleExpressionNode) promotedElse);
                 } else if (resultType == ExpressionType.INTEGER) {
                     return new IntegerIfNode((BooleanExpressionNode) cond, (IntegerExpressionNode) promotedThen, (IntegerExpressionNode) promotedElse);
-                } else if (resultType == ExpressionType.DATE){
-                    return new DateTimeIfNode((BooleanExpressionNode) cond, (DateTimeExpressionNode)  promotedThen, (DateTimeExpressionNode) promotedElse);
+                } else if (resultType == ExpressionType.DATE) {
+                    return new DateTimeIfNode((BooleanExpressionNode) cond, (DateTimeExpressionNode) promotedThen, (DateTimeExpressionNode) promotedElse);
                 }
 
                 setError(s, currentPos(s), "IF branch type " + resultType + " not supported", "");
@@ -159,20 +170,23 @@ public class NodeFactory {
                 for (int i = 1; i < promotedArgs.size(); i++) {
                     if (commonType == ExpressionType.DOUBLE) {
                         result = (fn == ExpressionOperator.MAX)
-                                ? new DoubleMaxNode((DoubleExpressionNode)result, (DoubleExpressionNode)promotedArgs.get(i))
-                                : new DoubleMinNode((DoubleExpressionNode)result, (DoubleExpressionNode)promotedArgs.get(i));
+                                ? new DoubleMaxNode((DoubleExpressionNode) result, (DoubleExpressionNode) promotedArgs.get(i))
+                                : new DoubleMinNode((DoubleExpressionNode) result, (DoubleExpressionNode) promotedArgs.get(i));
                     }
                     // Add Int support if IntMaxNode/IntMinNode exist
                     if (commonType == ExpressionType.INTEGER) {
                         result = (fn == ExpressionOperator.MAX)
-                                ? new IntegerMaxNode((IntegerExpressionNode) result, (IntegerExpressionNode)promotedArgs.get(i))
-                                : new IntegerMinNode((IntegerExpressionNode)result, (IntegerExpressionNode)promotedArgs.get(i));
+                                ? new IntegerMaxNode((IntegerExpressionNode) result, (IntegerExpressionNode) promotedArgs.get(i))
+                                : new IntegerMinNode((IntegerExpressionNode) result, (IntegerExpressionNode) promotedArgs.get(i));
                     }
                 }
                 return result;
             }
 
-            case NEGATE: case ABS: case FLOOR: case CEILING: {
+            case NEGATE:
+            case ABS:
+            case FLOOR:
+            case CEILING: {
                 if (args.size() != 1) {
                     setError(s, currentPos(s), fn.name() + " requires exactly 1 argument", "");
                     return null;
@@ -218,14 +232,83 @@ public class NodeFactory {
             }
 
             // Delegate standard binary operators
-            case PLUS: case MINUS: case MULTIPLY: case DIVIDE: case POW:
-            case GT: case GTE: case LT: case LTE: case EQ:
-            case AND: case OR: case XOR:
+            case PLUS:
+            case MINUS:
+            case MULTIPLY:
+            case DIVIDE:
+            case POW:
+            case GT:
+            case GTE:
+            case LT:
+            case LTE:
+            case EQ:
+            case AND:
+            case OR:
+            case XOR:
                 if (args.size() != 2) {
                     setError(s, currentPos(s), fn.name() + " requires exactly 2 arguments", "");
                     return null;
                 }
                 return buildBinaryNode(s, fn, args.get(0), args.get(1));
+            //Delegate string operators
+            case SUBSTRING: {
+                if (args.size() != 3) {
+                    setError(s, currentPos(s), fn.name() + "requires exactly 3 arguments", "");
+                    return null;
+                }
+                ExpressionNode sourceStr = args.get(0);
+                ExpressionNode startInc = args.get(1);
+                ExpressionNode endExc = args.get(2);
+
+                if (sourceStr.resultType() != ExpressionType.STRING) {
+                    setError(s, currentPos(s), "Source must be String", "");
+                    return null;
+                }
+                if (!startInc.resultType().isNumeric() || !endExc.resultType().isNumeric()) {
+                    setError(s, currentPos(s), "Both beginning and end indices must be numeric", "");
+                    return null;
+                }
+                if (startInc.resultType() == ExpressionType.DOUBLE) {
+                    startInc = coerceTo(startInc, ExpressionType.INTEGER);
+                }
+                if (endExc.resultType() == ExpressionType.DOUBLE) {
+                    endExc = coerceTo(endExc, ExpressionType.INTEGER);
+                }
+                return new SubstringNode((StringExpressionNode) sourceStr, (IntegerExpressionNode) startInc, (IntegerExpressionNode) endExc);
+            }
+            case REPLACE: {
+                if (args.size() != 3) {
+                    setError(s, currentPos(s), fn.name() + "requires exactly 3 arguments", "");
+                    return null;
+                }
+                ExpressionNode sourceStr = args.get(0);
+                ExpressionNode target = args.get(1);
+                ExpressionNode replacement = args.get(2);
+
+                if (sourceStr.resultType() != ExpressionType.STRING || target.resultType() != ExpressionType.STRING || replacement.resultType() != ExpressionType.STRING) {
+                    setError(s, currentPos(s), "All args must be String", "");
+                    return null;
+                }
+                return new ReplaceNode((StringExpressionNode) sourceStr, (StringExpressionNode) target, (StringExpressionNode) replacement);
+            }
+
+            case CONCAT: case CONTAINS: case STARTSWITH: case ENDSWITH: {
+                if (args.size() != 2) {
+                    setError(s, currentPos(s), fn.name() + "requires exactly 2 arguments", "");
+                    return null;
+                }
+                return buildBinaryNode(s, fn, args.get(0), args.get(1));
+            }
+            case LENGTH: case LOWER: case UPPER: case TRIM: {
+                if (args.size() != 1) {
+                    setError(s, currentPos(s), fn.name() + "requires exactly 1 arguments", "");
+                    return null;
+                }
+                return buildUnaryNode(s, fn, args.get(0));
+            }
+
+
+
 
             default:
                 setError(s, currentPos(s), "Unknown function: " + fn.name(), "");
@@ -327,6 +410,17 @@ public class NodeFactory {
             default -> null;
         };
     }
+
+    private static ExpressionNode createStringBinaryNode(ExpressionOperator op, StringExpressionNode left, StringExpressionNode right) {
+        return switch (op) {
+            case CONCAT -> new ConcatenateNode(left, right);
+            case CONTAINS -> new ContainsNode(left, right);
+            case STARTSWITH -> new StartsWithNode(left, right);
+            case ENDSWITH -> new EndsWithNode(left,right);
+            default -> null;
+        };
+    }
+
     private static Token peek(ExpressionParser.ParseState s) {
         return (s.pos < s.tokens.size()) ? s.tokens.get(s.pos) : null;
     }

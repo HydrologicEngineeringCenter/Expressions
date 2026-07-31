@@ -19,7 +19,7 @@ public class ToLowerNode implements StringExpressionNode {
 
     @Override
     public String evaluate() {
-        return source.evaluate().toUpperCase();
+        return source.evaluate().toLowerCase();
     }
 
     @Override
