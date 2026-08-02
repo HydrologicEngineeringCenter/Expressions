@@ -8,8 +8,60 @@ import usace.hec.expressions.time.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Static factory for constructing typed {@link ExpressionNode} instances during parsing.
+ *
+ * <p>Translates abstract {@link ExpressionOperator} enums and raw operand nodes into 
+ * concrete, type-safe expression tree nodes. The factory enforces type compatibility, 
+ * applies automatic widening coercion, and delegates to specialized node classes in the 
+ * {@code math}, {@code logical}, {@code comparison}, {@code strings}, and {@code time} 
+ * sub-packages.</p>
+ *
+ * <h3>Type Resolution Strategy</h3>
+ * <ul>
+ *   <li><b>Binary Operators:</b> Validates operand compatibility via {@link #isCompatible}. 
+ *       If types differ but widening is possible, wraps the narrower operand in 
+ *       {@link usace.hec.expressions.math.IntegerToDoubleCoerceNode}. Narrowing is rejected.</li>
+ *   <li><b>Unary Operators:</b> Dispatches based on the child node's {@link ExpressionType}. 
+ *       Supports numeric, boolean, date, and string unary operations.</li>
+ *   <li><b>IF Function:</b> Requires a boolean condition. Promotes the {@code then} and 
+ *       {@code else} branches to a common compatible type before construction.</li>
+ *   <li><b>MAX/MIN Functions:</b> Scans all arguments to find the widest type, coerces 
+ *       every argument to that type, and builds a left-associative operator chain.</li>
+ *   <li><b>DATE Function:</b> Explicitly coerces all three arguments to {@code int}.</li>
+ *   <li><b>SUBSTRING Function:</b> Requires a string source and coerces index arguments 
+ *       to {@code int} if they are {@code double}.</li>
+ * </ul>
+ *
+ * <h3>Error Handling</h3>
+ * <p>All factory methods accept an {@link ExpressionParser.ParseState} to record type 
+ * mismatches, invalid argument counts, or unsupported operations. On error, the factory 
+ * sets the state flags and returns {@code null} (or a placeholder constant node for 
+ * unary switch fallbacks).</p>
+ *
+ * @see ExpressionParser
+ * @see ExpressionOperator
+ * @see ExpressionType
+ * @see usace.hec.expressions.math.IntegerToDoubleCoerceNode
+ */
 public class NodeFactory {
+        /**
+     * Constructs a binary expression node with type validation and coercion.
+     *
+     * <p>Checks that both operands are compatible with the operator. If types differ but
+     * widening is supported (e.g., {@code int} and {@code double}), wraps the narrower 
+     * operand in a coercion node. Dispatches to the appropriate typed factory method 
+     * based on the resolved common type.</p>
+     *
+     * @param s      the parse state for error tracking
+     * @param op     the binary operator
+     * @param left   the left operand node
+     * @param right  the right operand node
+     * @return a typed binary node, or {@code null} if types are incompatible
+     * @see #createDoubleBinaryNode
+     * @see #createIntegerBinaryNode
+     * @see #createBooleanBinaryNode
+     */
     public static ExpressionNode buildBinaryNode(ExpressionParser.ParseState s, ExpressionOperator op, ExpressionNode left, ExpressionNode right) {
         // 1. Validate compatibility
         if (!isCompatible(op, left.resultType(), right.resultType())) {
@@ -51,7 +103,20 @@ public class NodeFactory {
         setError(s, currentPos(s), "Unsupported binary operator type: " + commonType, "");
         return null;
     }
-
+    /**
+     * Constructs a unary expression node based on the child's type and the operator.
+     *
+     * <p>Uses switch expressions to map operator + type combinations to concrete node 
+     * classes. Supports numeric operations ({@code NEGATE}, {@code ABS}, {@code FLOOR}, 
+     * {@code CEILING}), type coercion ({@code TOINT}, {@code TODOUBLE}), date operations 
+     * ({@code DOY}), and string operations ({@code LENGTH}, {@code LOWER}, {@code UPPER}, 
+     * {@code TRIM}). Unknown combinations record an error and return a typed placeholder.</p>
+     *
+     * @param s     the parse state for error tracking
+     * @param op    the unary operator or function
+     * @param child the operand node
+     * @return a typed unary node, or a constant placeholder on error
+     */
     public static ExpressionNode buildUnaryNode(ExpressionParser.ParseState s, ExpressionOperator op, ExpressionNode child) {
         ExpressionType type = child.resultType();
 
@@ -93,7 +158,32 @@ public class NodeFactory {
         setError(s, currentPos(s), "Unary operator " + op + " not supported for " + type, "");
         return null;
     }
-
+    /**
+     * Constructs a function call node with argument validation and type promotion.
+     *
+     * <p>Handles all built-in functions by dispatching on the {@link ExpressionOperator}. 
+     * Validates argument counts, checks operand types, and applies coercion where required. 
+     * Special handling includes:</p>
+     * <ul>
+     *   <li>{@code IF}: Exactly 3 args. Condition must be boolean. Branches are promoted 
+     *       to a common type.</li>
+     *   <li>{@code MAX}/{@code MIN}: Variable arity. All args promoted to the widest type. 
+     *       Builds a left-associative chain of binary nodes.</li>
+     *   <li>{@code DATE}: Exactly 3 args. All coerced to {@code int}.</li>
+     *   <li>{@code SUBSTRING}: Exactly 3 args. Source must be string. Indices coerced to {@code int}.</li>
+     *   <li>{@code REPLACE}, {@code CONCAT}, {@code CONTAINS}, {@code STARTSWITH}, {@code ENDSWITH}: 
+     *       Require string arguments.</li>
+     *   <li>{@code TODAY}, {@code DOY}, {@code NEGATE}, {@code ABS}, {@code FLOOR}, {@code CEILING}: 
+     *       Delegated to {@link #buildUnaryNode} or handled directly.</li>
+     *   <li>Standard binary operators ({@code PLUS}, {@code GT}, {@code AND}, etc.): 
+     *       Delegated to {@link #buildBinaryNode}.</li>
+     * </ul>
+     *
+     * @param s    the parse state for error tracking
+     * @param fn   the function operator
+     * @param args the parsed argument nodes
+     * @return the constructed function node, or {@code null} on validation failure
+     */
     public static ExpressionNode buildFunctionNode(ExpressionParser.ParseState s, ExpressionOperator fn, List<ExpressionNode> args) {
         switch (fn) {
             case IF: {
@@ -319,7 +409,11 @@ public class NodeFactory {
     // -----------------------------------------------------------------
     // Helpers
     // -----------------------------------------------------------------
-
+    /**
+     * Coerces a node to a target type when supported.
+     * Handles {@code int} → {@code double} (widening) and {@code double} → {@code int} 
+     * (narrowing, used for {@code DATE} and {@code SUBSTRING} indices).
+     */
     private static ExpressionNode coerceTo(ExpressionNode node, ExpressionType targetType) {
         ExpressionType current = node.resultType();
         if (current == targetType) return node;
@@ -335,7 +429,10 @@ public class NodeFactory {
         setError(null, -1, "Cannot coerce " + current + " to " + targetType, ""); // Use null state for helper errors
         return null;
     }
-
+    /**
+     * Checks whether an operator supports the given operand types.
+     * Returns true if types match, or if the operator supports mixed numeric/boolean/date types.
+     */
     private static boolean isCompatible(ExpressionOperator op, ExpressionType l, ExpressionType r) {
         if (l == r) return true;
         // Numeric binary ops
@@ -359,6 +456,10 @@ public class NodeFactory {
         return false;
     }
 
+    /**
+     * Type-specific dispatch methods that map operators to concrete node implementations.
+     * Each returns a switch expression yielding the appropriate typed node or {@code null}.
+     */
     private static ExpressionNode createDoubleBinaryNode(ExpressionOperator op, DoubleExpressionNode left, DoubleExpressionNode right) {
         return switch (op) {
             case PLUS -> new DoubleAddNode(left, right);
