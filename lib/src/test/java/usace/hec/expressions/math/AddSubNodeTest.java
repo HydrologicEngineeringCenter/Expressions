@@ -18,11 +18,12 @@ public class AddSubNodeTest {
         DoubleVariableNode x = new DoubleVariableNode("X");
         DoubleVariableNode y = new DoubleVariableNode("Y");
         DataProvider dp = new DataHub();
-        x.setProvider(dp);
-        y.setProvider(dp);
 
         DoubleExpressionNode add = new DoubleAddNode(x, y);
         DoubleExpressionNode minus = new DoubleMinusNode(x, y);
+
+        add.setProvider(dp);
+        minus.setProvider(dp);
         
         dp.setDouble("X", 1.0);
         dp.setDouble("Y", 1.0);

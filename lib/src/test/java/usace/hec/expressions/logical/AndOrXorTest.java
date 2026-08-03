@@ -17,8 +17,7 @@ public class AndOrXorTest {
         BooleanVariableNode y = new BooleanVariableNode("Y");
         DataProvider dp = new DataHub();
         BooleanExpressionNode andNode = new AndNode(x, y);
-        x.setProvider(dp);
-        y.setProvider(dp);
+        andNode.setProvider(dp);
 
         String expression = andNode.PreFixSyntax();
         System.out.print(expression + "\n");
@@ -48,10 +47,10 @@ public class AndOrXorTest {
         BooleanVariableNode x = new BooleanVariableNode("X");
         BooleanVariableNode y = new BooleanVariableNode("Y");
         DataProvider dp = new DataHub();
-        x.setProvider(dp);
-        y.setProvider(dp);
+
 
         BooleanExpressionNode orNode = new OrNode(x, y);
+        orNode.setProvider(dp);
 
         String expression = orNode.PreFixSyntax();
         System.out.print(expression + "\n");
@@ -81,10 +80,9 @@ public class AndOrXorTest {
         BooleanVariableNode x = new BooleanVariableNode("X");
         BooleanVariableNode y = new BooleanVariableNode("Y");
         DataProvider dp = new DataHub();
-        x.setProvider(dp);
-        y.setProvider(dp);
 
         BooleanExpressionNode xorNode = new XorNode(x, y);
+        xorNode.setProvider(dp);
 
         String expression = xorNode.PreFixSyntax();
         System.out.print(expression + "\n");

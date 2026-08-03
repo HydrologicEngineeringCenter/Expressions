@@ -21,8 +21,8 @@ public class MultiDivTest {
         DoubleExpressionNode multi = new DoubleMultiplyNode(x, y);
         DoubleExpressionNode div = new DoubleDivideNode(x, y);
 
-        x.setProvider(dp);
-        y.setProvider(dp);
+        multi.setProvider(dp);
+        div.setProvider(dp);
 
         dp.setDouble("X", 1.0);
         dp.setDouble("Y", 1.0);

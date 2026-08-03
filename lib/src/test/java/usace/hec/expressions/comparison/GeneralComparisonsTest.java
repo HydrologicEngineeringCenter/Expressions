@@ -19,11 +19,11 @@ public class GeneralComparisonsTest {
         DoubleVariableNode x = new DoubleVariableNode("X");
         DoubleVariableNode y = new DoubleVariableNode("Y");
         DataProvider dp = new DataHub();
-        x.setProvider(dp);
-        y.setProvider(dp);
-
         BooleanExpressionNode ltNode = new DoubleLessThanNode(x, y);
         BooleanExpressionNode lteNode = new DoubleLessThanOrEqualNode(x, y);
+
+        ltNode.setProvider(dp);
+        lteNode.setProvider(dp);
 
         String expression = ltNode.PreFixSyntax();
         System.out.print(expression + "\n");
@@ -62,11 +62,13 @@ public class GeneralComparisonsTest {
         DoubleVariableNode x = new DoubleVariableNode("X");
         DoubleVariableNode y = new DoubleVariableNode("Y");
         DataProvider dp = new DataHub();
-        x.setProvider(dp);
-        y.setProvider(dp);
+
 
         BooleanExpressionNode gtNode = new DoubleGreaterThanNode(x, y);
         BooleanExpressionNode gteNode = new DoubleGreaterThanOrEqualNode(x, y);
+
+        gtNode.setProvider(dp);
+        gteNode.setProvider(dp);
 
         String expression = gtNode.PreFixSyntax();
         System.out.print(expression + "\n");
@@ -106,10 +108,9 @@ public class GeneralComparisonsTest {
         DoubleVariableNode x = new DoubleVariableNode("X");
         DoubleVariableNode y = new DoubleVariableNode("Y");
         DataProvider dp = new DataHub();
-        x.setProvider(dp);
-        y.setProvider(dp);
 
         BooleanExpressionNode eqNode = new DoubleEqualToNode(x, y);
+        eqNode.setProvider(dp);
 
         String expression = eqNode.PreFixSyntax();
         System.out.print(expression + "\n");
@@ -138,12 +139,13 @@ public class GeneralComparisonsTest {
         usace.hec.expressions.IntegerVariableNode x = new usace.hec.expressions.IntegerVariableNode("X");
         usace.hec.expressions.IntegerVariableNode y = new usace.hec.expressions.IntegerVariableNode("Y");
         DataProvider dp = new DataHub();
-        x.setProvider(dp);
-        y.setProvider(dp);
+
 
         BooleanExpressionNode gtNode = new IntegerGreaterThanNode(x, y);
         BooleanExpressionNode lteNode = new IntegerLessThanOrEqualNode(x, y);
         BooleanExpressionNode eqNode = new IntegerEqualToNode(x, y);
+
+        gtNode.setProvider(dp);
 
         dp.setInt("X", 5);
         dp.setInt("Y", 3);

@@ -16,11 +16,12 @@ public class MaxMinTest {
         DoubleVariableNode x = new DoubleVariableNode("X");
         DoubleVariableNode y = new DoubleVariableNode("Y");
         DataProvider dp = new DataHub();
-        x.setProvider(dp);
-        y.setProvider(dp);
 
         DoubleExpressionNode max = new DoubleMaxNode(x, y);
         DoubleExpressionNode min = new DoubleMinNode(x, y);
+
+        max.setProvider(dp);
+        min.setProvider(dp);
 
 
         dp.setDouble("X", 1.0);

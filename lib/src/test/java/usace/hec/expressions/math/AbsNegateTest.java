@@ -18,10 +18,12 @@ public class AbsNegateTest {
         DoubleVariableNode x = new DoubleVariableNode("X");
         DataProvider dp = new DataHub();
 
-        x.setProvider(dp);
 
         DoubleExpressionNode neg = new DoubleNegateNode(x);
         DoubleExpressionNode abs = new DoubleAbsNode(neg);
+
+        neg.setProvider(dp);
+        abs.setProvider(dp);
 
         dp.setDouble("X", 1.0);
         double result = neg.evaluate();

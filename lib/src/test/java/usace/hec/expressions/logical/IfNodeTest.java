@@ -30,13 +30,14 @@ public class IfNodeTest {
         int index = 0;
 
         DataProvider dp = new DataHub();
-        x.setProvider(dp);
-        y.setProvider(dp);
+
 
         BooleanExpressionNode condition = new DoubleGreaterThanNode(x, y);
         DoubleExpressionNode add = new DoubleAddNode(x, y);
         DoubleExpressionNode multiply = new DoubleMultiplyNode(x, y);
         DoubleExpressionNode ifNode = new DoubleIfNode(condition, add, multiply);
+
+        ifNode.setProvider(dp);
 
         String expression = ifNode.PreFixSyntax();
         System.out.print(expression + "\n");
@@ -87,8 +88,6 @@ public class IfNodeTest {
         values.add(8.0);
         values.add(6.0);
         DataProvider dp = new DataHub();
-        x.setProvider(dp);
-        y.setProvider(dp);
         int index = 0;
 
         BooleanExpressionNode innerCondition = new DoubleGreaterThanNode(y, x);
@@ -101,6 +100,8 @@ public class IfNodeTest {
 
         BooleanExpressionNode outerCondition = new DoubleLessThanOrEqualNode(x, z);
         DoubleExpressionNode outerIf = new DoubleIfNode(outerCondition, ttt, innerIf);
+
+        outerIf.setProvider(dp);
 
         String expression = outerIf.PreFixSyntax();
         System.out.print(expression + "\n");
@@ -140,7 +141,6 @@ public class IfNodeTest {
 
         DoubleVariableNode x = new DoubleVariableNode("X");
         DataHub dp = new DataHub();
-        x.setProvider(dp);
 
         DoubleConstantNode const1 = new DoubleConstantNode(500.0);
         DoubleConstantNode const2 = new DoubleConstantNode(1000.0);
@@ -153,6 +153,8 @@ public class IfNodeTest {
         DoubleExpressionNode nextThenNode = new DoubleAddNode(x, const1);
         DoubleExpressionNode nestedIfNode = new DoubleIfNode(nextCondition, nextThenNode, const2);
         DoubleExpressionNode outerIfNode = new DoubleIfNode(condition1, x, nestedIfNode);
+
+        outerIfNode.setProvider(dp);
 
         String expression = outerIfNode.PreFixSyntax();
         System.out.print(expression + "\n");

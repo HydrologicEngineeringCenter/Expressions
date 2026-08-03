@@ -16,10 +16,12 @@ public class FloorCeilTest {
         DoubleVariableNode x = new DoubleVariableNode("X");
         DataProvider dp = new DataHub();
 
-        x.setProvider(dp);
 
         DoubleExpressionNode ceil = new DoubleCeilingNode(x);
         DoubleExpressionNode floor = new DoubleFloorNode(x);
+
+        ceil.setProvider(dp);
+        floor.setProvider(dp);
         
 
         dp.setDouble("X", 1.5);

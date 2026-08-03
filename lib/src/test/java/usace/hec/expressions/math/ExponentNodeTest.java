@@ -20,10 +20,10 @@ public class ExponentNodeTest {
         DoubleVariableNode y = new DoubleVariableNode("Y");
         DataProvider dp = new DataHub();
 
-        x.setProvider(dp);
-        y.setProvider(dp);
 
         DoubleExpressionNode exp = new DoubleExponentNode(x, y);
+
+        exp.setProvider(dp);
 
 
         dp.setDouble("X", 1.0);
