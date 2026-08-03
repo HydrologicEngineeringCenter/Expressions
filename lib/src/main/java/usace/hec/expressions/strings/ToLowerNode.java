@@ -13,8 +13,7 @@ public class ToLowerNode implements StringExpressionNode {
     private static final long serialVersionUID = 1L;
 
     private final StringExpressionNode source;
-    private transient DataProvider dp = null;
-
+    
     public ToLowerNode(StringExpressionNode source) { this.source = source; }
 
     @Override
@@ -37,7 +36,6 @@ public class ToLowerNode implements StringExpressionNode {
 
     @Override
     public void setProvider(DataProvider dp) {
-        this.dp = dp;
         source.setProvider(dp);
     }
     @Override

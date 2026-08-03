@@ -1,7 +1,6 @@
 package usace.hec.expressions.strings;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.util.List;
 
 import usace.hec.expressions.DataListener;
@@ -17,8 +16,7 @@ public class ReplaceNode implements StringExpressionNode {
     private final StringExpressionNode source;
     private final StringExpressionNode target;
     private final StringExpressionNode replacement;
-    private transient DataProvider dp = null;
-
+   
     public ReplaceNode(StringExpressionNode source, StringExpressionNode target, StringExpressionNode replacement) {
         this.source = source;
         this.target = target;
@@ -51,7 +49,7 @@ public class ReplaceNode implements StringExpressionNode {
 
     @Override
     public void setProvider(DataProvider dp) {
-        this.dp = dp;
+
         source.setProvider(dp);
         target.setProvider(dp);
         replacement.setProvider(dp);

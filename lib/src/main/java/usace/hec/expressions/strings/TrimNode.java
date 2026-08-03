@@ -13,7 +13,6 @@ public class TrimNode implements StringExpressionNode {
     private static final long serialVersionUID = 1L;
 
     private final StringExpressionNode source;
-    private transient DataProvider dp = null;
 
     public TrimNode(StringExpressionNode source) { this.source = source; }
 
@@ -30,7 +29,7 @@ public class TrimNode implements StringExpressionNode {
     public List<DataListener> fetchListeners() { return source.fetchListeners(); }
 
     @Override
-    public void setProvider(DataProvider dp) { this.dp = dp; source.setProvider(dp); }
+    public void setProvider(DataProvider dp) { source.setProvider(dp); }
 
     @Override
     public ExpressionOperator Operator() {
