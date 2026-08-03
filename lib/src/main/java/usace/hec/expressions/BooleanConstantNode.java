@@ -34,10 +34,6 @@ public class BooleanConstantNode implements BooleanExpressionNode {
         return String.valueOf(value);
     }
 
-    @Override
-    public List<DataListener> fetchListeners() {
-        return new ArrayList<>(); // Constants don't listen to data
-    }
 
     @Override
     public void setProvider(DataProvider dp) {

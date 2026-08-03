@@ -1,9 +1,6 @@
 package usace.hec.expressions.math;
 
-import usace.hec.expressions.DoubleExpressionNode;
-import usace.hec.expressions.ExpressionNode;
-import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.UnaryExpressionNode;
+import usace.hec.expressions.*;
 
 import java.io.Serial;
 
@@ -39,5 +36,9 @@ public class DoubleCeilingNode extends DoubleUnaryExpressionNode {
     @Override
     public ExpressionNode child() {
         return this.child;
+    }
+    @Override
+    public void setProvider(DataProvider dp) {
+        child.setProvider(dp);
     }
 }

@@ -1,10 +1,6 @@
 package usace.hec.expressions.logical;
 
-import usace.hec.expressions.BinaryExpressionNode;
-import usace.hec.expressions.BooleanExpressionNode;
-import usace.hec.expressions.ExpressionNode;
-import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.ExpressionType;
+import usace.hec.expressions.*;
 import usace.hec.expressions.comparison.BooleanBinaryExpressionNode;
 
 import java.io.Serial;
@@ -45,6 +41,11 @@ public class XorNode extends BooleanBinaryExpressionNode{
     @Override
     public ExpressionNode right() {
         return this.right;
+    }
+    @Override
+    public void setProvider(DataProvider dp) {
+        left.setProvider(dp);
+        right.setProvider(dp);
     }
 }
 

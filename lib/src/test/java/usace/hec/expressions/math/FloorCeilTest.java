@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 import org.junit.Test;
-import usace.hec.expressions.BaseDataUpdater;
-import usace.hec.expressions.DataListener;
+import usace.hec.expressions.DataHub;
+import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.DoubleExpressionNode;
 import usace.hec.expressions.DoubleVariableNode;
 
@@ -14,29 +14,27 @@ public class FloorCeilTest {
     @Test
     public void testEvaluate() {
         DoubleVariableNode x = new DoubleVariableNode("X");
-        BaseDataUpdater adu = new BaseDataUpdater();
+        DataProvider dp = new DataHub();
+
+        x.setProvider(dp);
 
         DoubleExpressionNode ceil = new DoubleCeilingNode(x);
         DoubleExpressionNode floor = new DoubleFloorNode(x);
+        
 
-        List<DataListener> list = ceil.fetchListeners();
-        for (DataListener d : list) {
-            adu.register(d);
-        }
-
-        adu.publish("X", 1.5);
+        dp.setDouble("X", 1.5);
         double result = ceil.evaluate();
         assertEquals(2.0, result, 0.0);
         result = floor.evaluate();
         assertEquals(1.0, result, 0.0);
 
-        adu.publish("X", -2.5);
+        dp.setDouble("X", -2.5);
         result = ceil.evaluate();
         assertEquals(-2.0, result, 0.0);
         result = floor.evaluate();
         assertEquals(-3.0, result, 0.0);
 
-        adu.publish("X", 0.0);
+        dp.setDouble("X", 0.0);
         result = ceil.evaluate();
         assertEquals(0.0, result, 0.0);
         result = floor.evaluate();

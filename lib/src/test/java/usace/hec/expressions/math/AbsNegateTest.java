@@ -4,50 +4,49 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 import org.junit.Test;
-import usace.hec.expressions.BaseDataUpdater;
-import usace.hec.expressions.DataListener;
+import usace.hec.expressions.DataHub;
+import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.DoubleExpressionNode;
 import usace.hec.expressions.DoubleVariableNode;
+
+import javax.xml.crypto.Data;
 
 public class AbsNegateTest {
 
     @Test
     public void testEvaluate() {
         DoubleVariableNode x = new DoubleVariableNode("X");
-        BaseDataUpdater adu = new BaseDataUpdater();
+        DataProvider dp = new DataHub();
+
+        x.setProvider(dp);
 
         DoubleExpressionNode neg = new DoubleNegateNode(x);
         DoubleExpressionNode abs = new DoubleAbsNode(neg);
 
-        List<DataListener> list = abs.fetchListeners();
-        for (DataListener d : list) {
-            adu.register(d);
-        }
-
-        adu.publish("X", 1.0);
+        dp.setDouble("X", 1.0);
         double result = neg.evaluate();
         assertEquals(-1.0, result, 0.0);
         result = abs.evaluate();
         assertEquals(1.0, result, 0.0);
 
-        adu.publish("X", -2.0);
+        dp.setDouble("X", -2.0);
         result = neg.evaluate();
         assertEquals(2.0, result, 0.0);
         result = abs.evaluate();
         assertEquals(2.0, result, 0.0);
 
-        adu.publish("X", 0.0);
+        dp.setDouble("X", 0.0);
         result = neg.evaluate();
         assertEquals(0.0, result, 0.0);
         result = abs.evaluate();
         assertEquals(0.0, result, 0.0);
 
         DoubleExpressionNode doubleNeg = new DoubleNegateNode(neg);
-        adu.publish("X", 500.0);
+        dp.setDouble("X", 500.0);
         result = doubleNeg.evaluate();
         assertEquals(500.0, result, 0.0);
 
-        adu.publish("X", -500.0);
+        dp.setDouble("X", -500.0);
         result = doubleNeg.evaluate();
         assertEquals(-500.0, result, 0.0);
     }

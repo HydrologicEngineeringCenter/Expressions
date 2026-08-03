@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 import org.junit.Test;
-import usace.hec.expressions.BaseDataUpdater;
-import usace.hec.expressions.DataListener;
+import usace.hec.expressions.DataHub;
+import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.DoubleExpressionNode;
 import usace.hec.expressions.DoubleVariableNode;
 
@@ -15,44 +15,42 @@ public class MaxMinTest {
     public void testEvaluate() {
         DoubleVariableNode x = new DoubleVariableNode("X");
         DoubleVariableNode y = new DoubleVariableNode("Y");
-        BaseDataUpdater adu = new BaseDataUpdater();
+        DataProvider dp = new DataHub();
+        x.setProvider(dp);
+        y.setProvider(dp);
 
         DoubleExpressionNode max = new DoubleMaxNode(x, y);
         DoubleExpressionNode min = new DoubleMinNode(x, y);
 
-        List<DataListener> list = max.fetchListeners();
-        for (DataListener d : list) {
-            adu.register(d);
-        }
 
-        adu.publish("X", 1.0);
-        adu.publish("Y", 1.0);
+        dp.setDouble("X", 1.0);
+        dp.setDouble("Y", 1.0);
 
         double result = max.evaluate();
         double result2 = min.evaluate();
         assertEquals(1.0, result, 0.0);
         assertEquals(1.0, result2, 0.0);
 
-        adu.publish("X", 2.0);
+        dp.setDouble("X", 2.0);
         result = max.evaluate();
         result2 = min.evaluate();
         assertEquals(2.0, result, 0.0);
         assertEquals(1.0, result2, 0.0);
 
-        adu.publish("Y", 10.0);
+        dp.setDouble("Y", 10.0);
         result = max.evaluate();
         result2 = min.evaluate();
         assertEquals(10.0, result, 0.0);
         assertEquals(2.0, result2, 0.0);
 
-        adu.publish("X", -13.0);
-        adu.publish("Y", 3.0);
+        dp.setDouble("X", -13.0);
+        dp.setDouble("Y", 3.0);
         result = max.evaluate();
         result2 = min.evaluate();
         assertEquals(3.0, result, 0.0);
         assertEquals(-13.0, result2, 0.0);
 
-        adu.publish("Y", -1000.0);
+        dp.setDouble("Y", -1000.0);
         result = max.evaluate();
         result2 = min.evaluate();
         assertEquals(-13.0, result, 0.0);

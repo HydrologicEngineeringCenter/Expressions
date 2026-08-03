@@ -38,12 +38,6 @@ public class DoubleToIntegerCoerceNode implements UnaryExpressionNode, IntegerEx
     }
 
     @Override
-    public List<DataListener> fetchListeners() {
-        // Coercion nodes are passive; propagate listener collection to the child.
-        return child.fetchListeners();
-    }
-
-    @Override
     public void setProvider(DataProvider provider) {
         // Coercion nodes don't hold state; propagate provider setup to the child.
         child.setProvider(provider);

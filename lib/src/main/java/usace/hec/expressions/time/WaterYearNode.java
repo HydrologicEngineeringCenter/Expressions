@@ -1,11 +1,6 @@
 package usace.hec.expressions.time;
 
-import usace.hec.expressions.DateTimeExpressionNode;
-import usace.hec.expressions.ExpressionNode;
-import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.ExpressionType;
-import usace.hec.expressions.IntegerExpressionNode;
-import usace.hec.expressions.UnaryExpressionNode;
+import usace.hec.expressions.*;
 
 import java.io.Serial;
 import java.time.LocalDateTime;
@@ -46,4 +41,6 @@ public class WaterYearNode extends CalendarYearNode {
     public ExpressionNode child() {
         return this.child;
     }
+    @Override
+    public void setProvider(DataProvider dp) { super.setProvider(dp); }
 }

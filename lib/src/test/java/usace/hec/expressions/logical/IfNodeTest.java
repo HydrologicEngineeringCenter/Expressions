@@ -5,13 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
-import usace.hec.expressions.ArrayDataUpdater;
-import usace.hec.expressions.BaseDataUpdater;
-import usace.hec.expressions.BooleanExpressionNode;
-import usace.hec.expressions.DataListener;
-import usace.hec.expressions.DoubleConstantNode;
-import usace.hec.expressions.DoubleExpressionNode;
-import usace.hec.expressions.DoubleVariableNode;
+import usace.hec.expressions.*;
 import usace.hec.expressions.comparison.DoubleGreaterThanNode;
 import usace.hec.expressions.comparison.DoubleGreaterThanOrEqualNode;
 import usace.hec.expressions.comparison.DoubleLessThanNode;
@@ -33,7 +27,11 @@ public class IfNodeTest {
         values.add(1.0);
         values.add(2.0);
         values.add(3.0);
-        ArrayDataUpdater adu = new ArrayDataUpdater(values);
+        int index = 0;
+
+        DataProvider dp = new DataHub();
+        x.setProvider(dp);
+        y.setProvider(dp);
 
         BooleanExpressionNode condition = new DoubleGreaterThanNode(x, y);
         DoubleExpressionNode add = new DoubleAddNode(x, y);
@@ -45,37 +43,33 @@ public class IfNodeTest {
         String expressionInfix = ifNode.ExcelSyntax();
         System.out.print(expressionInfix + "\n");
 
-        List<DataListener> list = ifNode.fetchListeners();
-        for (DataListener d : list) {
-            adu.register(d);
-        }
 
-        adu.publishNext("X");
-        adu.publishNext("Y");
-        adu.advance();
+        dp.setDouble("X", values.get(index));
+        dp.setDouble("Y", values.get(index));
+        index+=1;
 
         double result = ifNode.evaluate();
         assertEquals(1.0, result, 0.0); // 1!>1 => 1*1=1
 
-        adu.publishNext("X"); // advance x: 2>1 => 1+2=3
+        dp.setDouble("X", values.get(index)); // advance x: 2>1 => 1+2=3
         result = ifNode.evaluate();
         assertEquals(3.0, result, 0.0);
 
-        adu.publishNext("Y"); // advance y: 2!>2 => 2*2=4
+        dp.setDouble("Y", values.get(index)); // advance y: 2!>2 => 2*2=4
         result = ifNode.evaluate();
         assertEquals(4.0, result, 0.0);
 
-        adu.advance();
-        adu.publishNext("Y"); // advance y: 2!>3 => 2*3=6
+        index+=1;
+        dp.setDouble("Y", values.get(index)); // advance y: 2!>3 => 2*3=6
         result = ifNode.evaluate();
         assertEquals(6.0, result, 0.0);
 
-        adu.publishNext("X"); // advance x: 3!>3 => 3*3=9
+        dp.setDouble("X", values.get(index)); // advance x: 3!>3 => 3*3=9
         result = ifNode.evaluate();
         assertEquals(9.0, result, 0.0);
 
         // Looney test
-        adu.publish("X", 100.0);
+        dp.setDouble("X", 100.0);
         result = ifNode.evaluate(); // 100>3 => 100+3=103
         assertEquals(103.0, result, 0.0);
     }
@@ -92,7 +86,10 @@ public class IfNodeTest {
         values.add(10.0);
         values.add(8.0);
         values.add(6.0);
-        ArrayDataUpdater adu = new ArrayDataUpdater(values);
+        DataProvider dp = new DataHub();
+        x.setProvider(dp);
+        y.setProvider(dp);
+        int index = 0;
 
         BooleanExpressionNode innerCondition = new DoubleGreaterThanNode(y, x);
         DoubleExpressionNode add = new DoubleAddNode(x, y);
@@ -110,32 +107,28 @@ public class IfNodeTest {
         String expressionInfix = outerIf.ExcelSyntax();
         System.out.print(expressionInfix + "\n");
 
-        List<DataListener> list = outerIf.fetchListeners();
-        for (DataListener d : list) {
-            adu.register(d);
-        }
 
-        adu.publishNext("X");
-        adu.publishNext("Y");
-        adu.advance();
+        dp.setDouble("X", values.get(index));
+        dp.setDouble("Y", values.get(index));
+        index+=1;
 
         double result = outerIf.evaluate();
         assertEquals(100.0, result, 0.0); // 10!<=7 => 10!>10 => 10*10=100
 
-        adu.publishNext("X"); // 8!<=7 => 10>8 => 10+8=18
+        dp.setDouble("X", values.get(index)); // 8!<=7 => 10>8 => 10+8=18
         result = outerIf.evaluate();
         assertEquals(18.0, result, 0.0);
 
-        adu.publishNext("Y"); // 8!>8 => 8*8=64
+        dp.setDouble("Y", values.get(index)); // 8!>8 => 8*8=64
         result = outerIf.evaluate();
         assertEquals(64.0, result, 0.0);
 
-        adu.advance();
-        adu.publishNext("Y"); // 6!>8 => 6*8=48
+        index+=1;
+        dp.setDouble("Y", values.get(index)); // 6!>8 => 6*8=48
         result = outerIf.evaluate();
         assertEquals(48.0, result, 0.0);
 
-        adu.publishNext("X"); // 6<=7 => 222
+        dp.setDouble("X", values.get(index)); // 6<=7 => 222
         result = outerIf.evaluate();
         assertEquals(222.0, result, 0.0);
     }
@@ -146,7 +139,8 @@ public class IfNodeTest {
         // IF(500 <= X AND X <= 1000, X, IF(X < 500, X + 500, 1000))
 
         DoubleVariableNode x = new DoubleVariableNode("X");
-        BaseDataUpdater adu = new BaseDataUpdater();
+        DataHub dp = new DataHub();
+        x.setProvider(dp);
 
         DoubleConstantNode const1 = new DoubleConstantNode(500.0);
         DoubleConstantNode const2 = new DoubleConstantNode(1000.0);
@@ -164,21 +158,16 @@ public class IfNodeTest {
         System.out.print(expression + "\n");
         String expressionInfix = outerIfNode.ExcelSyntax();
         System.out.print(expressionInfix + "\n");
-
-        List<DataListener> list = outerIfNode.fetchListeners();
-        for (DataListener d : list) {
-            adu.register(d);
-        }
-
-        adu.publish("X", 200.0);
+        
+        dp.setDouble("X", 200.0);
         double result = outerIfNode.evaluate();
         assertEquals(700.0, result, 0.0); // 200<500 => 200+500=700
 
-        adu.publish("X", 670.0);
+        dp.setDouble("X", 670.0);
         result = outerIfNode.evaluate();
         assertEquals(670.0, result, 0.0); // 500<=670<=1000 => 670
 
-        adu.publish("X", 1200.0);
+        dp.setDouble("X", 1200.0);
         result = outerIfNode.evaluate();
         assertEquals(1000.0, result, 0.0); // 1200>1000 => 1000
     }

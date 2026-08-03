@@ -4,10 +4,6 @@ import java.util.List;
 
 public interface UnaryExpressionNode  extends ExpressionNode {
     ExpressionNode child();
-    @Override
-    public default List<DataListener> fetchListeners() {
-        return child().fetchListeners();
-    }
 
     @Override
     public default String PreFixSyntax() {

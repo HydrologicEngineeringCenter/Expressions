@@ -35,4 +35,6 @@ public class LeapYearNode implements UnaryExpressionNode, BooleanExpressionNode 
     public ExpressionNode child() {
         return this.child;
     }
+    @Override
+    public void setProvider(DataProvider dp) { child.setProvider(dp); }
 }

@@ -3,7 +3,6 @@ package usace.hec.expressions.strings;
 import java.io.Serial;
 import java.util.List;
 
-import usace.hec.expressions.DataListener;
 import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.IntegerExpressionNode;
@@ -36,14 +35,6 @@ public class SubstringNode implements StringExpressionNode {
     @Override
     public String ExcelSyntax() {
         return "SUBSTRING(" + source.ExcelSyntax() + "," + beginIndex.ExcelSyntax() + "," + endIndex.ExcelSyntax() + ")";
-    }
-
-    @Override
-    public List<DataListener> fetchListeners() {
-        List<DataListener> list = source.fetchListeners();
-        list.addAll(beginIndex.fetchListeners());
-        list.addAll(endIndex.fetchListeners());
-        return list;
     }
 
     @Override

@@ -24,15 +24,6 @@ public class CoercionNodeTest {
         assertEquals("TODOUBLE(42)", coerceNode.ExcelSyntax());
     }
 
-    @Test
-    public void integerToDoubleCoerceNodePropagatesListeners() {
-        IntegerVariableNode var = new IntegerVariableNode("X");
-        IntegerToDoubleCoerceNode coerceNode = new IntegerToDoubleCoerceNode(var);
-
-        java.util.List<DataListener> listeners = coerceNode.fetchListeners();
-        assertEquals(1, listeners.size());
-        assertEquals("X", ((IntegerVariableNode)listeners.get(0).owner()).getName());
-    }
 
     @Test
     public void integerToDoubleCoerceNodePropagatesProvider() {
@@ -40,7 +31,7 @@ public class CoercionNodeTest {
         IntegerToDoubleCoerceNode coerceNode = new IntegerToDoubleCoerceNode(var);
 
         DataHub provider = new DataHub();
-        provider.setValue("X", 99);
+        provider.setInt("X", 99);
         coerceNode.setProvider(provider);
 
         assertEquals(99.0, coerceNode.evaluate(), 0.0);
@@ -64,22 +55,12 @@ public class CoercionNodeTest {
     }
 
     @Test
-    public void doubleToIntegerCoerceNodePropagatesListeners() {
-        DoubleVariableNode var = new DoubleVariableNode("Y");
-        DoubleToIntegerCoerceNode coerceNode = new DoubleToIntegerCoerceNode(var);
-
-        java.util.List<DataListener> listeners = coerceNode.fetchListeners();
-        assertEquals(1, listeners.size());
-        assertEquals("Y", ((DoubleVariableNode)listeners.get(0).owner()).name);
-    }
-
-    @Test
     public void doubleToIntegerCoerceNodePropagatesProvider() {
         DoubleVariableNode var = new DoubleVariableNode("Y");
         DoubleToIntegerCoerceNode coerceNode = new DoubleToIntegerCoerceNode(var);
 
         DataHub provider = new DataHub();
-        provider.setValue("Y", 99.9);
+        provider.setDouble("Y", 99.9);
         coerceNode.setProvider(provider);
 
         assertEquals(99, coerceNode.evaluate());

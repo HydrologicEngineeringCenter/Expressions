@@ -5,8 +5,8 @@ import static org.junit.Assert.assertThrows;
 
 import java.util.List;
 import org.junit.Test;
-import usace.hec.expressions.BaseDataUpdater;
-import usace.hec.expressions.DataListener;
+import usace.hec.expressions.DataHub;
+import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.DoubleExpressionNode;
 import usace.hec.expressions.DoubleVariableNode;
 
@@ -16,41 +16,39 @@ public class MultiDivTest {
     public void testEvaluate() {
         DoubleVariableNode x = new DoubleVariableNode("X");
         DoubleVariableNode y = new DoubleVariableNode("Y");
-        BaseDataUpdater adu = new BaseDataUpdater();
+        DataProvider dp = new DataHub();
 
         DoubleExpressionNode multi = new DoubleMultiplyNode(x, y);
         DoubleExpressionNode div = new DoubleDivideNode(x, y);
 
-        List<DataListener> list = multi.fetchListeners();
-        for (DataListener d : list) {
-            adu.register(d);
-        }
+        x.setProvider(dp);
+        y.setProvider(dp);
 
-        adu.publish("X", 1.0);
-        adu.publish("Y", 1.0);
+        dp.setDouble("X", 1.0);
+        dp.setDouble("Y", 1.0);
 
         double result = multi.evaluate();
         double result2 = div.evaluate();
         assertEquals(1.0, result, 0.0);
         assertEquals(1.0, result2, 0.0);
 
-        adu.publish("Y", 2.0);
+        dp.setDouble("Y", 2.0);
         result = multi.evaluate();
         result2 = div.evaluate();
         assertEquals(2.0, result, 0.0);
         assertEquals(0.5, result2, 0.0);
 
-        adu.publish("X", 16.0);
+        dp.setDouble("X", 16.0);
         result = multi.evaluate();
         result2 = div.evaluate();
         assertEquals(32.0, result, 0.0);
         assertEquals(8.0, result2, 0.0);
 
-        adu.publish("X", 3.0);
+        dp.setDouble("X", 3.0);
         result = multi.evaluate();
         assertEquals(6.0, result, 0.0);
 
-        adu.publish("Y", 0.0);
+        dp.setDouble("Y", 0.0);
         ArithmeticException ex = assertThrows(ArithmeticException.class, () -> div.evaluate());
         assertEquals("Division by zero", ex.getMessage());
     }

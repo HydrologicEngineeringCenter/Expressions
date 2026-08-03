@@ -3,6 +3,7 @@ package usace.hec.expressions.strings;
 import java.io.Serial;
 
 import usace.hec.expressions.BinaryExpressionNode;
+import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.StringExpressionNode;
 
@@ -35,5 +36,10 @@ public class ConcatenateNode implements StringExpressionNode, BinaryExpressionNo
     }
     public static ExpressionOperator StaticOperator() {
         return ExpressionOperator.CONCAT;
+    }
+    @Override
+    public void setProvider(DataProvider dp) {
+        left.setProvider(dp);
+        right.setProvider(dp);
     }
 }

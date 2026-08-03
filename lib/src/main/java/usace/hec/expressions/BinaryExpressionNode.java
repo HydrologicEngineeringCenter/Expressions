@@ -9,12 +9,7 @@ import java.util.List;
 public interface BinaryExpressionNode extends ExpressionNode{
     ExpressionNode left();
     ExpressionNode right();
-    @Override
-    public default List<DataListener> fetchListeners() {
-       List<DataListener> list = left().fetchListeners();
-       list.addAll(right().fetchListeners());
-       return list;
-    }
+
     @Override
     public default String PreFixSyntax() {
         StringBuilder sb = new StringBuilder();

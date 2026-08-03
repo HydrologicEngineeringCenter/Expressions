@@ -3,7 +3,6 @@ package usace.hec.expressions.strings;
 import java.io.Serial;
 import java.util.List;
 
-import usace.hec.expressions.DataListener;
 import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.ExpressionType;
@@ -40,16 +39,7 @@ public class ReplaceNode implements StringExpressionNode {
     }
 
     @Override
-    public List<DataListener> fetchListeners() {
-        List<DataListener> list = source.fetchListeners();
-        list.addAll(target.fetchListeners());
-        list.addAll(replacement.fetchListeners());
-        return list;
-    }
-
-    @Override
     public void setProvider(DataProvider dp) {
-
         source.setProvider(dp);
         target.setProvider(dp);
         replacement.setProvider(dp);

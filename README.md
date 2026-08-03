@@ -132,18 +132,6 @@ tree.setProvider(provider);
 DoubleExpressionNode typedTree = (DoubleExpressionNode) tree;
 double result = typedTree.evaluate(); // 70.0
 ```
-# Listener Collection
-Collect all variable listeners from a tree to register with a DataUpdater:
-
-```java
-List<DataListener> listeners = tree.fetchListeners();
-for (DataListener listener : listeners) {
-    dataUpdater.register(listener);
-}
-// When data changes, DataUpdater calls onDataUpdate() on each listener
-```
-# UpdateableLeafNode
-For manual tree construction (without parsing), UpdateableLeafNode is the base class for variable nodes:
 
 ```java
 UpdateableLeafNode var = new UpdateableLeafNode("flowRate");

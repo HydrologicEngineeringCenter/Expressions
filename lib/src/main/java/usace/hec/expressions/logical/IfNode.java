@@ -4,7 +4,6 @@ import java.io.Serial;
 import java.util.List;
 
 import usace.hec.expressions.BooleanExpressionNode;
-import usace.hec.expressions.DataListener;
 import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
@@ -25,14 +24,6 @@ public abstract class IfNode implements ExpressionNode{
         conditionNode = condition;
         thenNode = thenn;
         elseNode = elsee;
-    }
-
-    @Override
-    public List<DataListener> fetchListeners() {
-        List<DataListener> list = conditionNode.fetchListeners();
-        list.addAll(thenNode.fetchListeners());
-        list.addAll(elseNode.fetchListeners());
-        return list;  
     }
 
     @Override

@@ -6,7 +6,6 @@ import java.io.Serial;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import usace.hec.expressions.DataListener;
 import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.DateTimeExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
@@ -53,13 +52,7 @@ public class DateNode implements DateTimeExpressionNode {
     public static ExpressionOperator StaticOperator(){
         return ExpressionOperator.DATE;
     }
-    @Override
-    public List<DataListener> fetchListeners() {
-        List<DataListener> list = _yyyy.fetchListeners();
-       list.addAll(_mm.fetchListeners());
-       list.addAll(_dd.fetchListeners());
-       return list;  
-    }
+
     @Override
     public void setProvider(DataProvider dp) {
         _yyyy.setProvider(dp);

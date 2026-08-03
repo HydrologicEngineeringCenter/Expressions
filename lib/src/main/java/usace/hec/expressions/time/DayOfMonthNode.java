@@ -1,12 +1,6 @@
 package usace.hec.expressions.time;
 
-import usace.hec.expressions.DateTimeExpressionNode;
-import usace.hec.expressions.DisplayNode;
-import usace.hec.expressions.ExpressionNode;
-import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.ExpressionType;
-import usace.hec.expressions.IntegerExpressionNode;
-import usace.hec.expressions.UnaryExpressionNode;
+import usace.hec.expressions.*;
 
 import java.io.Serial;
 
@@ -42,4 +36,6 @@ public class DayOfMonthNode implements UnaryExpressionNode, IntegerExpressionNod
     public ExpressionNode child() {
         return this.child;
     }
+    @Override
+    public void setProvider(DataProvider dp) { child.setProvider(dp); }
 }

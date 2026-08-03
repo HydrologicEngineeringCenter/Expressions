@@ -36,7 +36,6 @@ public enum ExpressionOperator {
     BEFORE("Time", "BEFORE", "BEFORE","BEFORE(,)", "BEFORE(,)", Arity.BINARY),
     TODAY("Time", "TODAY", "TODAY","TODAY()", "TODAY()", Arity.LEAF),
     DATE("Time", "DATE", "DATE","DATE(,,)", "DATE(,,)", Arity.TERNARY),
-    CURRENTTIMESTEP("Time", "CURRENTTIMESTEP", "CURRENTTIMESTEP","[CURRENTTIMESTEP]", "[CURRENTTIMESTEP]", Arity.UNARY),
     DOY("Time", "DOY", "DOY", "DOY()", "DOY()", Arity.UNARY),
     DOM("Time", "DOM", "DOM", "DOM()", "DOM()", Arity.UNARY),
     YEAR("Time","YEAR", "YEAR", "YEAR()", "YEAR()", Arity.UNARY),

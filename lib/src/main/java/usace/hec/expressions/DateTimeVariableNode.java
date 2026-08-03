@@ -1,11 +1,12 @@
 package usace.hec.expressions;
 
 import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DateTimeVariableNode implements DateTimeExpressionNode, DataListener, DataRequester {
+public class DateTimeVariableNode implements DateTimeExpressionNode, DataRequester {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -20,23 +21,9 @@ public class DateTimeVariableNode implements DateTimeExpressionNode, DataListene
 
     @Override
     public LocalDateTime evaluate() {
-        if (dp != null) {
-            return (LocalDateTime)dp.provideValue(name);
-        }
-        return this.value;
+        return dp.provideDate(name);
     }
 
-    @Override
-    public void onDataUpdate(DataUpdate newValue) {
-        this.value = (LocalDateTime)newValue.newValue();
-    }
-
-    @Override
-    public List<DataListener> fetchListeners() {
-        List<DataListener> list = new ArrayList<>();
-        list.add(this);
-        return list;
-    }
 
     @Override
     public String PreFixSyntax() {
@@ -46,11 +33,6 @@ public class DateTimeVariableNode implements DateTimeExpressionNode, DataListene
     @Override
     public String ExcelSyntax() {
         return "[" + this.name + "]";
-    }
-
-    @Override
-    public ExpressionNode owner() {
-        return this;
     }
 
     @Override

@@ -59,15 +59,18 @@ public class SerializationTest {
 
     @Test
     public void variableNodeRoundTripsIncludingCurrentValue() throws Exception {
+        DataProvider dp = new DataHub();
         DoubleVariableNode original = new DoubleVariableNode("Flow");
-        original.onDataUpdate(new DataUpdate("Flow", 42.0));
-        DoubleVariableNode copy = roundTrip(original);
-        assertEquals(original.evaluate(), copy.evaluate(), 0.0);
+        original.setProvider(dp);
+        dp.setDouble("Flow", 42.0);
 
-        copy.onDataUpdate(new DataUpdate("Flow", 99.0));
+        DoubleVariableNode copy = roundTrip(original);
+        copy.setProvider(dp);
+
+        assertEquals(original.evaluate(), copy.evaluate(), 0.0);
+        dp.setDouble("Flow", 99.0);
         assertEquals(99.0, copy.evaluate(), 0.0);
     }
-/* 
     @Test
     public void bigIfNodeRoundTrips() throws Exception {
         // IF([X] > [Y], [X] + [Y], [X] * [Y])
@@ -78,8 +81,7 @@ public class SerializationTest {
         values.add(1.0);
         values.add(2.0);
         values.add(3.0);
-
-        ArrayDataUpdater adu = new ArrayDataUpdater(values);
+        DataProvider dp = new DataHub();
 
         BooleanExpressionNode condition = new DoubleGreaterThanNode(x, y);
         DoubleExpressionNode add = new DoubleAddNode(x, y);
@@ -88,24 +90,21 @@ public class SerializationTest {
 
         DoubleExpressionNode copy = roundTrip(ifNode);
 
-        List<DataListener> list = ifNode.fetchListeners();
-        for (DataListener d : list) {
-            adu.register(d);
-        }
-        list = copy.fetchListeners();
-        for (DataListener d : list) {
-            adu.register(d);
-        }
+        x.setProvider(dp);
+        y.setProvider(dp);
 
-        adu.publishNext("X");
-        adu.publishNext("Y");
+        copy.setProvider(dp);
+
+        dp.setDouble("X", values.get(0));
+        dp.setDouble("Y", values.get(0));
+
         assertEquals(ifNode.evaluate(), copy.evaluate(), 0.0);
     }
 
     @Test
     public void variableNodeRoundTripsButDropsItsProvider() throws Exception {
         DataHub provider = new DataHub();
-        provider.setValue("Flow", 42.0);
+        provider.setDouble("Flow", 42.0);
 
         DoubleVariableNode requester = new DoubleVariableNode("Flow");
         requester.setProvider(provider);
@@ -118,5 +117,5 @@ public class SerializationTest {
 
         copy.setProvider(provider);
         assertEquals(42.0, copy.evaluate(), 0.0);
-    }*/
+    }
 }

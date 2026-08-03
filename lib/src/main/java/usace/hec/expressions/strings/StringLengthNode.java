@@ -2,6 +2,7 @@ package usace.hec.expressions.strings;
 
 import java.io.Serial;
 
+import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 
@@ -43,5 +44,9 @@ public class StringLengthNode extends IntegerUnaryExpressionNode {
     @Override
     public ExpressionNode child() {
         return this.source;
+    }
+    @Override
+    public void setProvider(DataProvider dp) {
+        source.setProvider(dp);
     }
 }

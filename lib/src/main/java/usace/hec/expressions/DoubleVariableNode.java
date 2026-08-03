@@ -4,7 +4,7 @@ import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DoubleVariableNode implements DoubleExpressionNode, DataListener, DataRequester {
+public class DoubleVariableNode implements DoubleExpressionNode, DataRequester {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -20,24 +20,9 @@ public class DoubleVariableNode implements DoubleExpressionNode, DataListener, D
 
     @Override
     public double evaluate() {
-        if (dp != null) {
-            
-            return (double) dp.provideValue(name);
-        }
-        return this.value;
+        return dp.provideDouble(name);
     }
 
-    @Override
-    public void onDataUpdate(DataUpdate newValue) {
-        this.value = (double)newValue.newValue();
-    }
-
-    @Override
-    public List<DataListener> fetchListeners() {
-        List<DataListener> list = new ArrayList<>();
-        list.add(this);
-        return list;
-    }
 
     @Override
     public String PreFixSyntax() {
@@ -47,11 +32,6 @@ public class DoubleVariableNode implements DoubleExpressionNode, DataListener, D
     @Override
     public String ExcelSyntax() {
         return "[" + this.name + "]";
-    }
-
-    @Override
-    public ExpressionNode owner() {
-        return this;
     }
 
     @Override

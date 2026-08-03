@@ -4,10 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 import org.junit.Test;
-import usace.hec.expressions.BaseDataUpdater;
-import usace.hec.expressions.DataListener;
+import usace.hec.expressions.DataHub;
+import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.DoubleExpressionNode;
 import usace.hec.expressions.DoubleVariableNode;
+
+import javax.xml.crypto.Data;
 
 public class AddSubNodeTest {
 
@@ -15,40 +17,37 @@ public class AddSubNodeTest {
     public void testEvaluate() {
         DoubleVariableNode x = new DoubleVariableNode("X");
         DoubleVariableNode y = new DoubleVariableNode("Y");
-        BaseDataUpdater adu = new BaseDataUpdater();
+        DataProvider dp = new DataHub();
+        x.setProvider(dp);
+        y.setProvider(dp);
 
         DoubleExpressionNode add = new DoubleAddNode(x, y);
         DoubleExpressionNode minus = new DoubleMinusNode(x, y);
-
-        List<DataListener> list = add.fetchListeners();
-        for (DataListener d : list) {
-            adu.register(d);
-        }
-
-        adu.publish("X", 1.0);
-        adu.publish("Y", 1.0);
+        
+        dp.setDouble("X", 1.0);
+        dp.setDouble("Y", 1.0);
 
         double result = add.evaluate();
         double result2 = minus.evaluate();
         assertEquals(2.0, result, 0.0);
         assertEquals(0.0, result2, 0.0);
 
-        adu.publish("X", 2.0);
+        dp.setDouble("X", 2.0);
         result = add.evaluate();
         result2 = minus.evaluate();
         assertEquals(3.0, result, 0.0);
         assertEquals(1.0, result2, 0.0);
 
-        adu.publish("Y", 2.0);
+        dp.setDouble("Y", 2.0);
         result = add.evaluate();
         assertEquals(4.0, result, 0.0);
 
-        adu.publish("X", 3.0);
-        adu.publish("Y", 3.0);
+        dp.setDouble("X", 3.0);
+        dp.setDouble("Y", 3.0);
         result = add.evaluate();
         assertEquals(6.0, result, 0.0);
 
-        adu.publish("Y", 1000.0);
+        dp.setDouble("Y", 1000.0);
         result2 = minus.evaluate();
         assertEquals(-997.0, result2, 0.0);
     }
