@@ -44,8 +44,8 @@ public class ExponentNodeTest {
         assertEquals(3.0, result, 0.0);
 
         adu.publish("X", -1000.0);
-        UnsupportedOperationException ex = assertThrows(UnsupportedOperationException.class, () -> exp.evaluate());
-        assertEquals("Imaginary number unsupported", ex.getMessage());
+        result = exp.evaluate();
+        assertEquals(result, Double.NaN,0.0);
     }
 
     @Test
