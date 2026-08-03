@@ -8,9 +8,9 @@ public class IntegerConstantNode implements IntegerExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
     
-    private final Integer value;
+    private final int value;
 
-    public IntegerConstantNode(Integer value) {
+    public IntegerConstantNode(int value) {
         this.value = value;
     }
 

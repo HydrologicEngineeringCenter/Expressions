@@ -6,7 +6,6 @@ import java.time.Instant;
 import java.util.List;
 
 public interface ExpressionNode extends Serializable {
-    //T evaluate();
     String PreFixSyntax();
     String ExcelSyntax();
     List<DataListener> fetchListeners();

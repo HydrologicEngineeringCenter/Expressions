@@ -16,7 +16,6 @@ public class SubstringNode implements StringExpressionNode {
     private final StringExpressionNode source;
     private final IntegerExpressionNode beginIndex;
     private final IntegerExpressionNode endIndex;
-    private transient DataProvider dp = null;
 
     public SubstringNode(StringExpressionNode source, IntegerExpressionNode beginIndex, IntegerExpressionNode endIndex) {
         this.source = source;
@@ -49,7 +48,6 @@ public class SubstringNode implements StringExpressionNode {
 
     @Override
     public void setProvider(DataProvider dp) {
-        this.dp = dp;
         source.setProvider(dp);
         beginIndex.setProvider(dp);
         endIndex.setProvider(dp);

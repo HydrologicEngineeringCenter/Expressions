@@ -1,12 +1,11 @@
 package usace.hec.expressions;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DateTimeVariableNode implements DateTimeExpressionNode, DataListener, DataRequester, Serializable {
+public class DateTimeVariableNode implements DateTimeExpressionNode, DataListener, DataRequester {
     @Serial
     private static final long serialVersionUID = 1L;
 

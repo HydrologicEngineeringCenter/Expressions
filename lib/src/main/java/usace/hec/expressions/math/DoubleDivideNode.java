@@ -1,7 +1,6 @@
 package usace.hec.expressions.math;
 
 import usace.hec.expressions.BinaryExpressionNode;
-import usace.hec.expressions.DisplayNode;
 import usace.hec.expressions.DoubleExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
@@ -24,10 +23,11 @@ public class DoubleDivideNode extends DoubleBinaryExpressionNode {
     }
     @Override
     public double evaluate() {
-        if (right.evaluate() == 0.0){
+        double r = right.evaluate();
+        if (r == 0.0){
             throw new ArithmeticException("Division by zero");
         }
-        return left.evaluate() / right.evaluate();
+        return left.evaluate() / r;
     }
     @Override
     public ExpressionOperator Operator() {
