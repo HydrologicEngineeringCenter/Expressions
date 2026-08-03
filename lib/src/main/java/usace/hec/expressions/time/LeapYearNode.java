@@ -1,32 +1,26 @@
 package usace.hec.expressions.time;
 
-import usace.hec.expressions.DateTimeExpressionNode;
-import usace.hec.expressions.ExpressionNode;
-import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.ExpressionType;
-import usace.hec.expressions.IntegerExpressionNode;
-import usace.hec.expressions.UnaryExpressionNode;
+import usace.hec.expressions.*;
 
 import java.io.Serial;
 
-
-public class CalendarYearNode implements UnaryExpressionNode, IntegerExpressionNode {
+public class LeapYearNode implements UnaryExpressionNode, BooleanExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
     private DateTimeExpressionNode child;
-    public CalendarYearNode(DateTimeExpressionNode child) {
+    public LeapYearNode(DateTimeExpressionNode child) {
         this.child = child;
     }
     @Override
-    public int evaluate() {
-        return child.evaluate().getYear();
+    public boolean evaluate() {
+        return child.evaluate().getYear() % 4 == 0;
     }
     @Override
     public ExpressionOperator Operator() {
         return StaticOperator();
     }
     public static ExpressionOperator StaticOperator(){
-        return ExpressionOperator.YEAR;
+        return ExpressionOperator.LEAPYEAR;
     }
 
     @Override

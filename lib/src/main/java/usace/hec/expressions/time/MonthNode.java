@@ -4,23 +4,23 @@ import usace.hec.expressions.*;
 
 import java.io.Serial;
 
-public class LeapYearNode implements UnaryExpressionNode, BooleanExpressionNode {
+public class MonthNode implements UnaryExpressionNode, IntegerExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
     private DateTimeExpressionNode child;
-    public LeapYearNode(DateTimeExpressionNode child) {
+    public MonthNode(DateTimeExpressionNode child) {
         this.child = child;
     }
     @Override
-    public boolean evaluate() {
-        return child.evaluate().getDayOfMonth();
+    public int evaluate() {
+        return child.evaluate().getYear();
     }
     @Override
     public ExpressionOperator Operator() {
         return StaticOperator();
     }
     public static ExpressionOperator StaticOperator(){
-        return ExpressionOperator.LEAPYEAR;
+        return ExpressionOperator.MONTH;
     }
 
     @Override

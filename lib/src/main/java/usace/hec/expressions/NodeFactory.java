@@ -143,6 +143,11 @@ public class NodeFactory {
         } else if (type == ExpressionType.DATE){
             return switch (op) {
                 case DOY -> new DayOfYearNode((DateTimeExpressionNode)child);
+                case DOM -> new DayOfMonthNode((DateTimeExpressionNode)child);
+                case YEAR -> new CalendarYearNode((DateTimeExpressionNode)child);
+                case WATERYEAR -> new WaterYearNode((DateTimeExpressionNode)child);
+                case LEAPYEAR -> new LeapYearNode((DateTimeExpressionNode)child);
+                case MONTH -> new MonthNode((DateTimeExpressionNode)child);
                 default -> { setError(s, currentPos(s), "Unary " + op + " not implemented for DATE", ""); yield new IntegerConstantNode(0); }
             };
         } else if (type == ExpressionType.STRING){
@@ -292,8 +297,13 @@ public class NodeFactory {
                 return new TodayNode();
 
             case DOY:
+            case DOM:
+            case YEAR:
+            case WATERYEAR:
+            case LEAPYEAR:
+            case MONTH:
                 if (args.size() != 1) {
-                    setError(s, currentPos(s), "DOY expects exactly 1 argument", "");
+                    setError(s, currentPos(s), fn.name() + "expects exactly 1 argument", "");
                     return null;
                 }
                 return buildUnaryNode(s, fn, args.get(0));
