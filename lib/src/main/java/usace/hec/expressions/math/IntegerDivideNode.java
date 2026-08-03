@@ -23,10 +23,11 @@ public class IntegerDivideNode extends IntegerBinaryExpressionNode {
     }
     @Override
     public int evaluate() {
-        if (right.evaluate() == 0.0){
+        int r = right.evaluate();
+        if (r == 0){
             throw new ArithmeticException("Division by zero");
         }
-        return left.evaluate() / right.evaluate();
+        return left.evaluate() /r;
     }
     @Override
     public ExpressionOperator Operator() {
