@@ -1,11 +1,10 @@
 package usace.hec.expressions;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BooleanVariableNode implements BooleanExpressionNode, DataListener, DataRequester, Serializable {
+public class BooleanVariableNode implements BooleanExpressionNode, DataListener, DataRequester {
     @Serial
     private static final long serialVersionUID = 1L;
 

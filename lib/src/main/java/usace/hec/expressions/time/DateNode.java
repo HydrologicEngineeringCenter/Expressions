@@ -6,12 +6,9 @@ import java.io.Serial;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.apache.commons.math3.stat.descriptive.StatisticalMultivariateSummary;
-
 import usace.hec.expressions.DataListener;
 import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.DateTimeExpressionNode;
-import usace.hec.expressions.DisplayNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.ExpressionType;
 import usace.hec.expressions.IntegerExpressionNode;

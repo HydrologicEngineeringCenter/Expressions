@@ -1,7 +1,6 @@
 package usace.hec.expressions.logical;
 
 import usace.hec.expressions.BooleanExpressionNode;
-import usace.hec.expressions.DisplayNode;
 import usace.hec.expressions.DoubleExpressionNode;
 
 

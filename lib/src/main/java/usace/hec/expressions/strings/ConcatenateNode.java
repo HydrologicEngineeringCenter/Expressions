@@ -1,7 +1,6 @@
 package usace.hec.expressions.strings;
 
 import java.io.Serial;
-import java.io.Serializable;
 
 import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionOperator;

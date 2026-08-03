@@ -2,7 +2,6 @@ package usace.hec.expressions.logical;
 
 import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.BooleanExpressionNode;
-import usace.hec.expressions.DisplayNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.ExpressionType;
