@@ -23,10 +23,12 @@ public class DoubleExponentNode extends DoubleBinaryExpressionNode {
     }
     @Override
     public double evaluate() {
-        if (left.evaluate() < 0 && right.evaluate() < 1.0){
+        double l=left.evaluate();
+        double r = right.evaluate();
+        if (l < 0.0 && r < 1.0){
             throw new UnsupportedOperationException("Imaginary number unsupported");
         }
-        return Math.pow(left.evaluate(), right.evaluate());
+        return Math.pow(l, r);
     }
 
     @Override
