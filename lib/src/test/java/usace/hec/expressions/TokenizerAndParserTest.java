@@ -40,16 +40,27 @@ public class TokenizerAndParserTest {
         TEST_CASES.add(Map.of("input", "AND(TRUE, FALSE)", "error", false, "msg", "", "result", false));
         TEST_CASES.add(Map.of("input", "XOR(TRUE, TRUE)", "error", false, "msg", "", "result", false));
         TEST_CASES.add(Map.of("input", "XOR(TRUE, FALSE)", "error", false, "msg", "", "result", true));
+        //Date Tests
         TEST_CASES.add(Map.of("input", "TODAY()", "error", false, "msg", "", "result", LocalDateTime.now()));
         TEST_CASES.add(Map.of("input", "Date(1983,12,25)", "error", false, "msg", "", "result", LocalDateTime.of(1983, 12, 25, 0, 0)));
         TEST_CASES.add(Map.of("input", "DOY(Date(1983,12,25))", "error", false, "msg", "", "result", 359));
+        TEST_CASES.add(Map.of("input", "DOM(Date(1983,12,25))", "error", false, "msg", "", "result", 25));
+        TEST_CASES.add(Map.of("input", "YEAR(Date(1983,12,25))", "error", false, "msg", "", "result", 1983));
+        TEST_CASES.add(Map.of("input", "MONTH(Date(1983,12,25))", "error", false, "msg", "", "result", 12));
+        TEST_CASES.add(Map.of("input", "WATERYEAR(Date(1983,12,25))", "error", false, "msg", "", "result", 1984));
+        TEST_CASES.add(Map.of("input", "WATERYEAR(Date(1983,10,1))", "error", false, "msg", "", "result", 1984));
+        TEST_CASES.add(Map.of("input", "WATERYEAR(Date(1983,9,30))", "error", false, "msg", "", "result", 1983));
+        TEST_CASES.add(Map.of("input", "LEAPYEAR(Date(1983,12,25))", "error", false, "msg", "", "result", false));
+        TEST_CASES.add(Map.of("input", "LEAPYEAR(Date(1984,12,25))", "error", false, "msg", "", "result", true));
         TEST_CASES.add(Map.of("input", "AFTER(Date(1983,12,25),Date(1982,12,25))", "error", false, "msg", "", "result", true));
         TEST_CASES.add(Map.of("input", "BEFORE(Date(1983,12,25),Date(1982,12,25))", "error", false, "msg", "", "result", false));
         TEST_CASES.add(Map.of("input", "IF(AFTER(TODAY(),Date(1982,12,25)), TODAY(), Date(1982,12,25))", "error", false, "msg", "", "result", LocalDateTime.now()));
+        //Coercion Tests
         TEST_CASES.add(Map.of("input", "TOINT(2^2^3)", "error", false, "msg", "", "result", 64));
         TEST_CASES.add(Map.of("input", "TODOUBLE(2^2^3)", "error", false, "msg", "", "result", 64.0));
         TEST_CASES.add(Map.of("input", "TOINT(2.0^2.0^3.0)", "error", false, "msg", "", "result", 64));
         TEST_CASES.add(Map.of("input", "TODOUBLE(2.0^2.0^3.0)", "error", false, "msg", "", "result", 64.0));
+        //String Tests
         TEST_CASES.add(Map.of("input", "CONCAT(\"Hello, \",\"World!\")", "error", false, "msg", "", "result", "Hello, World!"));
         TEST_CASES.add(Map.of("input", "UPPER(CONCAT(\"foo\",\"bar\"))", "error", false, "msg", "", "result", "FOOBAR"));
         TEST_CASES.add(Map.of("input", "CONTAINS(\"Hello World\",\"World\")", "error", false, "msg", "", "result", true));

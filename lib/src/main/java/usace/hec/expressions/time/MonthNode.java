@@ -13,7 +13,7 @@ public class MonthNode implements UnaryExpressionNode, IntegerExpressionNode {
     }
     @Override
     public int evaluate() {
-        return child.evaluate().getYear();
+        return child.evaluate().getMonthValue();
     }
     @Override
     public ExpressionOperator Operator() {

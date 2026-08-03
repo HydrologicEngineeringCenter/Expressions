@@ -21,7 +21,7 @@ public class WaterYearNode extends CalendarYearNode {
     @Override
     public int evaluate() {
         int year = super.evaluate();
-        if (child.evaluate().isAfter(LocalDateTime.of(year, 10, 1,0,0))){
+        if (((DateTimeExpressionNode) super.child()).evaluate().isAfter(LocalDateTime.of(year, 9, 30,23,59,59,999999999))){
             return year + 1;
         }
         return year;
