@@ -29,53 +29,61 @@ if (!result.hasError()) {
 ```
 # Supported Syntax
 ## Literals
-Type	Examples
-Integer	42, 0, -17
-Double	3.14, 0.0, 1e10
-Boolean	TRUE, FALSE
-String	"Hello, World!"
+|Type|Examples|
+|----|------|
+|Integer | 42, 0, -17 |
+|Double | 3.14, 0.0, 1e10 |
+|Boolean | TRUE, FALSE |
+|String | "Hello, World!" |
+
 ## Variables
 Bracket syntax references external data:
 
-```css
-[X], [flowRate], [temperature]
+`[X], [flowRate], [temperature]`
+
+A DataProvider can provide data at execution time for each variable to update the value reperesented and produce a different result from the overall AST.
+
+
 Infix Operators
-Precedence	Operators	Example
-Lowest	||	a || b
-^^ (XOR)	a ^^ b
-&&	a && b
-==, >, <, >=, <=	a == b
-+, -	a + b
-*, /	a * b
-```
-Highest	^	2 ^ 2 ^ 3
-Note: Operator precedence follows Excel conventions. Exponentiation is left-associative: 2^2^3 evaluates as (2^2)^3 = 64.
+
+|Precedence|	Operators|	Example|
+|-|-|-|
+|Lowest |	`||` (OR) |	`a || b`|
+||`^^` (XOR)|	`a ^^ b`|
+||`&&`|	`a && b`|
+||`==`, `>`, `<`, `>=`, `<=`|	`a == b`|
+||`+`, `-`	|`a + b`|
+||`*`, `/`	|`a * b`|
+|Highest|	`^`|	`2 ^ 2 ^ 3`|
+
+Note: Operator precedence follows Excel conventions. Exponentiation is left-associative: `2^2^3` evaluates as `(2^2)^3 = 64`.
 
 # Functions
-Function	Arguments	Returns	Description
-IF(cond, then, else)	3	double/int/date	Conditional branching
-MAX(a, b, ...)	1+	double/int	Maximum of arguments
-MIN(a, b, ...)	1+	double/int	Minimum of arguments
-ABS(x)	1	double/int	Absolute value
-FLOOR(x)	1	double	Floor value
-CEILING(x)	1	double	Ceiling value
-TOINT(x)	1	int	Coerce to integer
-TODOUBLE(x)	1	double	Coerce to double
-TODAY()	0	date	Current date/time
-Date(y, m, d)	3	date	Construct date
-DOY(date)	1	int	Day of year (1-366)
-AFTER(d1, d2)	2	boolean	Date comparison
-BEFORE(d1, d2)	2	boolean	Date comparison
-CONCAT(s1, s2)	2	string	Concatenate strings
-UPPER(s)	1	string	Uppercase
-LOWER(s)	1	string	Lowercase
-TRIM(s)	1	string	Remove whitespace
-SUBSTRING(s, start, end)	3	string	Extract substring
-LENGTH(s)	1	int	String length
-CONTAINS(s, sub)	2	boolean	Check substring
-STARTSWITH(s, prefix)	2	boolean	Check prefix
-ENDSWITH(s, suffix)	2	boolean	Check suffix
-REPLACE(s, target, rep)	3	string	Replace text
+|Function|	Arguments	|Returns	|Description|
+|-|-|-|-|
+|IF(cond, then, else)|	3	|double/int/date|	Conditional branching|
+|MAX(a, b)|	2	|double/int	|Maximum of arguments|
+|MIN(a, b)|	2	|double/int	|Minimum of arguments|
+|ABS(x)|	1	|double/int	|Absolute value|
+|FLOOR(x)|	1	|double	|Floor value|
+|CEILING(x)|	1	|double	Ceiling value|
+|TOINT(x)|	1	|int	Coerce to integer|
+|TODOUBLE(x)|	1	|double|	Coerce to double
+|TODAY()|	0	|date	|Current date/time|
+|Date(y, m, d)|	3	|date	|Construct date|
+|DOY(date)	|1	|int	|Day of year (1-366)|
+|AFTER(d1, d2)|	2|	boolean	Date comparison|
+|BEFORE(d1, d2)|	2|	boolean	Date comparison|
+|CONCAT(s1, s2)|	2|	string	Concatenate strings|
+|UPPER(s)	|1	|string	Uppercase|
+|LOWER(s)|	1|	string	|Lowercase|
+|TRIM(s)|	1	|string	|Remove whitespace|
+|SUBSTRING(s, start, end)|	3	|string	Extract substring|
+|LENGTH(s)	|1	|int|	String |length|
+|CONTAINS(s, sub)|	2	|boolean|	Check substring|
+|STARTSWITH(s, prefix)|	2|	boolean|	Check prefix|
+|ENDSWITH(s, suffix)|	2|	boolean|	Check suffix|
+|REPLACE(s, target, rep)|	3|	string|	Replace text|
 #  Examples
 ```css
 IF([flow] > 100.0, [flow] * 0.8, [flow])
@@ -88,20 +96,23 @@ DOY(Date(2024, 12, 25))
 # Type System
 The library uses five typed expression interfaces, each declaring a typed evaluate() method:
 
-Interface	Return Type	Example Nodes
-DoubleExpressionNode	double	DoubleConstantNode, DoubleAddNode, DoubleIfNode
-IntegerExpressionNode	int	IntegerConstantNode, IntegerAddNode, IntegerIfNode
-BooleanExpressionNode	boolean	BooleanConstantNode, AndNode, DoubleGreaterThanNode
-StringExpressionNode	String	StringConstantNode, ConcatenateNode, ToUpperNode
-DateTimeExpressionNode	LocalDateTime	TodayNode, DateNode, DateTimeIfNode
-Automatic Coercion
+|Interface|	Return Type|	Example Nodes|
+|-|-|-|
+|DoubleExpressionNode	|double	|DoubleConstantNode, DoubleAddNode, DoubleIfNode|
+|IntegerExpressionNode|	int	|IntegerConstantNode, IntegerAddNode, IntegerIfNode|
+|BooleanExpressionNode|	boolean	|BooleanConstantNode, AndNode, DoubleGreaterThanNode|
+|StringExpressionNode|	String	|StringConstantNode, ConcatenateNode, ToUpperNode|
+|DateTimeExpressionNode	|LocalDateTime	|TodayNode, DateNode, DateTimeIfNode|
+
+#Automatic Coercion
+
 The parser applies widening coercion automatically:
 
-int + double → int coerced to double, produces DoubleAddNode
-MAX(1, 2.5, 3) → all promoted to double, produces DoubleMaxNode chain
+`int + double` → int promoted to double, produces DoubleAddNode
+`MAX(1, 2.5)` → int promoted to double, produces DoubleMaxNode chain
 Narrowing requires explicit functions: TOINT(3.7) or DATE(y, m, d) (args coerced to int).
 
-Variable Nodes & Data Flow
+# Variable Nodes & Data Flow
 Variable nodes reference external data by name and update through the observer pattern:
 
 ```java
@@ -190,10 +201,11 @@ bash
 Requires Java 21. The build produces a JAR with all node classes, parser, and type system.
 
 # Project Structure
-## Package	Contents
-usace.hec.expressions	Core interfaces, constant nodes, variable nodes, parser, factory
-usace.hec.expressions.math	Arithmetic and math operator nodes (Add, Subtract, Multiply, Divide, Exponent, Abs, Floor, Ceiling, Max, Min)
-usace.hec.expressions.logical	Logical operator nodes (And, Or, Xor, If)
-usace.hec.expressions.comparison	Comparison operator nodes (EqualTo, GreaterThan, LessThan, etc.)
-usace.hec.expressions.strings	String operator nodes (Concatenate, Upper, Lower, Trim, Substring, Length, Contains, Replace)
-usace.hec.expressions.time	Time/date operator nodes (Today, Date, DayOfYear, After, Before)
+|Package|	Contents|
+|-|-|
+|usace.hec.expressions|	Core interfaces, constant nodes, variable nodes, parser, factory|
+|usace.hec.expressions.math|	Arithmetic and math operator nodes (Add, Subtract, Multiply, Divide, Exponent, Abs, Floor, Ceiling, Max, Min)|
+|usace.hec.expressions.logical|	Logical operator nodes (And, Or, Xor, If)|
+|usace.hec.expressions.comparison|	Comparison operator nodes (EqualTo, GreaterThan, LessThan, etc.)|
+|usace.hec.expressions.strings	|String operator nodes (Concatenate, Upper, Lower, Trim, Substring, Length, Contains, Replace)|
+|usace.hec.expressions.time	|Time/date operator nodes (Today, Date, DayOfYear, After, Before)|
