@@ -4,30 +4,30 @@ package usace.hec.expressions;
  * Result of a parse operation. Contains either a successful result
  * or a parse error with position information.
  */
-public final class ParseResult<T> {
+public final class ParseResult {
 
-    private final T value;
+    private final ExpressionNode node;
     private final ParseError error;
     
 
-    private ParseResult(T value, ParseError error) {
-        this.value = value;
+    private ParseResult(ExpressionNode node, ParseError error) {
+        this.node = node;
         this.error = error;
     }
 
-    public static <T> ParseResult<T> success(T value) {
-        return new ParseResult<>(value, null);
+    public static ParseResult success(ExpressionNode node) {
+        return new ParseResult(node, null);
     }
 
-    public static <T> ParseResult<T> error(int position, String message, String remaining) {
-        return new ParseResult<>(null, new ParseError(position, message, remaining));
+    public static ParseResult error(int position, String message, String remaining) {
+        return new ParseResult(null, new ParseError(position, message, remaining));
     }
 
     public boolean isSuccess() { return error == null; }
     public boolean hasError()  { return error != null; }
     public ExpressionType resultType(){
-        if(value instanceof ExpressionNode){
-            return ((ExpressionNode)value).resultType();
+        if(node!=null){
+            return node.resultType();
         }
         else return ExpressionType.VOID;
     }
@@ -35,7 +35,7 @@ public final class ParseResult<T> {
     /**
      * @return the parsed value, or null if there was an error
      */
-    public T getNode() { return value; }
+    public ExpressionNode getNode() { return node; }
 
     /**
      * @return the error details, or null if parsing succeeded
