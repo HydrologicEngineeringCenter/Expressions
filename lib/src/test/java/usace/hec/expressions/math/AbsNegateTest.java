@@ -2,14 +2,11 @@ package usace.hec.expressions.math;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.List;
 import org.junit.Test;
 import usace.hec.expressions.DataHub;
 import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.DoubleExpressionNode;
 import usace.hec.expressions.DoubleVariableNode;
-
-import javax.xml.crypto.Data;
 
 public class AbsNegateTest {
 

@@ -1,9 +1,6 @@
 package usace.hec.expressions.strings;
 
 import java.io.Serial;
-import java.util.List;
-
-import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.ExpressionType;
 import usace.hec.expressions.StringExpressionNode;

@@ -1,8 +1,6 @@
 package usace.hec.expressions;
 
 import java.io.Serial;
-import java.util.ArrayList;
-import java.util.List;
 
 public class DoubleVariableNode implements DoubleExpressionNode, DataRequester {
     @Serial

@@ -3,7 +3,6 @@ package usace.hec.expressions.logical;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.List;
 import org.junit.Test;
 import usace.hec.expressions.*;
 import usace.hec.expressions.comparison.DoubleGreaterThanNode;

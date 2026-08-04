@@ -1,6 +1,5 @@
 package usace.hec.expressions.math;
 
-import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.IntegerExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;

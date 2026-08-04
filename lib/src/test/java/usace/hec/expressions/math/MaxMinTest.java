@@ -2,7 +2,6 @@ package usace.hec.expressions.math;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.List;
 import org.junit.Test;
 import usace.hec.expressions.DataHub;
 import usace.hec.expressions.DataProvider;

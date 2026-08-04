@@ -1,8 +1,5 @@
 package usace.hec.expressions;
 
-
-import java.util.List;
-
 /**
  * Wraps an {@link DoubleExpressionNode} and exposes it as a {@link IntegerExpressionNode}.
  * <p>

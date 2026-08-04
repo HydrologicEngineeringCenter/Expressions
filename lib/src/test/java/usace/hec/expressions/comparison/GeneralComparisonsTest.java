@@ -2,7 +2,6 @@ package usace.hec.expressions.comparison;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.List;
 import org.junit.Test;
 import usace.hec.expressions.BooleanExpressionNode;
 import usace.hec.expressions.DataHub;

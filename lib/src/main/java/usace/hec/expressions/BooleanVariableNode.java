@@ -1,9 +1,6 @@
 package usace.hec.expressions;
 
 import java.io.Serial;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class BooleanVariableNode implements BooleanExpressionNode, DataRequester {
     @Serial

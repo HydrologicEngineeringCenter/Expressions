@@ -4,8 +4,6 @@ package usace.hec.expressions.time;
 import java.io.Serial;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
 import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.DateTimeExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
