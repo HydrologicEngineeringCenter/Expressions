@@ -538,11 +538,11 @@ public class NodeFactory {
             case MAX -> new DoubleMaxNode(left, right);
             case MIN -> new DoubleMinNode(left, right);
             case EQ -> new DoubleEqualToNode(left, right);
+            case NEQ -> new DoubleNotEqualToNode(left,right);
             case GT -> new DoubleGreaterThanNode(left, right);
             case GTE -> new DoubleGreaterThanOrEqualNode(left, right);
             case LT -> new DoubleLessThanNode(left, right);
             case LTE -> new DoubleLessThanOrEqualNode(left, right);
-            case NEQ -> new DoubleNotEqualToNode(left,right);
             default -> null;
         };
     }
@@ -557,11 +557,11 @@ public class NodeFactory {
             case MAX -> new IntegerMaxNode(left, right);
             case MIN -> new IntegerMinNode(left, right);
             case EQ -> new IntegerEqualToNode(left, right);
+            case NEQ -> new IntegerNotEqualToNode(left, right);
             case GT -> new IntegerGreaterThanNode(left, right);
             case GTE -> new IntegerGreaterThanOrEqualNode(left, right);
             case LT -> new IntegerLessThanNode(left, right);
             case LTE -> new IntegerLessThanOrEqualNode(left, right);
-            case NEQ -> new IntegerNotEqualToNode(left,right);
             default -> null;
         };
     }
@@ -578,6 +578,8 @@ public class NodeFactory {
     }
     private static ExpressionNode createDateBinaryNode(ExpressionOperator op, DateTimeExpressionNode left, DateTimeExpressionNode right) {
         return switch (op) {
+            case EQ -> new SameDateNode(left, right);
+            case NEQ -> new NotSameDateNode(left, right);
             case AFTER -> new AfterNode(left, right);
             case BEFORE -> new BeforeNode(left, right);
             default -> null;
@@ -586,6 +588,8 @@ public class NodeFactory {
 
     private static ExpressionNode createStringBinaryNode(ExpressionOperator op, StringExpressionNode left, StringExpressionNode right) {
         return switch (op) {
+            case EQ -> new StringEqualToNode(left, right);
+            case NEQ -> new StringNotEqualToNode(left, right);
             case CONCAT -> new ConcatenateNode(left, right);
             case CONTAINS -> new ContainsNode(left, right);
             case STARTSWITH -> new StartsWithNode(left, right);
@@ -602,6 +606,7 @@ public class NodeFactory {
         Token t = peek(s);
         return (t != null) ? t.position() : -1;
     }
+
     private static void setError(ExpressionParser.ParseState s, int position, String message, String remaining) {
         if (s != null) {
             s.hasError = true;

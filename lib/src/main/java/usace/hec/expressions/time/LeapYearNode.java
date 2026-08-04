@@ -3,7 +3,6 @@ package usace.hec.expressions.time;
 import usace.hec.expressions.DateTimeExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.ExpressionType;
 import usace.hec.expressions.UnaryExpressionNode;
 import usace.hec.expressions.BooleanExpressionNode;
 
@@ -31,10 +30,6 @@ public class LeapYearNode implements UnaryExpressionNode, BooleanExpressionNode 
     @Override
     public String ExcelSyntax() {
         return PreFixSyntax(); //for excel syntax in this case prefix is the correct syntax
-    }
-    @Override
-    public ExpressionType resultType() {
-        return ExpressionType.INTEGER;
     }
     @Override
     public ExpressionNode child() {
