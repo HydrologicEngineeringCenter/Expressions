@@ -34,10 +34,14 @@ public enum ExpressionOperator {
     // --- Date / time ---
     AFTER("Time", "AFTER", "AFTER","AFTER(,)", "AFTER(,)", Arity.BINARY),
     BEFORE("Time", "BEFORE", "BEFORE","BEFORE(,)", "BEFORE(,)", Arity.BINARY),
-    TODAY("Time", "TODAY", "TODAY","TODAY()", "TODAY()", Arity.UNARY),
+    TODAY("Time", "TODAY", "TODAY","TODAY()", "TODAY()", Arity.LEAF),
     DATE("Time", "DATE", "DATE","DATE(,,)", "DATE(,,)", Arity.TERNARY),
-    CURRENTTIMESTEP("Time", "CURRENTTIMESTEP", "CURRENTTIMESTEP","[CURRENTTIMESTEP]", "[CURRENTTIMESTEP]", Arity.UNARY),
     DOY("Time", "DOY", "DOY", "DOY()", "DOY()", Arity.UNARY),
+    DOM("Time", "DOM", "DOM", "DOM()", "DOM()", Arity.UNARY),
+    YEAR("Time","YEAR", "YEAR", "YEAR()", "YEAR()", Arity.UNARY),
+    WATERYEAR("Time","WATERYEAR", "WATERYEAR", "WATERYEAR()", "WATERYEAR()", Arity.UNARY),
+    LEAPYEAR("Time","LEAPYEAR", "LEAPYEAR", "LEAPYEAR()", "LEAPYEAR()", Arity.UNARY),
+    MONTH("Time","MONTH", "MONTH", "MONTH()", "MONTH()", Arity.UNARY),
 
     // --- Statisticalal / random ---
     LAG("Statistical", "LAG", "LAG", "LAG(,)", "LAG(,)", Arity.BINARY),

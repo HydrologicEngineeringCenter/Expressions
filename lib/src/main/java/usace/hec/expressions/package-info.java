@@ -40,14 +40,11 @@
  *
  * <h2>Variable Nodes</h2>
  * <p>Variable nodes reference external data by name using bracket syntax: {@code [variableName]}.
- * {@link UpdateableLeafNode} is the base class for variable nodes that listen to data
- * changes through the {@link DataListener} interface.</p>
+ *
  *
  * <h2>Data Flow</h2>
  * <p>Variable nodes can receive values from a {@link DataProvider}. Attach a provider
- * using {@link ExpressionNode#setProvider(DataProvider)}. When data changes,
- * {@link DataUpdater} notifies registered {@link DataListener} instances via
- * {@link DataUpdate} objects.</p>
+ * using {@link ExpressionNode#setProvider(DataProvider)}.
  *
  * <h2>Parsing</h2>
  * <p>Use {@link ExpressionParser} to parse expression strings into {@link ExpressionNode}

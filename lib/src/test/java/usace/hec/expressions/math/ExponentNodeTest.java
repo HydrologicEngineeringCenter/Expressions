@@ -1,12 +1,9 @@
 package usace.hec.expressions.math;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-
-import java.util.List;
 import org.junit.Test;
-import usace.hec.expressions.BaseDataUpdater;
-import usace.hec.expressions.DataListener;
+import usace.hec.expressions.DataHub;
+import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.DoubleExpressionNode;
 import usace.hec.expressions.DoubleVariableNode;
 
@@ -16,34 +13,33 @@ public class ExponentNodeTest {
     public void testEvaluate() {
         DoubleVariableNode x = new DoubleVariableNode("X");
         DoubleVariableNode y = new DoubleVariableNode("Y");
-        BaseDataUpdater adu = new BaseDataUpdater();
+        DataProvider dp = new DataHub();
+
 
         DoubleExpressionNode exp = new DoubleExponentNode(x, y);
 
-        List<DataListener> list = exp.fetchListeners();
-        for (DataListener d : list) {
-            adu.register(d);
-        }
+        exp.setProvider(dp);
 
-        adu.publish("X", 1.0);
-        adu.publish("Y", 2.0);
+
+        dp.setDouble("X", 1.0);
+        dp.setDouble("Y", 2.0);
         double result = exp.evaluate();
         assertEquals(1.0, result, 0.0);
 
-        adu.publish("X", 2.0);
+        dp.setDouble("X", 2.0);
         result = exp.evaluate();
         assertEquals(4.0, result, 0.0);
 
-        adu.publish("Y", 0.0);
+        dp.setDouble("Y", 0.0);
         result = exp.evaluate();
         assertEquals(1.0, result, 0.0);
 
-        adu.publish("X", 9.0);
-        adu.publish("Y", 0.5);
+        dp.setDouble("X", 9.0);
+        dp.setDouble("Y", 0.5);
         result = exp.evaluate();
         assertEquals(3.0, result, 0.0);
 
-        adu.publish("X", -1000.0);
+        dp.setDouble("X", -1000.0);
         result = exp.evaluate();
         assertEquals(result, Double.NaN,0.0);
     }

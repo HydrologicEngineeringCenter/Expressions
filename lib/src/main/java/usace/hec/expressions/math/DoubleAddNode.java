@@ -1,10 +1,6 @@
 package usace.hec.expressions.math;
 
-import usace.hec.expressions.BinaryExpressionNode;
-import usace.hec.expressions.DoubleExpressionNode;
-import usace.hec.expressions.ExpressionNode;
-import usace.hec.expressions.ExpressionOperator;
-
+import usace.hec.expressions.*;
 
 
 import java.io.Serial;
@@ -42,5 +38,4 @@ public class DoubleAddNode extends DoubleBinaryExpressionNode{
     public ExpressionNode right() {
         return this.right;
     }
-
 }

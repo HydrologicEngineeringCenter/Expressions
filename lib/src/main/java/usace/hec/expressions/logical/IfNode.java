@@ -1,16 +1,11 @@
 package usace.hec.expressions.logical;
 
 import java.io.Serial;
-import java.util.List;
 
-import usace.hec.expressions.BooleanExpressionNode;
-import usace.hec.expressions.DataListener;
-import usace.hec.expressions.DataProvider;
-import usace.hec.expressions.ExpressionNode;
-import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.*;
 
 
-public abstract class IfNode implements ExpressionNode{
+public abstract class IfNode implements ExpressionNode, TernaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
     protected ExpressionNode thenNode;
@@ -28,50 +23,20 @@ public abstract class IfNode implements ExpressionNode{
     }
 
     @Override
-    public List<DataListener> fetchListeners() {
-        List<DataListener> list = conditionNode.fetchListeners();
-        list.addAll(thenNode.fetchListeners());
-        list.addAll(elseNode.fetchListeners());
-        return list;  
-    }
-
-    @Override
-    public void setProvider(DataProvider dp) {
-        thenNode.setProvider(dp);
-        elseNode.setProvider(dp);
-        conditionNode.setProvider(dp);
-    }
-
-    @Override
-    public String PreFixSyntax() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("IF(");
-        sb.append(conditionNode.PreFixSyntax());
-        sb.append(',');
-        sb.append(thenNode.PreFixSyntax());
-        sb.append(',');
-        sb.append(elseNode.PreFixSyntax());
-        sb.append(')');
-        return sb.toString();
-    }
-
-    @Override
-    public String ExcelSyntax(){
-       StringBuilder sb = new StringBuilder();
-        sb.append("IF(");
-        sb.append(conditionNode.ExcelSyntax());
-        sb.append(',');
-        sb.append(thenNode.ExcelSyntax());
-        sb.append(',');
-        sb.append(elseNode.ExcelSyntax());
-        sb.append(')');
-        return sb.toString();
-    }
-    @Override
     public ExpressionOperator Operator() {
         return StaticOperator();
     }
     public static ExpressionOperator StaticOperator() {
         return ExpressionOperator.IF;
     }
+
+    public ExpressionNode left(){
+        return conditionNode;
+    };
+    public ExpressionNode middle(){
+        return thenNode;
+    };
+    public ExpressionNode right(){
+        return elseNode;
+    };
 }

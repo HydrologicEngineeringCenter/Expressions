@@ -1,15 +1,10 @@
 package usace.hec.expressions.strings;
 
 import java.io.Serial;
-import java.util.List;
 
-import usace.hec.expressions.DataListener;
-import usace.hec.expressions.DataProvider;
-import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.ExpressionType;
-import usace.hec.expressions.StringExpressionNode;
+import usace.hec.expressions.*;
 
-public class ReplaceNode implements StringExpressionNode {
+public class ReplaceNode implements StringExpressionNode, TernaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -30,32 +25,6 @@ public class ReplaceNode implements StringExpressionNode {
     }
 
     @Override
-    public String PreFixSyntax() {
-        return Operator().getPrefixName() + "(" + source.PreFixSyntax() + "," + target.PreFixSyntax() + "," + replacement.PreFixSyntax() + ")";
-    }
-
-    @Override
-    public String ExcelSyntax() {
-        return "SUBSTITUTE(" + source.ExcelSyntax() + "," + target.ExcelSyntax() + "," + replacement.ExcelSyntax() + ")";
-    }
-
-    @Override
-    public List<DataListener> fetchListeners() {
-        List<DataListener> list = source.fetchListeners();
-        list.addAll(target.fetchListeners());
-        list.addAll(replacement.fetchListeners());
-        return list;
-    }
-
-    @Override
-    public void setProvider(DataProvider dp) {
-
-        source.setProvider(dp);
-        target.setProvider(dp);
-        replacement.setProvider(dp);
-    }
-
-    @Override
     public ExpressionType resultType() { return ExpressionType.STRING; }
 
     @Override
@@ -64,5 +33,20 @@ public class ReplaceNode implements StringExpressionNode {
     }
     public static ExpressionOperator StaticOperator() {
         return ExpressionOperator.REPLACE;
+    }
+
+    @Override
+    public ExpressionNode left() {
+        return source;
+    }
+
+    @Override
+    public ExpressionNode middle() {
+        return target;
+    }
+
+    @Override
+    public ExpressionNode right() {
+        return replacement;
     }
 }

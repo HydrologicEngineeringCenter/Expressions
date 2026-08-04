@@ -21,7 +21,7 @@ import java.util.List;
  * <ul>
  *   <li><b>Binary Operators:</b> Validates operand compatibility via {@link #isCompatible}. 
  *       If types differ but widening is possible, wraps the narrower operand in 
- *       {@link usace.hec.expressions.math.IntegerToDoubleCoerceNode}. Narrowing is rejected.</li>
+ *       {@link IntegerToDoubleCoerceNode}. Narrowing is rejected.</li>
  *   <li><b>Unary Operators:</b> Dispatches based on the child node's {@link ExpressionType}. 
  *       Supports numeric, boolean, date, and string unary operations.</li>
  *   <li><b>IF Function:</b> Requires a boolean condition. Promotes the {@code then} and 
@@ -42,15 +42,68 @@ import java.util.List;
  * @see ExpressionParser
  * @see ExpressionOperator
  * @see ExpressionType
- * @see usace.hec.expressions.math.IntegerToDoubleCoerceNode
+ * @see IntegerToDoubleCoerceNode
  */
 public class NodeFactory {
-        /**
+    /**
+     * Constructs a ternary expression node based on the child's type and the operator.
+     *
+     * <p>Uses if statements to map operator + type combinations to concrete node
+     * classes. Supports if operations ({@code IF}, date operations
+     * ({@code DATE}), and string operations ({@code SUBSTRING}, {@code REPLACE})
+     * Unknown combinations record an error and return null.</p>
+     *
+     * @param s     the parse state for error tracking
+     * @param op    the ternary operator or function
+     * @param left the left node, usually a condition or source string
+     * @param middle , usually a then
+     * @param right , usually an else
+     * @return a typed unary node, or {@code null} if types are incompatible
+     */
+        public static ExpressionNode buildTernaryNode(ExpressionParser.ParseState s, ExpressionOperator op, ExpressionNode left, ExpressionNode middle, ExpressionNode right) {
+            //All arguments have been validated beforehand
+
+            ExpressionNode lNode = left;
+            ExpressionNode mNode = middle;
+            ExpressionNode rNode = right;
+
+            //Instantiate specialized node
+            ExpressionType commonType = mNode.resultType();
+            if (op == ExpressionOperator.IF) {
+                if (commonType == ExpressionType.DOUBLE) {
+                    return new DoubleIfNode((BooleanExpressionNode) lNode, (DoubleExpressionNode) mNode, (DoubleExpressionNode) rNode);
+                } else if (commonType == ExpressionType.INTEGER) {
+                    return new IntegerIfNode((BooleanExpressionNode) lNode,(IntegerExpressionNode) mNode, (IntegerExpressionNode) rNode);
+                } else if (commonType == ExpressionType.BOOLEAN) {
+                    return new BooleanIfNode((BooleanExpressionNode) lNode, (BooleanExpressionNode) mNode, (BooleanExpressionNode) rNode);
+                } else if (commonType == ExpressionType.DATE) {
+                    return new DateTimeIfNode((BooleanExpressionNode) lNode, (DateTimeExpressionNode) mNode, (DateTimeExpressionNode) rNode);
+                } else if (commonType == ExpressionType.STRING) {
+                    return new StringIfNode((BooleanExpressionNode) lNode, (StringExpressionNode) mNode, (StringExpressionNode) rNode);
+                }
+                setError(s, currentPos(s), "Ternary " + op + " not implemented for " + commonType, "");
+                return null;
+            }
+            else if (op == ExpressionOperator.SUBSTRING){
+
+                return new SubstringNode((StringExpressionNode) lNode, (IntegerExpressionNode) mNode, (IntegerExpressionNode) rNode);
+            }
+            else if (op == ExpressionOperator.REPLACE){
+                return new ReplaceNode((StringExpressionNode) lNode, (StringExpressionNode) mNode, (StringExpressionNode) rNode);
+            }
+            else if (op == ExpressionOperator.DATE){
+                return new DateNode((IntegerExpressionNode) lNode, (IntegerExpressionNode) mNode, (IntegerExpressionNode) rNode);
+            }
+
+            setError(s, currentPos(s), "Unsupported ternary operator type: " + commonType, "");
+            return null;
+        }
+    /**
      * Constructs a binary expression node with type validation and coercion.
      *
      * <p>Checks that both operands are compatible with the operator. If types differ but
-     * widening is supported (e.g., {@code int} and {@code double}), wraps the narrower 
-     * operand in a coercion node. Dispatches to the appropriate typed factory method 
+     * widening is supported (e.g., {@code int} and {@code double}), wraps the narrower
+     * operand in a coercion node. Dispatches to the appropriate typed factory method
      * based on the resolved common type.</p>
      *
      * @param s      the parse state for error tracking
@@ -61,6 +114,8 @@ public class NodeFactory {
      * @see #createDoubleBinaryNode
      * @see #createIntegerBinaryNode
      * @see #createBooleanBinaryNode
+     * @see #createDateBinaryNode
+     * @see #createStringBinaryNode
      */
     public static ExpressionNode buildBinaryNode(ExpressionParser.ParseState s, ExpressionOperator op, ExpressionNode left, ExpressionNode right) {
         // 1. Validate compatibility
@@ -143,6 +198,11 @@ public class NodeFactory {
         } else if (type == ExpressionType.DATE){
             return switch (op) {
                 case DOY -> new DayOfYearNode((DateTimeExpressionNode)child);
+                case DOM -> new DayOfMonthNode((DateTimeExpressionNode)child);
+                case YEAR -> new CalendarYearNode((DateTimeExpressionNode)child);
+                case WATERYEAR -> new WaterYearNode((DateTimeExpressionNode)child);
+                case LEAPYEAR -> new LeapYearNode((DateTimeExpressionNode)child);
+                case MONTH -> new MonthNode((DateTimeExpressionNode)child);
                 default -> { setError(s, currentPos(s), "Unary " + op + " not implemented for DATE", ""); yield new IntegerConstantNode(0); }
             };
         } else if (type == ExpressionType.STRING){
@@ -219,16 +279,7 @@ public class NodeFactory {
 
                 if (promotedThen == null || promotedElse == null) return null; // Coercion error
 
-                if (resultType == ExpressionType.DOUBLE) {
-                    return new DoubleIfNode((BooleanExpressionNode) cond, (DoubleExpressionNode) promotedThen, (DoubleExpressionNode) promotedElse);
-                } else if (resultType == ExpressionType.INTEGER) {
-                    return new IntegerIfNode((BooleanExpressionNode) cond, (IntegerExpressionNode) promotedThen, (IntegerExpressionNode) promotedElse);
-                } else if (resultType == ExpressionType.DATE) {
-                    return new DateTimeIfNode((BooleanExpressionNode) cond, (DateTimeExpressionNode) promotedThen, (DateTimeExpressionNode) promotedElse);
-                }
-
-                setError(s, currentPos(s), "IF branch type " + resultType + " not supported", "");
-                return null;
+                return buildTernaryNode(s, fn, cond, promotedThen, promotedElse);
             }
 
             case MAX:
@@ -283,7 +334,7 @@ public class NodeFactory {
                 }
                 return buildUnaryNode(s, fn, args.get(0));
             }
-
+            //Time Operators
             case TODAY:
                 if (!args.isEmpty()) {
                     setError(s, currentPos(s), "TODAY() takes no arguments", "");
@@ -292,8 +343,13 @@ public class NodeFactory {
                 return new TodayNode();
 
             case DOY:
+            case DOM:
+            case YEAR:
+            case WATERYEAR:
+            case LEAPYEAR:
+            case MONTH:
                 if (args.size() != 1) {
-                    setError(s, currentPos(s), "DOY expects exactly 1 argument", "");
+                    setError(s, currentPos(s), fn.name() + "expects exactly 1 argument", "");
                     return null;
                 }
                 return buildUnaryNode(s, fn, args.get(0));
@@ -316,9 +372,12 @@ public class NodeFactory {
                 ExpressionNode m = coerceTo(args.get(1), ExpressionType.INTEGER);
                 ExpressionNode d = coerceTo(args.get(2), ExpressionType.INTEGER);
 
-                if (y == null || m == null || d == null) return null;
+                if (y == null || m == null || d == null) {
+                    setError(s, currentPos(s), "All arguments must be numeric", "");
+                    return null;
+                }
 
-                return new DateNode((IntegerExpressionNode) y, (IntegerExpressionNode) m, (IntegerExpressionNode) d);
+                return buildTernaryNode(s, fn, y, m, d);
             }
 
             // Delegate standard binary operators
@@ -346,25 +405,19 @@ public class NodeFactory {
                     setError(s, currentPos(s), fn.name() + "requires exactly 3 arguments", "");
                     return null;
                 }
-                ExpressionNode sourceStr = args.get(0);
-                ExpressionNode startInc = args.get(1);
-                ExpressionNode endExc = args.get(2);
+                if (args.get(0).resultType() != ExpressionType.STRING){
+                    setError(s, currentPos(s), fn.name() + "first argument must be string", "");
+                    return null;
+                }
+                //SUBSTRING requires integers, coerce if necessary
+                ExpressionNode start = coerceTo(args.get(1), ExpressionType.INTEGER);
+                ExpressionNode end = coerceTo(args.get(2), ExpressionType.INTEGER);
+                if (start == null || end == null) {
+                    setError(s, currentPos(s), "startIndex and endIndex should be numeric", "");
+                    return null;
+                }
 
-                if (sourceStr.resultType() != ExpressionType.STRING) {
-                    setError(s, currentPos(s), "Source must be String", "");
-                    return null;
-                }
-                if (!startInc.resultType().isNumeric() || !endExc.resultType().isNumeric()) {
-                    setError(s, currentPos(s), "Both beginning and end indices must be numeric", "");
-                    return null;
-                }
-                if (startInc.resultType() == ExpressionType.DOUBLE) {
-                    startInc = coerceTo(startInc, ExpressionType.INTEGER);
-                }
-                if (endExc.resultType() == ExpressionType.DOUBLE) {
-                    endExc = coerceTo(endExc, ExpressionType.INTEGER);
-                }
-                return new SubstringNode((StringExpressionNode) sourceStr, (IntegerExpressionNode) startInc, (IntegerExpressionNode) endExc);
+                return buildTernaryNode(s,fn, args.get(0), start, end);
             }
             case REPLACE: {
                 if (args.size() != 3) {
@@ -376,10 +429,10 @@ public class NodeFactory {
                 ExpressionNode replacement = args.get(2);
 
                 if (sourceStr.resultType() != ExpressionType.STRING || target.resultType() != ExpressionType.STRING || replacement.resultType() != ExpressionType.STRING) {
-                    setError(s, currentPos(s), "All args must be String", "");
+                    setError(s, currentPos(s), "All args must be String for REPLACE", "");
                     return null;
                 }
-                return new ReplaceNode((StringExpressionNode) sourceStr, (StringExpressionNode) target, (StringExpressionNode) replacement);
+                return buildTernaryNode(s, fn, sourceStr, target, replacement);
             }
 
             case CONCAT: case CONTAINS: case STARTSWITH: case ENDSWITH: {
@@ -453,6 +506,11 @@ public class NodeFactory {
                 l == ExpressionType.BOOLEAN && r == ExpressionType.BOOLEAN) {
             return true;
         }
+        // Strings
+        if ((op == ExpressionOperator.SUBSTRING) &&
+                l.isNumeric() && r.isNumeric()) {
+            return true;
+        }
         return false;
     }
 
@@ -501,6 +559,7 @@ public class NodeFactory {
             case AND -> new AndNode(left, right);
             case OR -> new OrNode(left, right);
             case XOR -> new XorNode(left, right);
+            case EQ -> new BooleanEqualToNode(left,right);
             default -> null;
         };
     }

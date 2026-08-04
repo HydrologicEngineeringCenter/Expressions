@@ -1,10 +1,8 @@
 package usace.hec.expressions;
 
 import java.io.Serial;
-import java.util.ArrayList;
-import java.util.List;
 
-public class StringVariableNode implements StringExpressionNode, DataListener, DataRequester {
+public class StringVariableNode implements StringExpressionNode, DataRequester {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -19,23 +17,9 @@ public class StringVariableNode implements StringExpressionNode, DataListener, D
 
     @Override
     public String evaluate() {
-        if (dp != null) {
-            return (String)dp.provideValue(name);
-        }
-        return this.value;
+        return dp.provideString(name);
     }
 
-    @Override
-    public void onDataUpdate(DataUpdate newValue) {
-        this.value = (String)newValue.newValue();
-    }
-
-    @Override
-    public List<DataListener> fetchListeners() {
-        List<DataListener> list = new ArrayList<>();
-        list.add(this);
-        return list;
-    }
 
     @Override
     public String PreFixSyntax() {
@@ -45,11 +29,6 @@ public class StringVariableNode implements StringExpressionNode, DataListener, D
     @Override
     public String ExcelSyntax() {
         return "[" + this.name + "]";
-    }
-
-    @Override
-    public ExpressionNode owner() {
-        return this;
     }
 
     @Override

@@ -18,7 +18,4 @@ public class DateTimeIfNode extends IfNode implements DateTimeExpressionNode{
 
         return conditionNode.evaluate() ? thenBranch.evaluate() : elseBranch.evaluate();
     }
-    public static ExpressionOperator StaticOperator() {
-        return ExpressionOperator.IF;
-    }
 }

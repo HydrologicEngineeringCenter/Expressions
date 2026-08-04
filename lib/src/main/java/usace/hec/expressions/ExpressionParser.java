@@ -344,6 +344,7 @@ public class ExpressionParser {
             // TODO: In a full implementation, look up 'var.name()' in a SymbolTable
             // to determine the correct variable type (Int, Double, Boolean).
             // Defaulting to DoubleVariableNode for backward compatibility.
+            // TODO: check type using var.name() and create variablenode accordingly
             return new DoubleVariableNode(var.name());
         }
         if (t instanceof Token.StringLiteral sl) {

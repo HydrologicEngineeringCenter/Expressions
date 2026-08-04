@@ -47,8 +47,8 @@ public class ReadExpressionFromStringTest {
 
         // Set up data provider
         DataHub provider = new DataHub();
-        provider.setValue("Flow", 100.0);
-        provider.setValue("Stage", 50.0);
+        provider.setDouble("Flow", 100.0);
+        provider.setDouble("Stage", 50.0);
         node.setProvider(provider);
 
         assertEquals(150.0, node.evaluate(), 0.0);
@@ -92,13 +92,13 @@ public class ReadExpressionFromStringTest {
         DataHub provider = new DataHub();
         node.setProvider(provider);
 
-        provider.setValue("X", 200.0);
+        provider.setDouble("X", 200.0);
         assertEquals(700.0, node.evaluate(), 0.0); // 200<500 => 200+500
 
-        provider.setValue("X", 670.0);
+        provider.setDouble("X", 670.0);
         assertEquals(670.0, node.evaluate(), 0.0); // 500<=670<=1000
 
-        provider.setValue("X", 1200.0);
+        provider.setDouble("X", 1200.0);
         assertEquals(1000.0, node.evaluate(), 0.0); // 1200>1000 => 1000
     }
 }

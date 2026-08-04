@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDateTime;
 import org.junit.Test;
-import usace.hec.expressions.BooleanConstantNode;
 import usace.hec.expressions.DateTimeExpressionNode;
 import usace.hec.expressions.DoubleConstantNode;
 import usace.hec.expressions.IntegerExpressionNode;
@@ -17,9 +16,6 @@ public class GeneralTimeNodeTest {
     @Test
     public void testAfterBeforeEvaluate() {
         System.out.println("After and Before Test\n");
-
-        LocalDateTime dayOne = LocalDateTime.of(2026, 6, 16, 0, 0);
-        LocalDateTime dayTwo = LocalDateTime.of(2026, 6, 18, 0, 0);
 
         // Create DateTimeExpressionNode constants via DateNode
         DateTimeExpressionNode a = new DateNode(

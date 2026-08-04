@@ -1,8 +1,6 @@
 package usace.hec.expressions;
 
 import java.io.Serial;
-import java.util.ArrayList;
-import java.util.List;
 
 public class StringConstantNode implements StringExpressionNode {
     @Serial
@@ -34,10 +32,6 @@ public class StringConstantNode implements StringExpressionNode {
         return String.valueOf(value);
     }
 
-    @Override
-    public List<DataListener> fetchListeners() {
-        return new ArrayList<>(); // Constants don't listen to data
-    }
 
     @Override
     public void setProvider(DataProvider dp) {

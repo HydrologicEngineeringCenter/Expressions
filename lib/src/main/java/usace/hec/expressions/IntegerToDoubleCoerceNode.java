@@ -1,11 +1,5 @@
 package usace.hec.expressions;
 
-
-
-
-
-import java.util.List;
-
 /**
  * Wraps an {@link IntExpressionNode} and exposes it as a {@link DoubleExpressionNode}.
  * <p>
@@ -38,18 +32,6 @@ public class IntegerToDoubleCoerceNode implements UnaryExpressionNode, DoubleExp
     // --- Accessor ---
     public IntegerExpressionNode child() {
         return child;
-    }
-
-    @Override
-    public List<DataListener> fetchListeners() {
-        // Coercion nodes are passive; propagate listener collection to the child.
-        return child.fetchListeners();
-    }
-
-    @Override
-    public void setProvider(DataProvider provider) {
-        // Coercion nodes don't hold state; propagate provider setup to the child.
-        child.setProvider(provider);
     }
 
     // --- Syntax Generation ---

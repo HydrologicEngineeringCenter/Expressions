@@ -1,10 +1,8 @@
 package usace.hec.expressions;
 
 import java.io.Serial;
-import java.util.ArrayList;
-import java.util.List;
 
-public class IntegerVariableNode implements IntegerExpressionNode, DataListener, DataRequester {
+public class IntegerVariableNode implements IntegerExpressionNode, DataRequester {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -19,23 +17,9 @@ public class IntegerVariableNode implements IntegerExpressionNode, DataListener,
 
     @Override
     public int evaluate() {
-        if (dp != null) {
-            return (int)dp.provideValue(name);
-        }
-        return this.value;
+        return dp.provideInt(name);
     }
 
-    @Override
-    public void onDataUpdate(DataUpdate newValue) {
-            this.value = (int)newValue.newValue();
-    }
-
-    @Override
-    public List<DataListener> fetchListeners() {
-        List<DataListener> list = new ArrayList<>();
-        list.add(this);
-        return list;
-    }
 
     @Override
     public String PreFixSyntax() {
@@ -47,10 +31,6 @@ public class IntegerVariableNode implements IntegerExpressionNode, DataListener,
         return "[" + this.name + "]";
     }
 
-    @Override
-    public ExpressionNode owner() {
-        return this;
-    }
 
     @Override
     public void setProvider(DataProvider dp) {

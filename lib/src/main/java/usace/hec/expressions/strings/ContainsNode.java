@@ -2,11 +2,7 @@ package usace.hec.expressions.strings;
 
 import java.io.Serial;
 
-import usace.hec.expressions.BinaryExpressionNode;
-import usace.hec.expressions.BooleanExpressionNode;
-import usace.hec.expressions.ExpressionNode;
-import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.StringExpressionNode;
+import usace.hec.expressions.*;
 
 public class ContainsNode implements BooleanExpressionNode, BinaryExpressionNode {
     @Serial
