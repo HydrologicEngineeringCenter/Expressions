@@ -94,7 +94,7 @@ public class ExpressionParser {
      * @param input the expression text
      * @return success with the AST node, or an error with position info
      */
-    public ParseResult<ExpressionNode> parse(String input) {
+    public ParseResult parse(String input) {
         if (input == null || input.trim().isEmpty()) {
             return ParseResult.error(0, "Empty expression", "");
         }
