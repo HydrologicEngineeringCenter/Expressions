@@ -1,11 +1,10 @@
 package usace.hec.expressions.strings;
 
 import java.io.Serial;
-import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.IntegerExpressionNode;
-import usace.hec.expressions.StringExpressionNode;
 
-public class SubstringNode implements StringExpressionNode {
+import usace.hec.expressions.*;
+
+public class SubstringNode implements StringExpressionNode, TernaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -25,20 +24,25 @@ public class SubstringNode implements StringExpressionNode {
     }
 
     @Override
-    public String PreFixSyntax() {
-        return Operator().getPrefixName() + "(" + source.PreFixSyntax() + "," + beginIndex.PreFixSyntax() + "," + endIndex.PreFixSyntax() + ")";
-    }
-
-    @Override
-    public String ExcelSyntax() {
-        return "SUBSTRING(" + source.ExcelSyntax() + "," + beginIndex.ExcelSyntax() + "," + endIndex.ExcelSyntax() + ")";
-    }
-
-    @Override
     public ExpressionOperator Operator() {
         return StaticOperator();
     }
     public static ExpressionOperator StaticOperator() {
         return ExpressionOperator.SUBSTRING;
+    }
+
+    @Override
+    public ExpressionNode left() {
+        return source;
+    }
+
+    @Override
+    public ExpressionNode middle() {
+        return beginIndex;
+    }
+
+    @Override
+    public ExpressionNode right() {
+        return endIndex;
     }
 }

@@ -4,13 +4,10 @@ package usace.hec.expressions.time;
 import java.io.Serial;
 
 import java.time.LocalDateTime;
-import usace.hec.expressions.DataProvider;
-import usace.hec.expressions.DateTimeExpressionNode;
-import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.ExpressionType;
-import usace.hec.expressions.IntegerExpressionNode;
 
-public class DateNode implements DateTimeExpressionNode {
+import usace.hec.expressions.*;
+
+public class DateNode implements TernaryExpressionNode, DateTimeExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -29,6 +26,7 @@ public class DateNode implements DateTimeExpressionNode {
         return LocalDateTime.of(_yyyy.evaluate(),_mm.evaluate(),_dd.evaluate(),0,0);
 
     }
+
     @Override
     public String PreFixSyntax() {
         return "DATE(" + _yyyy.PreFixSyntax() + ","
@@ -51,14 +49,24 @@ public class DateNode implements DateTimeExpressionNode {
         return ExpressionOperator.DATE;
     }
 
-    @Override
-    public void setProvider(DataProvider dp) {
-        _yyyy.setProvider(dp);
-        _mm.setProvider(dp);
-        _dd.setProvider(dp);
-    }
+
     @Override
     public ExpressionType resultType() {
         return ExpressionType.DATE;
+    }
+
+    @Override
+    public ExpressionNode left() {
+        return _dd;
+    }
+
+    @Override
+    public ExpressionNode middle() {
+        return _mm;
+    }
+
+    @Override
+    public ExpressionNode right() {
+        return _yyyy;
     }
 }

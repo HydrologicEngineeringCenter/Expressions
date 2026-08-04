@@ -1,9 +1,7 @@
 package usace.hec.expressions.math;
 
 
-import usace.hec.expressions.IntegerExpressionNode;
-import usace.hec.expressions.ExpressionType;
-import usace.hec.expressions.UnaryExpressionNode;
+import usace.hec.expressions.*;
 
 public abstract class  IntegerUnaryExpressionNode implements UnaryExpressionNode, IntegerExpressionNode {
     @Override

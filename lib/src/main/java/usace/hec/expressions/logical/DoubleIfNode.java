@@ -1,14 +1,10 @@
 package usace.hec.expressions.logical;
 
-import usace.hec.expressions.BooleanExpressionNode;
-import usace.hec.expressions.DoubleExpressionNode;
+import usace.hec.expressions.*;
 
-import java.io.Serial;
 
 
 public class DoubleIfNode extends IfNode implements DoubleExpressionNode{
-    @Serial
-    private static final long serialVersionUID = 1L;
     public DoubleIfNode(BooleanExpressionNode condition, DoubleExpressionNode thenn, DoubleExpressionNode elsee) {
         super(condition, thenn, elsee);
     }
@@ -20,6 +16,4 @@ public class DoubleIfNode extends IfNode implements DoubleExpressionNode{
         
         return conditionNode.evaluate() ? thenBranch.evaluate() : elseBranch.evaluate();
     }
-
-
 }

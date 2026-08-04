@@ -1,8 +1,7 @@
 package usace.hec.expressions.strings;
 
 import java.io.Serial;
-import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.StringExpressionNode;
+import usace.hec.expressions.*;
 
 public class ToLowerNode implements StringExpressionNode {
     @Serial

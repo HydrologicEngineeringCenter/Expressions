@@ -3,7 +3,7 @@ package usace.hec.expressions.time;
 import usace.hec.expressions.*;
 
 import java.io.Serial;
-import java.time.LocalDateTime;
+import java.time.*;
 
 
 public class WaterYearNode extends CalendarYearNode {
@@ -16,7 +16,7 @@ public class WaterYearNode extends CalendarYearNode {
     @Override
     public int evaluate() {
         int year = super.evaluate();
-        if (((DateTimeExpressionNode) super.child()).evaluate().isAfter(LocalDateTime.of(year, 9, 30,23,59,59,999999999))){
+        if (((DateTimeExpressionNode) super.child()).evaluate().isAfter(LocalDateTime.of(year, Month.SEPTEMBER,30,23,59))){
             return year + 1;
         }
         return year;
