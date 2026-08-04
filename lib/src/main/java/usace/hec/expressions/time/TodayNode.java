@@ -2,9 +2,6 @@ package usace.hec.expressions.time;
 
 import java.io.Serial;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import usace.hec.expressions.DateTimeExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.ExpressionType;
@@ -18,9 +15,6 @@ public class TodayNode implements DateTimeExpressionNode {
     public LocalDateTime evaluate() {
         return LocalDateTime.now();
     }
-
-
-
 
     @Override
     public String PreFixSyntax(){

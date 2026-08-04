@@ -40,11 +40,6 @@ public class IntegerGreaterThanOrEqualNode extends BooleanBinaryExpressionNode {
     public ExpressionNode right() {
         return this.right;
     }
-    @Override
-    public void setProvider(DataProvider dp) {
-        left.setProvider(dp);
-        right.setProvider(dp);
-    }
 }
 
 

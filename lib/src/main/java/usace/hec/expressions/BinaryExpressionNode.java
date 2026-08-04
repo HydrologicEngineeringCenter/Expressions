@@ -1,8 +1,5 @@
 package usace.hec.expressions;
 
-
-import java.util.List;
-
 /**
  * A generic {@link ExpressionNode} that evaluates two {@link ExpressionNode}s to evaluate simple mathematical operations between them
  */

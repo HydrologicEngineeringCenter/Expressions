@@ -38,8 +38,4 @@ public class DoubleMinusNode extends DoubleBinaryExpressionNode {
     public ExpressionNode right() {
         return this.right;
     }
-    public void setProvider(DataProvider dp) {
-        left.setProvider(dp);
-        right.setProvider(dp);
-    }
 }

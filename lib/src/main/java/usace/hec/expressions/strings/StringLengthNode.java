@@ -45,8 +45,4 @@ public class StringLengthNode extends IntegerUnaryExpressionNode {
     public ExpressionNode child() {
         return this.source;
     }
-    @Override
-    public void setProvider(DataProvider dp) {
-        source.setProvider(dp);
-    }
 }

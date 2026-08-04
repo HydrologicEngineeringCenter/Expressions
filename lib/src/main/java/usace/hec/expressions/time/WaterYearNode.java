@@ -41,6 +41,5 @@ public class WaterYearNode extends CalendarYearNode {
     public ExpressionNode child() {
         return this.child;
     }
-    @Override
-    public void setProvider(DataProvider dp) { super.setProvider(dp); }
+
 }

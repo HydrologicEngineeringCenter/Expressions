@@ -4,10 +4,12 @@ import java.io.Serial;
 import java.util.List;
 
 import usace.hec.expressions.DataProvider;
+import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.StringExpressionNode;
+import usace.hec.expressions.UnaryExpressionNode;
 
-public class TrimNode implements StringExpressionNode {
+public class TrimNode implements StringExpressionNode, UnaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -23,16 +25,16 @@ public class TrimNode implements StringExpressionNode {
 
     @Override
     public String ExcelSyntax() { return Operator().getPrefixName() + "(" + source.ExcelSyntax() + ")"; }
-
-
-    @Override
-    public void setProvider(DataProvider dp) { source.setProvider(dp); }
-
     @Override
     public ExpressionOperator Operator() {
         return StaticOperator();
     }
     public static ExpressionOperator StaticOperator() {
         return ExpressionOperator.TRIM;
+    }
+
+    @Override
+    public ExpressionNode child() {
+        return source;
     }
 }

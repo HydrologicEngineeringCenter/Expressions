@@ -1,8 +1,6 @@
 package usace.hec.expressions.logical;
 
 import java.io.Serial;
-import java.util.List;
-
 import usace.hec.expressions.BooleanExpressionNode;
 import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.ExpressionNode;

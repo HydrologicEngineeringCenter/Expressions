@@ -36,6 +36,5 @@ public class CalendarYearNode implements UnaryExpressionNode, IntegerExpressionN
     public ExpressionNode child() {
         return this.child;
     }
-    @Override
-    public void setProvider(DataProvider dp) { child.setProvider(dp); }
+
 }

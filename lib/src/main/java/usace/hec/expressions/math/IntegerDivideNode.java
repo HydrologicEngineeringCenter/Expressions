@@ -41,8 +41,4 @@ public class IntegerDivideNode extends IntegerBinaryExpressionNode {
     public ExpressionNode right() {
         return right;
     }
-    public void setProvider(DataProvider dp) {
-        left.setProvider(dp);
-        right.setProvider(dp);
-    }
 }

@@ -34,9 +34,4 @@ public class StartsWithNode implements BooleanExpressionNode, BinaryExpressionNo
     public static ExpressionOperator StaticOperator() {
         return ExpressionOperator.STARTSWITH;
     }
-    @Override
-    public void setProvider(DataProvider dp) {
-        source.setProvider(dp);
-        search.setProvider(dp);
-    }
 }

@@ -36,8 +36,4 @@ public class DoubleFloorNode extends DoubleUnaryExpressionNode {
     public ExpressionNode child() {
         return this.child;
     }
-    @Override
-    public void setProvider(DataProvider dp) {
-        child.setProvider(dp);
-    }
 }

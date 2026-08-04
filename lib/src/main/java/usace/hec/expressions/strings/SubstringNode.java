@@ -1,9 +1,6 @@
 package usace.hec.expressions.strings;
 
 import java.io.Serial;
-import java.util.List;
-
-import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.IntegerExpressionNode;
 import usace.hec.expressions.StringExpressionNode;
@@ -36,15 +33,6 @@ public class SubstringNode implements StringExpressionNode {
     public String ExcelSyntax() {
         return "SUBSTRING(" + source.ExcelSyntax() + "," + beginIndex.ExcelSyntax() + "," + endIndex.ExcelSyntax() + ")";
     }
-
-    @Override
-    public void setProvider(DataProvider dp) {
-        source.setProvider(dp);
-        beginIndex.setProvider(dp);
-        endIndex.setProvider(dp);
-    }
-
-
 
     @Override
     public ExpressionOperator Operator() {

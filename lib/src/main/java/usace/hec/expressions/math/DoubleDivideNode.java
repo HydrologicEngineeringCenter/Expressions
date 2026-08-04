@@ -41,8 +41,4 @@ public class DoubleDivideNode extends DoubleBinaryExpressionNode {
     public ExpressionNode right() {
         return right;
     }
-    public void setProvider(DataProvider dp) {
-        left.setProvider(dp);
-        right.setProvider(dp);
-    }
 }

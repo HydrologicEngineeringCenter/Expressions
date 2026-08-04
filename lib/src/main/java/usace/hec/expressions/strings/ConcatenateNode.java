@@ -37,9 +37,4 @@ public class ConcatenateNode implements StringExpressionNode, BinaryExpressionNo
     public static ExpressionOperator StaticOperator() {
         return ExpressionOperator.CONCAT;
     }
-    @Override
-    public void setProvider(DataProvider dp) {
-        left.setProvider(dp);
-        right.setProvider(dp);
-    }
 }

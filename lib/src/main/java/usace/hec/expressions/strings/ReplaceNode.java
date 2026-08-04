@@ -39,13 +39,6 @@ public class ReplaceNode implements StringExpressionNode {
     }
 
     @Override
-    public void setProvider(DataProvider dp) {
-        source.setProvider(dp);
-        target.setProvider(dp);
-        replacement.setProvider(dp);
-    }
-
-    @Override
     public ExpressionType resultType() { return ExpressionType.STRING; }
 
     @Override

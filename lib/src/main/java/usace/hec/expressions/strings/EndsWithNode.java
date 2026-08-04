@@ -34,9 +34,4 @@ public class EndsWithNode implements BooleanExpressionNode, BinaryExpressionNode
     public static ExpressionOperator StaticOperator() {
         return ExpressionOperator.ENDSWITH;
     }
-    @Override
-    public void setProvider(DataProvider dp) {
-        source.setProvider(dp);
-        search.setProvider(dp);
-    }
 }

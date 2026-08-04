@@ -34,9 +34,4 @@ public class ContainsNode implements BooleanExpressionNode, BinaryExpressionNode
     public static ExpressionOperator StaticOperator() {
         return ExpressionOperator.CONTAINS;
     }
-    @Override
-    public void setProvider(DataProvider dp) {
-        source.setProvider(dp);
-        search.setProvider(dp);
-    }
 }

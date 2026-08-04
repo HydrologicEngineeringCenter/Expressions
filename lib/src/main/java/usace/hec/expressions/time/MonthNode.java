@@ -35,6 +35,4 @@ public class MonthNode implements UnaryExpressionNode, IntegerExpressionNode {
     public ExpressionNode child() {
         return this.child;
     }
-    @Override
-    public void setProvider(DataProvider dp) { child.setProvider(dp); }
 }

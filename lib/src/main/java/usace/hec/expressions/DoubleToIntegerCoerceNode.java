@@ -37,12 +37,6 @@ public class DoubleToIntegerCoerceNode implements UnaryExpressionNode, IntegerEx
         return child;
     }
 
-    @Override
-    public void setProvider(DataProvider provider) {
-        // Coercion nodes don't hold state; propagate provider setup to the child.
-        child.setProvider(provider);
-    }
-
     // --- Syntax Generation ---
     @Override
     public String PreFixSyntax() {

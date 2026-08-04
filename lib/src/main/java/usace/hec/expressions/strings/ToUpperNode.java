@@ -1,9 +1,6 @@
 package usace.hec.expressions.strings;
 
 import java.io.Serial;
-import java.util.List;
-
-import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.StringExpressionNode;
 
@@ -28,12 +25,6 @@ public class ToUpperNode implements StringExpressionNode {
     @Override
     public String ExcelSyntax() {
         return Operator().getPrefixName() + "(" + source.ExcelSyntax() + ")";
-    }
-
-
-    @Override
-    public void setProvider(DataProvider dp) {
-        source.setProvider(dp);
     }
     @Override
     public ExpressionOperator Operator() {
