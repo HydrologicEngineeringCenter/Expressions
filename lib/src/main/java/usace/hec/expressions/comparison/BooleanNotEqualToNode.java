@@ -1,36 +1,34 @@
 package usace.hec.expressions.comparison;
 
+
+import usace.hec.expressions.BooleanExpressionNode;
 import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.ExpressionType;
-import usace.hec.expressions.IntegerExpressionNode;
 
 import java.io.Serial;
 
-public class IntegerGreaterThanNode extends BooleanBinaryExpressionNode {
+public class BooleanNotEqualToNode extends BooleanBinaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
-    private IntegerExpressionNode left;
-    private IntegerExpressionNode right;
+    private BooleanExpressionNode left;
+    private BooleanExpressionNode right;
     /**
-     * A boolean {@link BinaryExpressionNode} that evaluates two children (numerical {@link IntegerExpressionNode}s), returning whether the left child's value is greater than the right child's value
-     * (e.g. {@code true} if left value > right value, otherwise {@code false})
+     * A boolean {@link BinaryExpressionNode} that evaluates two children ( {@link BooleanExpressionNode}s), returning whether the two values are not equal
+     * (e.g. {@code true} if both children are the same value, otherwise {@code false})
      */
-    public IntegerGreaterThanNode(IntegerExpressionNode left, IntegerExpressionNode right) {
+    public BooleanNotEqualToNode(BooleanExpressionNode left, BooleanExpressionNode right) {
         this.left = left;
         this.right = right;
     }
     @Override
     public boolean evaluate() {
-        return left.evaluate() > right.evaluate();
+        return left.evaluate() != right.evaluate();
     }
     @Override
     public ExpressionOperator Operator() {
-        return StaticOperator();
-    }
-    public static ExpressionOperator StaticOperator() {
-        return ExpressionOperator.GT;
+        return ExpressionOperator.NEQ;
     }
     @Override
     public ExpressionType resultType() {

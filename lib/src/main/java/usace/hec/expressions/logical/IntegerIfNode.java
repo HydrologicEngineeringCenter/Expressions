@@ -1,8 +1,10 @@
 package usace.hec.expressions.logical;
 
-import usace.hec.expressions.*;
 
-public class IntegerIfNode extends IfNode implements IntegerExpressionNode{
+import usace.hec.expressions.BooleanExpressionNode;
+import usace.hec.expressions.IntegerExpressionNode;
+
+public class IntegerIfNode extends IfNode implements IntegerExpressionNode {
 
     public IntegerIfNode(BooleanExpressionNode condition, IntegerExpressionNode thenn, IntegerExpressionNode elsee) {
         super(condition, thenn, elsee);

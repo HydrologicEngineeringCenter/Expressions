@@ -1,8 +1,13 @@
 package usace.hec.expressions.strings;
 
+import usace.hec.expressions.BinaryExpressionNode;
+import usace.hec.expressions.ExpressionNode;
+import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.StringExpressionNode;
+
 import java.io.Serial;
 
-import usace.hec.expressions.*;
+
 
 public class ConcatenateNode implements StringExpressionNode, BinaryExpressionNode {
     @Serial
@@ -22,10 +27,10 @@ public class ConcatenateNode implements StringExpressionNode, BinaryExpressionNo
     }
 
     @Override
-    public StringExpressionNode left() { return left; }
+    public ExpressionNode left() { return left; }
 
     @Override
-    public StringExpressionNode right() { return right; }
+    public ExpressionNode right() { return right; }
 
     @Override
     public ExpressionOperator Operator() {

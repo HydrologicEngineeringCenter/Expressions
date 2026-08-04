@@ -1,7 +1,9 @@
 package usace.hec.expressions.math;
 
 
-import usace.hec.expressions.*;
+import usace.hec.expressions.DoubleExpressionNode;
+import usace.hec.expressions.BinaryExpressionNode;
+import usace.hec.expressions.ExpressionType;
 
 public abstract class  DoubleBinaryExpressionNode implements BinaryExpressionNode, DoubleExpressionNode {
 

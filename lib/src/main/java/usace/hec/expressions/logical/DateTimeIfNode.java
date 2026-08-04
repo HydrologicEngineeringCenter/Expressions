@@ -1,11 +1,14 @@
 package usace.hec.expressions.logical;
 
-import usace.hec.expressions.*;
+
+
+import usace.hec.expressions.BooleanExpressionNode;
+import usace.hec.expressions.DateTimeExpressionNode;
 
 import java.time.LocalDateTime;
 
 
-public class DateTimeIfNode extends IfNode implements DateTimeExpressionNode{
+public class DateTimeIfNode extends IfNode implements DateTimeExpressionNode {
 
     public DateTimeIfNode(BooleanExpressionNode condition, DateTimeExpressionNode thenn, DateTimeExpressionNode elsee) {
         super(condition, thenn, elsee);
