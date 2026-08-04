@@ -20,12 +20,14 @@ public enum ExpressionOperator {
     CEILING("Math", "CEILING", "CEILING","CEILING()", "CEILING()", Arity.UNARY),
 
     // --- Logical ---
+    NOT("Logical", "!", "NOT", "!", "NOT()", Arity.UNARY),
     AND("Logical", "&&", "AND","&&", "AND(,)", Arity.BINARY),
     OR("Logical", "||", "OR", "||", "OR(,)", Arity.BINARY),
     XOR("Logical", "^^", "XOR","^^", "XOR(,)", Arity.BINARY),
 
     // --- Comparison ---
     EQ("Comparison", "==", "EQ","==", "EQ(,)", Arity.BINARY),
+    NEQ("Comparison", "!=", "NEQ","!=", "NEQ(,)", Arity.BINARY),
     GT("Comparison", ">", "GT",">", "GT(,)", Arity.BINARY),
     GTE("Comparison", ">=", "GTE",">=", "GTE(,)", Arity.BINARY),
     LT("Comparison", "<", "LT","<", "LT(,)", Arity.BINARY),

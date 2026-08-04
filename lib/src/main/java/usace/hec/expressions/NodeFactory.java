@@ -8,6 +8,9 @@ import usace.hec.expressions.time.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static usace.hec.expressions.ExpressionOperator.NOT;
+
 /**
  * Static factory for constructing typed {@link ExpressionNode} instances during parsing.
  *
@@ -213,6 +216,12 @@ public class NodeFactory {
               case TRIM -> new TrimNode((StringExpressionNode) child);
               default-> {setError(s, currentPos(s), "Unary " + op + " not implemented for STRING", ""); yield new StringConstantNode(""); }
             };
+        } else if (type == ExpressionType.BOOLEAN) {
+            if (op == NOT){
+                return new NotNode((BooleanExpressionNode) child);
+            }
+            setError(s, currentPos(s), "Unary " + op + " not implemented for BOOLEAN", "");
+            return null;
         }
 
         setError(s, currentPos(s), "Unary operator " + op + " not supported for " + type, "");
@@ -323,7 +332,7 @@ public class NodeFactory {
                 }
                 return result;
             }
-
+            case NOT:
             case NEGATE:
             case ABS:
             case FLOOR:
@@ -391,6 +400,7 @@ public class NodeFactory {
             case LT:
             case LTE:
             case EQ:
+            case NEQ:
             case AND:
             case OR:
             case XOR:
@@ -532,6 +542,7 @@ public class NodeFactory {
             case GTE -> new DoubleGreaterThanOrEqualNode(left, right);
             case LT -> new DoubleLessThanNode(left, right);
             case LTE -> new DoubleLessThanOrEqualNode(left, right);
+            case NEQ -> new DoubleNotEqualToNode(left,right);
             default -> null;
         };
     }
@@ -550,6 +561,7 @@ public class NodeFactory {
             case GTE -> new IntegerGreaterThanOrEqualNode(left, right);
             case LT -> new IntegerLessThanNode(left, right);
             case LTE -> new IntegerLessThanOrEqualNode(left, right);
+            case NEQ -> new IntegerNotEqualToNode(left,right);
             default -> null;
         };
     }
@@ -560,6 +572,7 @@ public class NodeFactory {
             case OR -> new OrNode(left, right);
             case XOR -> new XorNode(left, right);
             case EQ -> new BooleanEqualToNode(left,right);
+            case NEQ -> new BooleanNotEqualToNode(left,right);
             default -> null;
         };
     }

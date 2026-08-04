@@ -24,6 +24,7 @@ public class TokenizerAndParserTest {
         TEST_CASES.add(Map.of("input", "3.0 >= 11.0", "error", false, "msg", "", "result", false));
         TEST_CASES.add(Map.of("input", "3.0 <= 11.0", "error", false, "msg", "", "result", true));
         TEST_CASES.add(Map.of("input", "3.0 == 11.0", "error", false, "msg", "", "result", false));
+        TEST_CASES.add(Map.of("input", "3.0 != 11.0", "error", false, "msg", "", "result", true));
         TEST_CASES.add(Map.of("input", "TRUE && FALSE", "error", false, "msg", "", "result", false));
         TEST_CASES.add(Map.of("input", "TRUE || FALSE", "error", false, "msg", "", "result", true));
         TEST_CASES.add(Map.of("input", "- - 5.0", "error", false, "msg", "", "result", 5.0));
@@ -40,6 +41,7 @@ public class TokenizerAndParserTest {
         TEST_CASES.add(Map.of("input", "AND(TRUE, FALSE)", "error", false, "msg", "", "result", false));
         TEST_CASES.add(Map.of("input", "XOR(TRUE, TRUE)", "error", false, "msg", "", "result", false));
         TEST_CASES.add(Map.of("input", "XOR(TRUE, FALSE)", "error", false, "msg", "", "result", true));
+        TEST_CASES.add(Map.of("input", "NOT(FALSE)", "error", false, "msg", "", "result", true));
         //Date Tests
         TEST_CASES.add(Map.of("input", "TODAY()", "error", false, "msg", "", "result", LocalDateTime.now()));
         TEST_CASES.add(Map.of("input", "Date(1983,12,25)", "error", false, "msg", "", "result", LocalDateTime.of(1983, 12, 25, 0, 0)));
@@ -84,7 +86,6 @@ public class TokenizerAndParserTest {
         TEST_CASES.add(Map.of("input", "PLU(1.0,2.0)", "error", true, "msg", "Unknown identifier: PLU"));
         TEST_CASES.add(Map.of("input", "1 @ 2", "error", true, "msg", "Unexpected character: '@'"));
         TEST_CASES.add(Map.of("input", "3.0=11.0", "error", true, "msg", "Unexpected character: '='"));
-        TEST_CASES.add(Map.of("input", "1.0 != 1.0", "error", true, "msg", "Unexpected character: '!'"));
         TEST_CASES.add(Map.of("input", "contains(a,b)", "error", true, "msg", "Unknown identifier: a"));
         TEST_CASES.add(Map.of("input", "IF(1.0<2.0, 3.0)", "error", true, "msg", "IF requires exactly 3 arguments"));
         TEST_CASES.add(Map.of("input", "MAX()", "error", true, "msg", "MAX requires at least 1 argument"));
@@ -102,7 +103,6 @@ public class TokenizerAndParserTest {
             boolean expectError = (boolean) testCase.get("error");
             String expectedMsg = (String) testCase.get("msg");
 
-            System.out.println(testCase);
             ParseResult result = parser.parse(input);
 
             assertEquals("Input: \"" + input + "\"", expectError, result.hasError());
