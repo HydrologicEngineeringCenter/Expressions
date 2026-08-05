@@ -28,6 +28,12 @@ public interface UnaryExpressionNode  extends ExpressionNode {
         child().setProvider(dp);
     }
     @Override
+    public default void setErrorChannel(ErrorChannel ec){
+        child().setErrorChannel(ec);
+    }
+
+
+    @Override
     default EvaluationError getEvaluationError(){
         EvaluationError childError = child().getEvaluationError();
         if (childError !=null && childError.isInvalid()){

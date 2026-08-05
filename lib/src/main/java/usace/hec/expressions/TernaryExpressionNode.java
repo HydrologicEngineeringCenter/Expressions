@@ -38,6 +38,13 @@ public interface TernaryExpressionNode extends ExpressionNode {
     }
 
     @Override
+    public default void setErrorChannel(ErrorChannel ec){
+        left().setErrorChannel(ec);
+        middle().setErrorChannel(ec);
+        right().setErrorChannel(ec);
+    }
+
+    @Override
     default EvaluationError getEvaluationError(){
         EvaluationError leftError = left().getEvaluationError();
         if (leftError != null && leftError.isInvalid()){
