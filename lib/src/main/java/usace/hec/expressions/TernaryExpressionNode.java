@@ -4,7 +4,7 @@ public abstract class TernaryExpressionNode implements ExpressionNode {
     protected abstract ExpressionNode left();
     protected abstract ExpressionNode middle();
     protected abstract ExpressionNode right();
-    protected transient EvaluationError ee = new EvaluationError();
+    protected EvaluationError ee = new EvaluationError();
 
     @Override
     public String PreFixSyntax() {

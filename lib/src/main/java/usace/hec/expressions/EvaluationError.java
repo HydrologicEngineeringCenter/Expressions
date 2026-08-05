@@ -1,6 +1,13 @@
 package usace.hec.expressions;
 
-public final class EvaluationError {
+import java.io.Serial;
+import java.io.Serializable;
+
+public final class EvaluationError implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private ErrorState state = ErrorState.OK;
     private ExpressionNode node;    // first offender — diagnostics only
     private String message;

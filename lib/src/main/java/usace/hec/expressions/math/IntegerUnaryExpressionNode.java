@@ -7,7 +7,7 @@ import usace.hec.expressions.IntegerExpressionNode;
 import usace.hec.expressions.UnaryExpressionNode;
 
 public abstract class IntegerUnaryExpressionNode implements UnaryExpressionNode, IntegerExpressionNode {
-    protected transient EvaluationError ee = new EvaluationError();
+    protected EvaluationError ee = new EvaluationError();
     @Override
     public ExpressionType resultType() {
         return ExpressionType.INTEGER;
