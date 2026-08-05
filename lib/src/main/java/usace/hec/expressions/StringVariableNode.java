@@ -7,12 +7,10 @@ public class StringVariableNode implements StringExpressionNode, DataRequester {
     private static final long serialVersionUID = 1L;
 
     protected final String name;
-    protected volatile String value;
     protected transient DataProvider dp = null;
 
     public StringVariableNode(String name) {
         this.name = name;
-        this.value = "";
     }
 
     @Override

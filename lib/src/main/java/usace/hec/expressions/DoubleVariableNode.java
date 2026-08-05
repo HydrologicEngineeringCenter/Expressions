@@ -7,14 +7,11 @@ public class DoubleVariableNode implements DoubleExpressionNode, DataRequester {
     private static final long serialVersionUID = 1L;
 
     protected final String name;
-    // Volatile ensures visibility across threads without synchronization overhead
-    protected volatile double value;
     protected transient DataProvider dp = null;
 
     public DoubleVariableNode(String name) {
         this.name = name;
-        this.value = 0.0;
-    }
+      }
 
     @Override
     public double evaluate() {
