@@ -7,7 +7,7 @@ import usace.hec.expressions.StringExpressionNode;
 import usace.hec.expressions.UnaryExpressionNode;
 
 public abstract class StringUnaryExpressionNode implements UnaryExpressionNode, StringExpressionNode {
-    protected EvaluationError ee;
+    protected EvaluationError ee = new EvaluationError();
     @Override
     public ExpressionType resultType() {
         return ExpressionType.STRING;

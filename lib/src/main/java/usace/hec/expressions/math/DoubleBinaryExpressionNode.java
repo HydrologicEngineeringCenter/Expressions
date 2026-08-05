@@ -7,7 +7,7 @@ import usace.hec.expressions.EvaluationError;
 import usace.hec.expressions.ExpressionType;
 
 public abstract class  DoubleBinaryExpressionNode implements BinaryExpressionNode, DoubleExpressionNode {
-    protected EvaluationError ee;
+    protected EvaluationError ee = new EvaluationError();
     @Override
     public ExpressionType resultType() {
         return ExpressionType.DOUBLE;

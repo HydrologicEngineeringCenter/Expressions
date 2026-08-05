@@ -6,7 +6,7 @@ import usace.hec.expressions.ExpressionType;
 import usace.hec.expressions.UnaryExpressionNode;
 
 public abstract class BooleanUnaryExpressionNode implements UnaryExpressionNode, BooleanExpressionNode{
-    protected EvaluationError ee;
+    protected EvaluationError ee = new EvaluationError();
     @Override
     public ExpressionType resultType() {
         return ExpressionType.BOOLEAN;

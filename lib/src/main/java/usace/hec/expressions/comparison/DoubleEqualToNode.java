@@ -25,7 +25,10 @@ public class DoubleEqualToNode extends BooleanBinaryExpressionNode{
     }
     @Override
     public boolean evaluate() {
-        return left.evaluate() == right.evaluate();
+        double leftVal = left.evaluate();
+        double rightVal = right.evaluate();
+        checkErrors();
+        return leftVal == rightVal;
     }
     @Override
     public ExpressionOperator Operator() {
