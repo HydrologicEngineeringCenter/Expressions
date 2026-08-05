@@ -1,8 +1,9 @@
 package usace.hec.expressions.logical;
 
-import usace.hec.expressions.*;
 
-public class BooleanIfNode extends IfNode implements BooleanExpressionNode{
+import usace.hec.expressions.BooleanExpressionNode;
+
+public class BooleanIfNode extends IfNode implements BooleanExpressionNode {
 
     public BooleanIfNode(BooleanExpressionNode condition, BooleanExpressionNode thenn, BooleanExpressionNode elsee) {
         super(condition, thenn, elsee);

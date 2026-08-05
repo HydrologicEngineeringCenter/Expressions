@@ -140,7 +140,7 @@ public class Tokenizer {
                 continue;
             }
 
-            // Check multi-character infix operators (>=, <=, ==, &&, ||, ^^)
+            // Check multi-character infix operators (>=, <=, ==, &&, ||, ^^, !=)
             boolean matchedMulti = false;
             for (String sym : MULTI_CHAR_OPS) {
                 if (input.startsWith(sym, pos)) {
@@ -155,7 +155,7 @@ public class Tokenizer {
             }
             if (matchedMulti) continue;
 
-            // Check single-character infix operators (+, -, *, /, ^, >, <, |)
+            // Check single-character infix operators (+, -, *, /, ^, >, <, |, !)
             String single = String.valueOf(c);
             if (INFIX_MAP.containsKey(single)) {
                 tokens.add(new Token.Operator(INFIX_MAP.get(single), pos, ""));

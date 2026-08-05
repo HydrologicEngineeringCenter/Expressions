@@ -1,7 +1,10 @@
 package usace.hec.expressions.logical;
 
-import usace.hec.expressions.*;
+import usace.hec.expressions.BooleanExpressionNode;
+import usace.hec.expressions.ExpressionNode;
+import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.comparison.BooleanBinaryExpressionNode;
+import usace.hec.expressions.BinaryExpressionNode;
 
 import java.io.Serial;
 
@@ -34,10 +37,6 @@ public class OrNode extends BooleanBinaryExpressionNode {
     }
     public static ExpressionOperator StaticOperator() {
         return ExpressionOperator.OR;
-    }
-    @Override
-    public ExpressionType resultType() {
-        return ExpressionType.BOOLEAN;
     }
     @Override
     public ExpressionNode left() {

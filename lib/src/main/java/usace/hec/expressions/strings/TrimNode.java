@@ -1,7 +1,11 @@
 package usace.hec.expressions.strings;
 
 import java.io.Serial;
-import usace.hec.expressions.*;
+
+import usace.hec.expressions.ExpressionNode;
+import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.StringExpressionNode;
+import usace.hec.expressions.UnaryExpressionNode;
 
 public class TrimNode implements StringExpressionNode, UnaryExpressionNode {
     @Serial

@@ -1,10 +1,10 @@
 package usace.hec.expressions.logical;
 
-import usace.hec.expressions.*;
 
+import usace.hec.expressions.BooleanExpressionNode;
+import usace.hec.expressions.DoubleExpressionNode;
 
-
-public class DoubleIfNode extends IfNode implements DoubleExpressionNode{
+public class DoubleIfNode extends IfNode implements DoubleExpressionNode {
     public DoubleIfNode(BooleanExpressionNode condition, DoubleExpressionNode thenn, DoubleExpressionNode elsee) {
         super(condition, thenn, elsee);
     }

@@ -5,7 +5,11 @@ import java.io.Serial;
 
 import java.time.LocalDateTime;
 
-import usace.hec.expressions.*;
+import usace.hec.expressions.DateTimeExpressionNode;
+import usace.hec.expressions.ExpressionNode;
+import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.TernaryExpressionNode;
+import usace.hec.expressions.IntegerExpressionNode;
 
 public class DateNode implements TernaryExpressionNode, DateTimeExpressionNode {
     @Serial
@@ -47,12 +51,6 @@ public class DateNode implements TernaryExpressionNode, DateTimeExpressionNode {
     }
     public static ExpressionOperator StaticOperator(){
         return ExpressionOperator.DATE;
-    }
-
-
-    @Override
-    public ExpressionType resultType() {
-        return ExpressionType.DATE;
     }
 
     @Override

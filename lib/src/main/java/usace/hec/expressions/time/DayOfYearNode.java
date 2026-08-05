@@ -1,6 +1,10 @@
 package usace.hec.expressions.time;
 
-import usace.hec.expressions.*;
+import usace.hec.expressions.DateTimeExpressionNode;
+import usace.hec.expressions.ExpressionNode;
+import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.UnaryExpressionNode;
+import usace.hec.expressions.IntegerExpressionNode;
 
 import java.io.Serial;
 
@@ -27,10 +31,6 @@ public class DayOfYearNode implements UnaryExpressionNode, IntegerExpressionNode
     @Override
     public String ExcelSyntax() {
         return PreFixSyntax(); //for excel syntax in this case prefix is the correct syntax
-    }
-    @Override
-    public ExpressionType resultType() {
-        return ExpressionType.INTEGER;
     }
     @Override
     public ExpressionNode child() {

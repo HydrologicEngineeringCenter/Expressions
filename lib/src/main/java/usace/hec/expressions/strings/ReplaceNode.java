@@ -2,7 +2,11 @@ package usace.hec.expressions.strings;
 
 import java.io.Serial;
 
-import usace.hec.expressions.*;
+import usace.hec.expressions.TernaryExpressionNode;
+import usace.hec.expressions.ExpressionNode;
+import usace.hec.expressions.StringExpressionNode;
+import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.ExpressionType;
 
 public class ReplaceNode implements StringExpressionNode, TernaryExpressionNode {
     @Serial

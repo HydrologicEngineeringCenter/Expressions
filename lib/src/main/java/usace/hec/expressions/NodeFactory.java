@@ -8,6 +8,9 @@ import usace.hec.expressions.time.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static usace.hec.expressions.ExpressionOperator.NOT;
+
 /**
  * Static factory for constructing typed {@link ExpressionNode} instances during parsing.
  *
@@ -213,6 +216,12 @@ public class NodeFactory {
               case TRIM -> new TrimNode((StringExpressionNode) child);
               default-> {setError(s, currentPos(s), "Unary " + op + " not implemented for STRING", ""); yield new StringConstantNode(""); }
             };
+        } else if (type == ExpressionType.BOOLEAN) {
+            if (op == NOT){
+                return new NotNode((BooleanExpressionNode) child);
+            }
+            setError(s, currentPos(s), "Unary " + op + " not implemented for BOOLEAN", "");
+            return null;
         }
 
         setError(s, currentPos(s), "Unary operator " + op + " not supported for " + type, "");
@@ -323,7 +332,7 @@ public class NodeFactory {
                 }
                 return result;
             }
-
+            case NOT:
             case NEGATE:
             case ABS:
             case FLOOR:
@@ -391,6 +400,7 @@ public class NodeFactory {
             case LT:
             case LTE:
             case EQ:
+            case NEQ:
             case AND:
             case OR:
             case XOR:
@@ -528,6 +538,7 @@ public class NodeFactory {
             case MAX -> new DoubleMaxNode(left, right);
             case MIN -> new DoubleMinNode(left, right);
             case EQ -> new DoubleEqualToNode(left, right);
+            case NEQ -> new DoubleNotEqualToNode(left,right);
             case GT -> new DoubleGreaterThanNode(left, right);
             case GTE -> new DoubleGreaterThanOrEqualNode(left, right);
             case LT -> new DoubleLessThanNode(left, right);
@@ -546,6 +557,7 @@ public class NodeFactory {
             case MAX -> new IntegerMaxNode(left, right);
             case MIN -> new IntegerMinNode(left, right);
             case EQ -> new IntegerEqualToNode(left, right);
+            case NEQ -> new IntegerNotEqualToNode(left, right);
             case GT -> new IntegerGreaterThanNode(left, right);
             case GTE -> new IntegerGreaterThanOrEqualNode(left, right);
             case LT -> new IntegerLessThanNode(left, right);
@@ -560,11 +572,14 @@ public class NodeFactory {
             case OR -> new OrNode(left, right);
             case XOR -> new XorNode(left, right);
             case EQ -> new BooleanEqualToNode(left,right);
+            case NEQ -> new BooleanNotEqualToNode(left,right);
             default -> null;
         };
     }
     private static ExpressionNode createDateBinaryNode(ExpressionOperator op, DateTimeExpressionNode left, DateTimeExpressionNode right) {
         return switch (op) {
+            case EQ -> new SameDateNode(left, right);
+            case NEQ -> new NotSameDateNode(left, right);
             case AFTER -> new AfterNode(left, right);
             case BEFORE -> new BeforeNode(left, right);
             default -> null;
@@ -573,6 +588,8 @@ public class NodeFactory {
 
     private static ExpressionNode createStringBinaryNode(ExpressionOperator op, StringExpressionNode left, StringExpressionNode right) {
         return switch (op) {
+            case EQ -> new StringEqualToNode(left, right);
+            case NEQ -> new StringNotEqualToNode(left, right);
             case CONCAT -> new ConcatenateNode(left, right);
             case CONTAINS -> new ContainsNode(left, right);
             case STARTSWITH -> new StartsWithNode(left, right);
@@ -589,6 +606,7 @@ public class NodeFactory {
         Token t = peek(s);
         return (t != null) ? t.position() : -1;
     }
+
     private static void setError(ExpressionParser.ParseState s, int position, String message, String remaining) {
         if (s != null) {
             s.hasError = true;

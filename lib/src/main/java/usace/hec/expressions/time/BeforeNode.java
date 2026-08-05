@@ -1,6 +1,8 @@
 package usace.hec.expressions.time;
 
-import usace.hec.expressions.*;
+import usace.hec.expressions.DateTimeExpressionNode;
+import usace.hec.expressions.ExpressionNode;
+import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.comparison.BooleanBinaryExpressionNode;
 
 
@@ -21,10 +23,6 @@ public class BeforeNode extends BooleanBinaryExpressionNode {
     }
     public static ExpressionOperator StaticOperator(){
         return ExpressionOperator.BEFORE;
-    }
-    @Override
-    public ExpressionType resultType() {
-        return ExpressionType.BOOLEAN;
     }
     @Override
     public ExpressionNode left() {

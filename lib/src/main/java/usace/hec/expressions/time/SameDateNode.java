@@ -8,25 +8,25 @@ import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.comparison.BooleanBinaryExpressionNode;
 
 
-public class AfterNode extends BooleanBinaryExpressionNode {
+public class SameDateNode extends BooleanBinaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
     private DateTimeExpressionNode left;
     private DateTimeExpressionNode right;
-    public AfterNode(DateTimeExpressionNode left, DateTimeExpressionNode right){
+    public SameDateNode(DateTimeExpressionNode left, DateTimeExpressionNode right){
         this.left = left;
         this.right = right;
     }
     @Override
     public boolean evaluate() {
-        return left.evaluate().isAfter(right.evaluate());
+        return left.evaluate().isEqual(right.evaluate());
     }
     @Override
     public ExpressionOperator Operator() {
         return StaticOperator();
     }
     public static ExpressionOperator StaticOperator(){
-        return ExpressionOperator.AFTER;
+        return ExpressionOperator.EQ;
     }
     @Override
     public ExpressionNode left() {

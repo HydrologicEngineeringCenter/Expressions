@@ -1,7 +1,10 @@
 package usace.hec.expressions;
 
+import java.beans.Expression;
 import java.util.ArrayList;
 import java.util.List;
+
+import static usace.hec.expressions.NodeFactory.buildUnaryNode;
 
 /**
  * Recursive-descent parser for Excel-compatible expression syntax.
@@ -36,7 +39,7 @@ import java.util.List;
  *   <li>Additive ({@code +, -})</li>
  *   <li>Multiplicative ({@code *, /})</li>
  *   <li>Exponentiation ({@code ^})</li>
- *   <li>Unary prefix ({@code -, ABS, FLOOR, CEILING, TOINT, TODOUBLE})</li>
+ *   <li>Unary prefix ({@code -, ABS, FLOOR, CEILING, TOINT, TODOUBLE, NOT})</li>
  *   <li>Primary: literals, variables, parenthesized expressions, function calls</li>
  * </ol>
  *
@@ -198,7 +201,7 @@ public class ExpressionParser {
                 ExpressionOperator oe = op.op();
                 if (oe == ExpressionOperator.GT || oe == ExpressionOperator.GTE ||
                         oe == ExpressionOperator.LT || oe == ExpressionOperator.LTE ||
-                        oe == ExpressionOperator.EQ) {
+                        oe == ExpressionOperator.EQ || oe == ExpressionOperator.NEQ) {
                     s.advance();
                     ExpressionNode right = parseAdditive(s);
                     if (s.hasError) return null;
@@ -282,14 +285,21 @@ public class ExpressionParser {
 
     private ExpressionNode parseUnary(ParseState s) {
         Token t = peek(s);
-        
-        // Unary minus
-        if (t instanceof Token.Operator op && op.op() == ExpressionOperator.MINUS) {
+
+        // Unary minus, Tokenizer can't tell difference between ExpressionOperator.MINUS and ExpressionOperator.NEGATE, repeated code necessary
+        if (t instanceof Token.Operator op && (op.op() == ExpressionOperator.MINUS)) {
             s.advance();
             ExpressionNode child = parseUnary(s);
             if (s.hasError) return null;
             return NodeFactory.buildUnaryNode(s, ExpressionOperator.NEGATE, child);
         }
+        if (t instanceof Token.Operator op && op.op() == ExpressionOperator.NOT) {
+            s.advance();
+            ExpressionNode child = parseUnary(s);
+            if (s.hasError) return null;
+            return NodeFactory.buildUnaryNode(s, op.op(), child);
+        }
+
 
         // Prefix functions: ABS, FLOOR, CEILING
         if (t instanceof Token.Function fn) {

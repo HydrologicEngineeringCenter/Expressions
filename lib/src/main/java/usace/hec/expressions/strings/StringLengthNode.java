@@ -1,6 +1,8 @@
 package usace.hec.expressions.strings;
 
-import usace.hec.expressions.*;
+import usace.hec.expressions.ExpressionNode;
+import usace.hec.expressions.StringExpressionNode;
+import usace.hec.expressions.ExpressionOperator;
 
 import java.io.Serial;
 import usace.hec.expressions.math.IntegerUnaryExpressionNode;
