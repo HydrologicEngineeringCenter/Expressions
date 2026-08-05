@@ -7,12 +7,10 @@ public class BooleanVariableNode implements BooleanExpressionNode, DataRequester
     private static final long serialVersionUID = 1L;
 
     protected final String name;
-    protected volatile boolean value;
     protected transient DataProvider dp = null;
 
     public BooleanVariableNode(String name) {
         this.name = name;
-        this.value = false;
     }
 
     @Override

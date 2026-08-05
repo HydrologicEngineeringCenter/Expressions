@@ -8,12 +8,10 @@ public class DateTimeVariableNode implements DateTimeExpressionNode, DataRequest
     private static final long serialVersionUID = 1L;
 
     protected final String name;
-    protected volatile LocalDateTime value;
     protected transient DataProvider dp = null;
 
     public DateTimeVariableNode(String name) {
         this.name = name;
-        this.value = LocalDateTime.now();
     }
 
     @Override

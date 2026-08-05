@@ -7,12 +7,10 @@ public class IntegerVariableNode implements IntegerExpressionNode, DataRequester
     private static final long serialVersionUID = 1L;
 
     protected final String name;
-    protected volatile int value;
     protected transient DataProvider dp = null;
 
     public IntegerVariableNode(String name) {
         this.name = name;
-        this.value = 0;
     }
 
     @Override
