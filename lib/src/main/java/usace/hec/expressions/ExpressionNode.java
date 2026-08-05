@@ -10,7 +10,7 @@ public interface ExpressionNode extends Serializable, ErrorReportable {
     }
     @Override
     default EvaluationError getEvaluationError(){
-        return null;
+        return new EvaluationError();
     }
     ExpressionType resultType();
     ExpressionOperator Operator();

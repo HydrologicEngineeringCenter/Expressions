@@ -11,7 +11,6 @@ public class SubstringNode extends TernaryExpressionNode implements StringExpres
     private final StringExpressionNode source;
     private final IntegerExpressionNode beginIndex;
     private final IntegerExpressionNode endIndex;
-    private EvaluationError ee = new EvaluationError();
 
     public SubstringNode(StringExpressionNode source, IntegerExpressionNode beginIndex, IntegerExpressionNode endIndex) {
         this.source = source;

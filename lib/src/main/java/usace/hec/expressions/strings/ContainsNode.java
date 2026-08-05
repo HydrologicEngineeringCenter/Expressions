@@ -16,7 +16,6 @@ import java.io.Serial;
 public class ContainsNode extends BooleanBinaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
-    private EvaluationError ee;
     private final StringExpressionNode source;
     private final StringExpressionNode search;
 

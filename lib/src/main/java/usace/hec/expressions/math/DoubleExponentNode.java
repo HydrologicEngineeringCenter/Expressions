@@ -10,7 +10,6 @@ public class DoubleExponentNode extends DoubleBinaryExpressionNode {
     private static final long serialVersionUID = 1L;
     private DoubleExpressionNode left;
     private DoubleExpressionNode right;
-    private EvaluationError ee = new EvaluationError();
     /**
      * A numerical {@link BinaryExpressionNode} that evaluates two children (numerical {@link DoubleExpressionNode}s) with exponentiation ({@code ^}) returning the value of the
      * first child's value to the power of the second child's value (e.g. {@code x^y})

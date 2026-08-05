@@ -7,7 +7,7 @@ import usace.hec.expressions.IntegerExpressionNode;
 import usace.hec.expressions.BinaryExpressionNode;
 
 public abstract class  IntegerBinaryExpressionNode implements BinaryExpressionNode, IntegerExpressionNode {
-    protected EvaluationError ee = new EvaluationError();
+    protected transient EvaluationError ee = new EvaluationError();
     @Override
     public ExpressionType resultType() {
         return ExpressionType.INTEGER;

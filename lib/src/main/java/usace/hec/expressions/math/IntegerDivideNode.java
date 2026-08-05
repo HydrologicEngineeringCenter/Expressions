@@ -10,7 +10,6 @@ public class IntegerDivideNode extends IntegerBinaryExpressionNode {
     private static final long serialVersionUID = 1L;
     private IntegerExpressionNode left;
     private IntegerExpressionNode right;
-    private EvaluationError ee = new EvaluationError();
     /**
      * A numerical {@link BinaryExpressionNode} that evaluates two children (numerical {@link IntegerExpressionNode}s), returning the division {@code /} of
      * the first child's value by the second child's value (e.g. {@code x/y})
