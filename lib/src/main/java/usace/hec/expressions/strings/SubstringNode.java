@@ -5,13 +5,13 @@ import java.io.Serial;
 import usace.hec.expressions.*;
 
 public class SubstringNode implements StringExpressionNode, TernaryExpressionNode {
-    EvaluationError ee;
     @Serial
     private static final long serialVersionUID = 1L;
 
     private final StringExpressionNode source;
     private final IntegerExpressionNode beginIndex;
     private final IntegerExpressionNode endIndex;
+    private EvaluationError ee = new EvaluationError();
 
     public SubstringNode(StringExpressionNode source, IntegerExpressionNode beginIndex, IntegerExpressionNode endIndex) {
         this.source = source;
@@ -21,6 +21,22 @@ public class SubstringNode implements StringExpressionNode, TernaryExpressionNod
 
     @Override
     public String evaluate() {
+        String sourceString = source.evaluate();
+        int startIndex = beginIndex.evaluate();
+        int endingIndex = endIndex.evaluate();
+
+        if (startIndex < 0 || startIndex > sourceString.length()){
+            ee.report(ErrorState.INVALID, this, "start Index out of bounds");
+            return source.evaluate();
+        }
+        if (endingIndex < 0 || endingIndex > sourceString.length()) {
+            ee.report(ErrorState.INVALID, this, "end Index out of bounds");
+            return source.evaluate();
+        }
+        if (startIndex > endingIndex){
+            ee.report(ErrorState.INVALID, this, "start Index is greater than end Index");
+            return source.evaluate();
+        }
         return source.evaluate().substring(beginIndex.evaluate(), endIndex.evaluate());
     }
 
@@ -45,5 +61,9 @@ public class SubstringNode implements StringExpressionNode, TernaryExpressionNod
     @Override
     public ExpressionNode right() {
         return endIndex;
+    }
+    @Override
+    public EvaluationError ownError(){
+        return this.ee;
     }
 }

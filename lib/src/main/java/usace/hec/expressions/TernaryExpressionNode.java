@@ -36,4 +36,22 @@ public interface TernaryExpressionNode extends ExpressionNode {
         middle().setProvider(dp);
         right().setProvider(dp);
     }
+
+    @Override
+    default EvaluationError getEvaluationError(){
+        EvaluationError leftError = left().getEvaluationError();
+        if (leftError != null && leftError.isInvalid()){
+            return leftError;
+        }
+        EvaluationError middleError = middle().getEvaluationError();
+        if (middleError != null && middleError.isInvalid()){
+            return middleError;
+        }
+        EvaluationError rightError = right().getEvaluationError();
+        if (rightError != null && rightError.isInvalid()){
+            return rightError;
+        }
+        return ownError();
+    }
+    default EvaluationError ownError() {return null;}
 }

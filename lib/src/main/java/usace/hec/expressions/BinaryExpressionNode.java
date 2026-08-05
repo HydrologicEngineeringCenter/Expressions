@@ -39,15 +39,15 @@ public interface BinaryExpressionNode extends ExpressionNode{
 
     @Override
     default EvaluationError getEvaluationError(){
-        EvaluationError own = ownError();
-        if (own != null && own.isInvalid()){
-            return own;
-        }
         EvaluationError leftError = left().getEvaluationError();
         if (leftError != null && leftError.isInvalid()){
             return leftError;
         }
-        return right().getEvaluationError();
+        EvaluationError rightError = right().getEvaluationError();
+        if (rightError != null && rightError.isInvalid()){
+            return rightError;
+        }
+        return ownError();
     }
     default EvaluationError ownError() {return null;}
 }

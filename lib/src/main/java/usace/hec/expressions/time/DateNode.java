@@ -30,7 +30,7 @@ public class DateNode implements TernaryExpressionNode, DateTimeExpressionNode {
             dateTime = LocalDateTime.of(_yyyy.evaluate(), _mm.evaluate(), _dd.evaluate(), 0, 0);
         } catch (DateTimeException e) {
             dateTime = LocalDateTime.now();
-            ee.report();
+            ee.report(ErrorState.INVALID, this, "Invalid Date Entered");
         }
         return dateTime;
 
@@ -72,4 +72,5 @@ public class DateNode implements TernaryExpressionNode, DateTimeExpressionNode {
     public ExpressionNode right() {
         return _yyyy;
     }
+
 }
