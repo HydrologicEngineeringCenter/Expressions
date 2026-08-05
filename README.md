@@ -3,10 +3,13 @@ A Java 21 library that parses Excel-compatible expression strings into typed Abs
 
 # Quick Start
 ```java
-ExpressionParser parser = new ExpressionParser();
 
+Map<String,ExpressionType> symbolTable = Map.of(
+    "a", ExpressionType.DOUBLE,
+    "b",ExpressionType.DOUBLE
+);
 // Parse an expression string
-ParseResult<ExpressionNode> result = parser.parse("IF([a] > 5.0, [a] * 2.0, [b] + 10.0)");
+ParseResult<ExpressionNode> result = ExpressionParser.parse("IF([a] > 5.0, [a] * 2.0, [b] + 10.0)",symbolTable);
 
 if (!result.hasError()) {
     ExpressionNode tree = result.getNode();
