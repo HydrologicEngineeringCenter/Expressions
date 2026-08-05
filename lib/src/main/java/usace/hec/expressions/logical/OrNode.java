@@ -25,11 +25,10 @@ public class OrNode extends BooleanBinaryExpressionNode {
     }
     @Override
     public boolean evaluate() {
-        if (left.evaluate()){
-            return true;
-        } else {
-            return right.evaluate();
-        }
+        boolean leftVal = left.evaluate();
+        boolean rightVal = right.evaluate();
+        checkErrors();
+        return leftVal || rightVal;
     }
     @Override
     public ExpressionOperator Operator() {

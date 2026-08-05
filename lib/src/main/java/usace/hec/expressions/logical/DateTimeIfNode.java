@@ -19,6 +19,10 @@ public class DateTimeIfNode extends IfNode implements DateTimeExpressionNode {
         DateTimeExpressionNode thenBranch = (DateTimeExpressionNode) thenNode;
         DateTimeExpressionNode elseBranch = (DateTimeExpressionNode) elseNode;
 
-        return conditionNode.evaluate() ? thenBranch.evaluate() : elseBranch.evaluate();
+        boolean conditionVal = conditionNode.evaluate();
+        LocalDateTime thenBranchVal = thenBranch.evaluate();
+        LocalDateTime elseBranchVal = elseBranch.evaluate();
+        checkErrors();
+        return conditionVal ? thenBranchVal : elseBranchVal;
     }
 }
