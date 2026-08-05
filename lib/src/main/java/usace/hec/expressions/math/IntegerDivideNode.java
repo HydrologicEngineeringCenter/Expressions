@@ -28,6 +28,7 @@ public class IntegerDivideNode extends IntegerBinaryExpressionNode {
         }
         return left.evaluate() /r;
     }
+
     @Override
     public ExpressionOperator Operator() {
         return StaticOperator();
@@ -42,9 +43,5 @@ public class IntegerDivideNode extends IntegerBinaryExpressionNode {
     @Override
     public ExpressionNode right() {
         return right;
-    }
-    @Override
-    public EvaluationError ownError(){
-        return this.ee;
     }
 }

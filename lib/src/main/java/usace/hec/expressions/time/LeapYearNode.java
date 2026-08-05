@@ -3,12 +3,11 @@ package usace.hec.expressions.time;
 import usace.hec.expressions.DateTimeExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.UnaryExpressionNode;
-import usace.hec.expressions.BooleanExpressionNode;
+import usace.hec.expressions.logical.BooleanUnaryExpressionNode;
 
 import java.io.Serial;
 
-public class LeapYearNode implements UnaryExpressionNode, BooleanExpressionNode {
+public class LeapYearNode extends BooleanUnaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
     private DateTimeExpressionNode child;

@@ -43,8 +43,4 @@ public class DoubleDivideNode extends DoubleBinaryExpressionNode {
     public ExpressionNode right() {
         return right;
     }
-    @Override
-    public EvaluationError ownError(){
-        return this.ee;
-    }
 }

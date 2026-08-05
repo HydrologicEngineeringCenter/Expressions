@@ -1,7 +1,9 @@
 package usace.hec.expressions;
 
+import usace.hec.expressions.math.DoubleUnaryExpressionNode;
+
 /**
- * Wraps an {@link IntExpressionNode} and exposes it as a {@link DoubleExpressionNode}.
+ * Wraps an {@link IntegerExpressionNode} and exposes it as a {@link DoubleExpressionNode}.
  * <p>
  * This node performs widening coercion at parse time, ensuring that mixed-type 
  * arithmetic (e.g., {@code int + double}) resolves to the specialized 
@@ -10,7 +12,7 @@ package usace.hec.expressions;
  *
  * @see ExpressionType#canWiden(ExpressionType, ExpressionType)
  */
-public class IntegerToDoubleCoerceNode implements UnaryExpressionNode, DoubleExpressionNode {
+public class IntegerToDoubleCoerceNode extends DoubleUnaryExpressionNode {
 
     private final IntegerExpressionNode child;
 

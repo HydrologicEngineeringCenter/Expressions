@@ -4,7 +4,7 @@ import java.io.Serial;
 
 import usace.hec.expressions.*;
 
-public class SubstringNode implements StringExpressionNode, TernaryExpressionNode {
+public class SubstringNode extends TernaryExpressionNode implements StringExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -61,9 +61,5 @@ public class SubstringNode implements StringExpressionNode, TernaryExpressionNod
     @Override
     public ExpressionNode right() {
         return endIndex;
-    }
-    @Override
-    public EvaluationError ownError(){
-        return this.ee;
     }
 }

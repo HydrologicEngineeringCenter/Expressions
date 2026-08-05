@@ -1,12 +1,13 @@
 package usace.hec.expressions;
 
-public interface TernaryExpressionNode extends ExpressionNode {
-    ExpressionNode left();
-    ExpressionNode middle();
-    ExpressionNode right();
+public abstract class TernaryExpressionNode implements ExpressionNode {
+    protected abstract ExpressionNode left();
+    protected abstract ExpressionNode middle();
+    protected abstract ExpressionNode right();
+    protected EvaluationError ee;
 
     @Override
-    public default String PreFixSyntax() {
+    public String PreFixSyntax() {
         StringBuilder sb = new StringBuilder();
         sb.append(Operator().getPrefixName());
         sb.append('(');
@@ -19,7 +20,7 @@ public interface TernaryExpressionNode extends ExpressionNode {
         return sb.toString();
     }
     @Override
-    public default String ExcelSyntax(){
+    public String ExcelSyntax(){
         StringBuilder sb = new StringBuilder();
         sb.append(Operator().getInfixSyntax());
         sb.append(left().ExcelSyntax());
@@ -31,34 +32,15 @@ public interface TernaryExpressionNode extends ExpressionNode {
         return sb.toString();
     }
     @Override
-    public default void setProvider(DataProvider dp){
+    public void setProvider(DataProvider dp){
         left().setProvider(dp);
         middle().setProvider(dp);
         right().setProvider(dp);
     }
-
-    @Override
-    public default void setErrorChannel(ErrorChannel ec){
-        left().setErrorChannel(ec);
-        middle().setErrorChannel(ec);
-        right().setErrorChannel(ec);
+    public void checkErrors(){
+        if (left().hasError()) {ee = left().getEvaluationError();}
+        else if (middle().hasError()) {ee = middle().getEvaluationError();}
+        else if (right().hasError()) {ee = right().getEvaluationError();}
     }
 
-    @Override
-    default EvaluationError getEvaluationError(){
-        EvaluationError leftError = left().getEvaluationError();
-        if (leftError != null && leftError.isInvalid()){
-            return leftError;
-        }
-        EvaluationError middleError = middle().getEvaluationError();
-        if (middleError != null && middleError.isInvalid()){
-            return middleError;
-        }
-        EvaluationError rightError = right().getEvaluationError();
-        if (rightError != null && rightError.isInvalid()){
-            return rightError;
-        }
-        return ownError();
-    }
-    default EvaluationError ownError() {return null;}
 }

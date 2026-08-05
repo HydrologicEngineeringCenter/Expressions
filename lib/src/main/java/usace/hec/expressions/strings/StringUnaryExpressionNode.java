@@ -1,17 +1,16 @@
-package usace.hec.expressions.math;
+package usace.hec.expressions.strings;
 
 
 import usace.hec.expressions.EvaluationError;
 import usace.hec.expressions.ExpressionType;
-import usace.hec.expressions.IntegerExpressionNode;
+import usace.hec.expressions.StringExpressionNode;
 import usace.hec.expressions.UnaryExpressionNode;
 
-public abstract class IntegerUnaryExpressionNode implements UnaryExpressionNode, IntegerExpressionNode {
+public abstract class StringUnaryExpressionNode implements UnaryExpressionNode, StringExpressionNode {
     protected EvaluationError ee;
-
     @Override
     public ExpressionType resultType() {
-        return ExpressionType.INTEGER;
+        return ExpressionType.STRING;
     }
     @Override
     public EvaluationError getEvaluationError(){

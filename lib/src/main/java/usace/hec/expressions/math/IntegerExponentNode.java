@@ -45,8 +45,5 @@ public class IntegerExponentNode extends IntegerBinaryExpressionNode {
     public ExpressionNode right() {
         return this.right;
     }
-    @Override
-    public EvaluationError ownError(){
-        return this.ee;
-    }
+
 }

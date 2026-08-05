@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 import usace.hec.expressions.*;
 
-public class DateNode implements TernaryExpressionNode, DateTimeExpressionNode {
+public class DateNode extends TernaryExpressionNode implements DateTimeExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 

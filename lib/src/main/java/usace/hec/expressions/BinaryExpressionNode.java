@@ -36,24 +36,4 @@ public interface BinaryExpressionNode extends ExpressionNode{
         left().setProvider(dp);
         right().setProvider(dp);
     }
-
-    @Override
-    public default void setErrorChannel(ErrorChannel ec){
-        left().setErrorChannel(ec);
-        right().setErrorChannel(ec);
-    }
-
-    @Override
-    default EvaluationError getEvaluationError(){
-        EvaluationError leftError = left().getEvaluationError();
-        if (leftError != null && leftError.isInvalid()){
-            return leftError;
-        }
-        EvaluationError rightError = right().getEvaluationError();
-        if (rightError != null && rightError.isInvalid()){
-            return rightError;
-        }
-        return ownError();
-    }
-    default EvaluationError ownError() {return null;}
 }

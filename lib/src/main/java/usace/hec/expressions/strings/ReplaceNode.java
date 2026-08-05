@@ -8,7 +8,7 @@ import usace.hec.expressions.StringExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.ExpressionType;
 
-public class ReplaceNode implements StringExpressionNode, TernaryExpressionNode {
+public class ReplaceNode extends TernaryExpressionNode implements StringExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 

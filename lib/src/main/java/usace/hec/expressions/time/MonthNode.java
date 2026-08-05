@@ -3,12 +3,11 @@ package usace.hec.expressions.time;
 import usace.hec.expressions.DateTimeExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.UnaryExpressionNode;
-import usace.hec.expressions.IntegerExpressionNode;
+import usace.hec.expressions.math.IntegerUnaryExpressionNode;
 
 import java.io.Serial;
 
-public class MonthNode implements UnaryExpressionNode, IntegerExpressionNode {
+public class MonthNode extends IntegerUnaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
     private DateTimeExpressionNode child;

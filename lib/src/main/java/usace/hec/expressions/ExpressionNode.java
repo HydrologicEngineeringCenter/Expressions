@@ -9,10 +9,6 @@ public interface ExpressionNode extends Serializable, ErrorReportable {
         return;
     }
     @Override
-    default void setErrorChannel(ErrorChannel channel){
-        return;
-    }
-    @Override
     default EvaluationError getEvaluationError(){
         return null;
     }

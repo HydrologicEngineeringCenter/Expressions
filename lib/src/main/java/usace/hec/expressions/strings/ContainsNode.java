@@ -1,20 +1,22 @@
 package usace.hec.expressions.strings;
 
 
-import usace.hec.expressions.BinaryExpressionNode;
-import usace.hec.expressions.BooleanExpressionNode;
+
+
+import usace.hec.expressions.EvaluationError;
 import usace.hec.expressions.ExpressionNode;
-import usace.hec.expressions.StringExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.StringExpressionNode;
+import usace.hec.expressions.comparison.BooleanBinaryExpressionNode;
 
 import java.io.Serial;
 
 
 
-public class ContainsNode implements BooleanExpressionNode, BinaryExpressionNode {
+public class ContainsNode extends BooleanBinaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
-
+    private EvaluationError ee;
     private final StringExpressionNode source;
     private final StringExpressionNode search;
 
@@ -40,5 +42,12 @@ public class ContainsNode implements BooleanExpressionNode, BinaryExpressionNode
     }
     public static ExpressionOperator StaticOperator() {
         return ExpressionOperator.CONTAINS;
+    }
+    public void checkErrors(){
+        if (left().hasError()) {
+            ee = left().getEvaluationError();
+        } else if (right().hasError()) {
+            ee = right().getEvaluationError();
+        }
     }
 }
