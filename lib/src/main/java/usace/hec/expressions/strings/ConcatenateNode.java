@@ -22,7 +22,10 @@ public class ConcatenateNode extends StringBinaryExpressionNode {
 
     @Override
     public String evaluate() {
-        return left.evaluate().toString() + right.evaluate().toString();
+        String leftVal = left.evaluate().toString();
+        String rightVal = right.evaluate().toString();
+        checkErrors();
+        return leftVal + rightVal;
     }
 
     @Override

@@ -24,20 +24,23 @@ public class SubstringNode extends TernaryExpressionNode implements StringExpres
         String sourceString = source.evaluate();
         int startIndex = beginIndex.evaluate();
         int endingIndex = endIndex.evaluate();
-
-        if (startIndex < 0 || startIndex > sourceString.length()){
-            ee.report(ErrorState.INVALID, this, "start Index out of bounds");
-            return source.evaluate();
+        checkErrors();
+        if (!source.hasError() && !beginIndex.hasError() && !endIndex.hasError()) {
+            if (startIndex < 0 || startIndex > sourceString.length()) {
+                ee.report(ErrorState.INVALID, this, "start Index out of bounds");
+                return "";
+            }
+            if (endingIndex < 0 || endingIndex > sourceString.length()) {
+                ee.report(ErrorState.INVALID, this, "end Index out of bounds");
+                return "";
+            }
+            if (startIndex > endingIndex) {
+                ee.report(ErrorState.INVALID, this, "start Index is greater than end Index");
+                return "";
+            }
+            return sourceString.substring(startIndex, endingIndex);
         }
-        if (endingIndex < 0 || endingIndex > sourceString.length()) {
-            ee.report(ErrorState.INVALID, this, "end Index out of bounds");
-            return source.evaluate();
-        }
-        if (startIndex > endingIndex){
-            ee.report(ErrorState.INVALID, this, "start Index is greater than end Index");
-            return source.evaluate();
-        }
-        return source.evaluate().substring(beginIndex.evaluate(), endIndex.evaluate());
+        return "";
     }
 
     @Override

@@ -27,7 +27,10 @@ public class ContainsNode extends BooleanBinaryExpressionNode {
 
     @Override
     public boolean evaluate() {
-        return source.evaluate().contains(search.evaluate());
+        String sourceVal = source.evaluate();
+        String searchVal = search.evaluate();
+        checkErrors();
+        return sourceVal.contains(searchVal);
     }
 
     @Override

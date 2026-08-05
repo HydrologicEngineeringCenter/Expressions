@@ -21,7 +21,10 @@ public class EndsWithNode extends BooleanBinaryExpressionNode {
 
     @Override
     public boolean evaluate() {
-        return source.evaluate().endsWith(search.evaluate());
+        String sourceVal = source.evaluate();
+        String searchVal = search.evaluate();
+        checkErrors();
+        return sourceVal.endsWith(searchVal);
     }
 
     @Override

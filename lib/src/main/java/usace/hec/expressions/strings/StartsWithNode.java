@@ -22,7 +22,10 @@ public class StartsWithNode extends BooleanBinaryExpressionNode {
 
     @Override
     public boolean evaluate() {
-        return source.evaluate().startsWith(search.evaluate());
+        String sourceVal = source.evaluate();
+        String searchVal = search.evaluate();
+        checkErrors();
+        return sourceVal.startsWith(searchVal);
     }
 
     @Override

@@ -16,7 +16,9 @@ public class ToLowerNode extends StringUnaryExpressionNode {
 
     @Override
     public String evaluate() {
-        return source.evaluate().toLowerCase();
+        String sourceVal = source.evaluate();
+        checkErrors();
+        return sourceVal.toLowerCase();
     }
 
     @Override

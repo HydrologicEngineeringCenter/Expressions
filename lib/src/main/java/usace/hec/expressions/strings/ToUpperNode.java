@@ -16,7 +16,9 @@ public class ToUpperNode extends StringUnaryExpressionNode {
 
     @Override
     public String evaluate() {
-        return source.evaluate().toUpperCase();
+        String sourceVal = source.evaluate();
+        checkErrors();
+        return sourceVal.toUpperCase();
     }
 
     @Override
