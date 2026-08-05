@@ -21,10 +21,13 @@ public class IntegerExponentNode extends IntegerBinaryExpressionNode {
     }
     @Override
     public int evaluate() {
-        int r = right.evaluate();
         int l = left.evaluate();
-        if ( r < 0){
-            ee.report(ErrorState.INVALID, this, "Imaginary numbers unsupported");
+        int r = right.evaluate();
+        checkErrors();
+        if (r < 0){
+            if (!right.hasError()) {
+                ee.report(ErrorState.INVALID, this, "Imaginary numbers unsupported");
+            }
             return 0; //exit early
         }
         return (int) Math.pow(l, r);

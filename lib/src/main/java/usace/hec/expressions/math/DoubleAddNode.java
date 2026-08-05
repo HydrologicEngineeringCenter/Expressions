@@ -24,7 +24,10 @@ public class DoubleAddNode extends DoubleBinaryExpressionNode{
     }
     @Override
     public double evaluate() {
-        return left.evaluate() + right.evaluate();
+        double leftVal = left.evaluate();
+        double rightVal = right.evaluate();
+        checkErrors();
+        return leftVal + rightVal;
     }
     @Override
     public ExpressionOperator Operator() {

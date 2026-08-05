@@ -20,7 +20,9 @@ public class IntegerFloorNode extends IntegerUnaryExpressionNode {
 
     @Override
     public int evaluate() {
-        return (int)Math.floor(child.evaluate());
+        int childVal = child.evaluate();
+        checkErrors();
+        return (int)Math.floor(childVal);
     }
 
     @Override

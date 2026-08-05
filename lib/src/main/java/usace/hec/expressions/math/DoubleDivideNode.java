@@ -21,12 +21,16 @@ public class DoubleDivideNode extends DoubleBinaryExpressionNode {
     }
     @Override
     public double evaluate() {
-        double r = right.evaluate();
-        if (r == 0.0){
-            ee.report(ErrorState.INVALID, this, "Division by 0.0");
+        double leftVal = left.evaluate();
+        double rightVal = right.evaluate();
+        checkErrors();
+        if (rightVal == 0.0){
+            if (!right.hasError()) {
+                ee.report(ErrorState.INVALID, this, "Division by 0.0");
+            }
             return 0.0; //exit early
         }
-        return left.evaluate() / r;
+        return leftVal / rightVal;
     }
     @Override
     public ExpressionOperator Operator() {

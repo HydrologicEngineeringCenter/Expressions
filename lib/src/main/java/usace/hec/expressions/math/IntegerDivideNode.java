@@ -21,12 +21,16 @@ public class IntegerDivideNode extends IntegerBinaryExpressionNode {
     }
     @Override
     public int evaluate() {
-        int r = right.evaluate();
-        if (r == 0){
-            ee.report(ErrorState.INVALID, this, "Division by 0");
+        int leftVal = left.evaluate();
+        int rightVal = right.evaluate();
+        checkErrors();
+        if (rightVal == 0){
+            if (!right.hasError()) {
+                ee.report(ErrorState.INVALID, this, "Division by 0");
+            }
             return 0; //exit early
         }
-        return left.evaluate() /r;
+        return leftVal / rightVal;
     }
 
     @Override

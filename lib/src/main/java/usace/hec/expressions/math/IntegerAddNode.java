@@ -24,7 +24,10 @@ public class IntegerAddNode extends IntegerBinaryExpressionNode {
     }
     @Override
     public int evaluate() {
-        return left.evaluate() + right.evaluate();
+        int leftVal = left.evaluate();
+        int rightVal = right.evaluate();
+        checkErrors();
+        return leftVal + rightVal;
     }
     @Override
     public ExpressionOperator Operator() {

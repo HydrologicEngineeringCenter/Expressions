@@ -23,8 +23,11 @@ public class DoubleExponentNode extends DoubleBinaryExpressionNode {
     public double evaluate() {
         double l = left.evaluate();
         double r = right.evaluate();
-        if ( r < 0.0){
-            ee.report(ErrorState.INVALID, this, "Imaginary numbers unsupported");
+        checkErrors();
+        if (r < 0.0){
+            if (!right.hasError()) {
+                ee.report(ErrorState.INVALID, this, "Imaginary numbers unsupported");
+            }
             return 0.0; //exit early
         }
         return Math.pow(l, r);

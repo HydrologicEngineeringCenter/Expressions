@@ -21,7 +21,9 @@ public class DoubleNegateNode extends DoubleUnaryExpressionNode {
 
     @Override
     public double evaluate() {
-        return -child.evaluate();
+        double childVal = child.evaluate();
+        checkErrors();
+        return -childVal;
     }
 
     @Override
