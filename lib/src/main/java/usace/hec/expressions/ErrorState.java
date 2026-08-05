@@ -1,6 +1,6 @@
 package usace.hec.expressions;
 
-public enum ErrorSeverty {
+public enum ErrorState {
     OK,
     WARN,
     INVALID

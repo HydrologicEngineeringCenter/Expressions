@@ -1,9 +1,6 @@
 package usace.hec.expressions.math;
 
-import usace.hec.expressions.DoubleExpressionNode;
-import usace.hec.expressions.ExpressionNode;
-import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.BinaryExpressionNode;
+import usace.hec.expressions.*;
 
 import java.io.Serial;
 
@@ -13,6 +10,7 @@ public class DoubleDivideNode extends DoubleBinaryExpressionNode {
     private static final long serialVersionUID = 1L;
     private DoubleExpressionNode left;
     private DoubleExpressionNode right;
+    private EvaluationError ee = new EvaluationError();
     /**
      * A numerical {@link BinaryExpressionNode} that evaluates two children (numerical {@link DoubleExpressionNode}s), returning the division {@code /} of
      * the first child's value by the second child's value (e.g. {@code x/y})
@@ -25,7 +23,8 @@ public class DoubleDivideNode extends DoubleBinaryExpressionNode {
     public double evaluate() {
         double r = right.evaluate();
         if (r == 0.0){
-            throw new ArithmeticException("Division by zero");
+            ee.report(ErrorState.INVALID, this, "Division by 0.0");
+            return 0.0; //exit early
         }
         return left.evaluate() / r;
     }
@@ -43,5 +42,9 @@ public class DoubleDivideNode extends DoubleBinaryExpressionNode {
     @Override
     public ExpressionNode right() {
         return right;
+    }
+    @Override
+    public EvaluationError ownError(){
+        return this.ee;
     }
 }

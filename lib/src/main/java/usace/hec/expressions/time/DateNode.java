@@ -3,13 +3,10 @@ package usace.hec.expressions.time;
 
 import java.io.Serial;
 
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 
-import usace.hec.expressions.DateTimeExpressionNode;
-import usace.hec.expressions.ExpressionNode;
-import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.TernaryExpressionNode;
-import usace.hec.expressions.IntegerExpressionNode;
+import usace.hec.expressions.*;
 
 public class DateNode implements TernaryExpressionNode, DateTimeExpressionNode {
     @Serial
@@ -18,6 +15,7 @@ public class DateNode implements TernaryExpressionNode, DateTimeExpressionNode {
     private final IntegerExpressionNode _dd;
     private final IntegerExpressionNode _mm;
     private final IntegerExpressionNode _yyyy;
+    private EvaluationError ee = new EvaluationError();
  
     public DateNode(IntegerExpressionNode yyyy, IntegerExpressionNode mm, IntegerExpressionNode dd) {
         _dd = dd;
@@ -27,7 +25,14 @@ public class DateNode implements TernaryExpressionNode, DateTimeExpressionNode {
 
     @Override
     public LocalDateTime evaluate() {
-        return LocalDateTime.of(_yyyy.evaluate(),_mm.evaluate(),_dd.evaluate(),0,0);
+        LocalDateTime dateTime;
+        try {
+            dateTime = LocalDateTime.of(_yyyy.evaluate(), _mm.evaluate(), _dd.evaluate(), 0, 0);
+        } catch (DateTimeException e) {
+            dateTime = LocalDateTime.now();
+            ee.report();
+        }
+        return dateTime;
 
     }
 
