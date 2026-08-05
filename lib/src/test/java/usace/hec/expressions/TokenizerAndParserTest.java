@@ -142,14 +142,14 @@ public class TokenizerAndParserTest {
 
     @Test
     public void testAllCases() {
-        ExpressionParser parser = new ExpressionParser();
+        
 
         for (Map<String, Object> testCase : TEST_CASES) {
             String input = (String) testCase.get("input");
             boolean expectError = (boolean) testCase.get("error");
             String expectedMsg = (String) testCase.get("msg");
 
-            ParseResult result = parser.parse(input);
+            ParseResult result = ExpressionParser.parse(input, null);
 
             assertEquals("Input: \"" + input + "\"", expectError, result.hasError());
 

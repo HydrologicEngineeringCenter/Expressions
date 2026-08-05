@@ -10,7 +10,7 @@ import java.io.Serial;
 
 
 
-public abstract class IfNode implements ExpressionNode, TernaryExpressionNode {
+public abstract class IfNode implements TernaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
     protected ExpressionNode thenNode;

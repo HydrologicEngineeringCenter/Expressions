@@ -2,6 +2,8 @@ package usace.hec.expressions.construct;
 
 import static org.junit.Assert.*;
 
+import java.util.Map;
+
 import org.junit.Test;
 import usace.hec.expressions.*;
 
@@ -9,8 +11,8 @@ public class ReadExpressionFromStringTest {
 
     @Test
     public void testParseSimpleExpression() {
-        ExpressionParser parser = new ExpressionParser();
-        ParseResult result = parser.parse("1.0 + 2.0");
+        
+        ParseResult result = ExpressionParser.parse("1.0 + 2.0", null);
 
         assertFalse(result.hasError());
         DoubleExpressionNode node = (DoubleExpressionNode) result.getNode();
@@ -19,8 +21,8 @@ public class ReadExpressionFromStringTest {
 
     @Test
     public void testParseIfExpression() {
-        ExpressionParser parser = new ExpressionParser();
-        ParseResult result = parser.parse("IF(5.0 > 3.0, 10.0, 20.0)");
+        
+        ParseResult result = ExpressionParser.parse("IF(5.0 > 3.0, 10.0, 20.0)",null);
 
         assertFalse(result.hasError());
         DoubleExpressionNode node = (DoubleExpressionNode) result.getNode();
@@ -29,8 +31,8 @@ public class ReadExpressionFromStringTest {
 
     @Test
     public void testParseNestedExpression() {
-        ExpressionParser parser = new ExpressionParser();
-        ParseResult result = parser.parse("IF(5.0 > 3.0, 1.0 + 2.0, 3.0 * 4.0)");
+        
+        ParseResult result = ExpressionParser.parse("IF(5.0 > 3.0, 1.0 + 2.0, 3.0 * 4.0)", null);
 
         assertFalse(result.hasError());
         DoubleExpressionNode node = (DoubleExpressionNode) result.getNode();
@@ -39,8 +41,11 @@ public class ReadExpressionFromStringTest {
 
     @Test
     public void testParseWithVariables() {
-        ExpressionParser parser = new ExpressionParser();
-        ParseResult result = parser.parse("[Flow] + [Stage]");
+        Map<String,ExpressionType> symbolTable = Map.of(
+            "Flow", ExpressionType.DOUBLE,
+            "Stage",ExpressionType.DOUBLE
+        );
+        ParseResult result = ExpressionParser.parse("[Flow] + [Stage]", symbolTable);
 
         assertFalse(result.hasError());
         DoubleExpressionNode node = (DoubleExpressionNode) result.getNode();
@@ -56,8 +61,8 @@ public class ReadExpressionFromStringTest {
 
     @Test
     public void testParseError() {
-        ExpressionParser parser = new ExpressionParser();
-        ParseResult result = parser.parse("IF(1.0, 2.0)"); // Missing third argument
+        
+        ParseResult result = ExpressionParser.parse("IF(1.0, 2.0)", null); 
 
         assertTrue(result.hasError());
         assertTrue(result.getError().message().contains("IF requires exactly 3 arguments"));
@@ -65,8 +70,11 @@ public class ReadExpressionFromStringTest {
 
     @Test
     public void testParseSyntaxGeneration() {
-        ExpressionParser parser = new ExpressionParser();
-        ParseResult result = parser.parse("[X] > [Y]");
+        Map<String,ExpressionType> symbolTable = Map.of(
+            "X", ExpressionType.DOUBLE,
+            "Y",ExpressionType.DOUBLE
+        );
+        ParseResult result = ExpressionParser.parse("[X] > [Y]",symbolTable);
 
         assertFalse(result.hasError());
         ExpressionNode node = (ExpressionNode)result.getNode();
@@ -82,23 +90,27 @@ public class ReadExpressionFromStringTest {
 
     @Test
     public void testParseComplexIf() {
-        ExpressionParser parser = new ExpressionParser();
+        
         // IF(500 <= [X] AND [X] <= 1000, [X], IF([X] < 500, [X] + 500, 1000))
-        ParseResult result = parser.parse("IF(500 <= [X] && [X] <= 1000, [X], IF([X] < 500, [X] + 500, 1000))");
+        Map<String,ExpressionType> symbolTable = Map.of(
+            "X", ExpressionType.INTEGER,
+            "Y",ExpressionType.INTEGER
+        );
+        ParseResult result = ExpressionParser.parse("IF(500 <= [X] && [X] <= 1000, [X], IF([X] < 500, [X] + 500, 1000))",symbolTable);
 
         assertFalse(result.hasError());
-        DoubleExpressionNode node = (DoubleExpressionNode) result.getNode();
+        IntegerExpressionNode node = (IntegerExpressionNode) result.getNode();
 
         DataHub provider = new DataHub();
         node.setProvider(provider);
 
-        provider.setDouble("X", 200.0);
+        provider.setInt("X", 200);
         assertEquals(700.0, node.evaluate(), 0.0); // 200<500 => 200+500
 
-        provider.setDouble("X", 670.0);
+        provider.setInt("X", 670);
         assertEquals(670.0, node.evaluate(), 0.0); // 500<=670<=1000
 
-        provider.setDouble("X", 1200.0);
-        assertEquals(1000.0, node.evaluate(), 0.0); // 1200>1000 => 1000
+        provider.setInt("X", 1200);
+        assertEquals(1000, node.evaluate()); // 1200>1000 => 1000
     }
 }

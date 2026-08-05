@@ -2,6 +2,7 @@ package usace.hec.expressions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Recursive-descent parser for Excel-compatible expression syntax.
@@ -94,7 +95,7 @@ public class ExpressionParser {
      * @param input the expression text
      * @return success with the AST node, or an error with position info
      */
-    public ParseResult parse(String input) {
+    public static ParseResult parse(String input, Map<String,ExpressionType> symbolTable) {
         if (input == null || input.trim().isEmpty()) {
             return ParseResult.error(0, "Empty expression", "");
         }
@@ -107,7 +108,7 @@ public class ExpressionParser {
         }
 
         ParseState state = new ParseState(tokens, input);
-        ExpressionNode node = parseExpression(state);
+        ExpressionNode node = parseExpression(state, symbolTable);
 
         if (state.hasError) {
             return ParseResult.error(state.errorPosition, state.errorMessage, state.errorRemaining);
@@ -131,18 +132,18 @@ public class ExpressionParser {
     // Grammar rules
     // -----------------------------------------------------------------
 
-    private ExpressionNode parseExpression(ParseState s) {
-        return parseLogicalOr(s);
+    private static ExpressionNode parseExpression(ParseState s, Map<String,ExpressionType> symbolTable) {
+        return parseLogicalOr(s, symbolTable);
     }
 
-    private ExpressionNode parseLogicalOr(ParseState s) {
-        ExpressionNode left = parseLogicalXor(s);
+    private static ExpressionNode parseLogicalOr(ParseState s, Map<String,ExpressionType> symbolTable) {
+        ExpressionNode left = parseLogicalXor(s, symbolTable);
         if (s.hasError) return null;
         while (!s.hasError) {
             Token t = peek(s);
             if (t instanceof Token.Operator op && op.op() == ExpressionOperator.OR) {
                 s.advance();
-                ExpressionNode right = parseLogicalXor(s);
+                ExpressionNode right = parseLogicalXor(s, symbolTable);
                 if (s.hasError) return null;
                 left = NodeFactory.buildBinaryNode(s, ExpressionOperator.OR, left, right);
                 if (s.hasError) return null;
@@ -153,14 +154,14 @@ public class ExpressionParser {
         return left;
     }
 
-    private ExpressionNode parseLogicalXor(ParseState s) {
-        ExpressionNode left = parseLogicalAnd(s);
+    private static ExpressionNode parseLogicalXor(ParseState s, Map<String,ExpressionType> symbolTable) {
+        ExpressionNode left = parseLogicalAnd(s, symbolTable);
         if (s.hasError) return null;
         while (!s.hasError) {
             Token t = peek(s);
             if (t instanceof Token.Operator op && op.op() == ExpressionOperator.XOR) {
                 s.advance();
-                ExpressionNode right = parseLogicalAnd(s);
+                ExpressionNode right = parseLogicalAnd(s, symbolTable);
                 if (s.hasError) return null;
                 left = NodeFactory.buildBinaryNode(s, ExpressionOperator.XOR, left, right);
                 if (s.hasError) return null;
@@ -171,14 +172,14 @@ public class ExpressionParser {
         return left;
     }
 
-    private ExpressionNode parseLogicalAnd(ParseState s) {
-        ExpressionNode left = parseComparison(s);
+    private static ExpressionNode parseLogicalAnd(ParseState s, Map<String,ExpressionType> symbolTable) {
+        ExpressionNode left = parseComparison(s, symbolTable);
         if (s.hasError) return null;
         while (!s.hasError) {
             Token t = peek(s);
             if (t instanceof Token.Operator op && op.op() == ExpressionOperator.AND) {
                 s.advance();
-                ExpressionNode right = parseComparison(s);
+                ExpressionNode right = parseComparison(s, symbolTable);
                 if (s.hasError) return null;
                 left = NodeFactory.buildBinaryNode(s, ExpressionOperator.AND, left, right);
                 if (s.hasError) return null;
@@ -189,8 +190,8 @@ public class ExpressionParser {
         return left;
     }
 
-    private ExpressionNode parseComparison(ParseState s) {
-        ExpressionNode left = parseAdditive(s);
+    private static ExpressionNode parseComparison(ParseState s, Map<String,ExpressionType> symbolTable) {
+        ExpressionNode left = parseAdditive(s, symbolTable);
         if (s.hasError) return null;
         while (!s.hasError) {
             Token t = peek(s);
@@ -200,7 +201,7 @@ public class ExpressionParser {
                         oe == ExpressionOperator.LT || oe == ExpressionOperator.LTE ||
                         oe == ExpressionOperator.EQ || oe == ExpressionOperator.NEQ) {
                     s.advance();
-                    ExpressionNode right = parseAdditive(s);
+                    ExpressionNode right = parseAdditive(s, symbolTable);
                     if (s.hasError) return null;
                     left = NodeFactory.buildBinaryNode(s, oe, left, right);
                     if (s.hasError) return null;
@@ -214,15 +215,15 @@ public class ExpressionParser {
         return left;
     }
 
-    private ExpressionNode parseAdditive(ParseState s) {
-        ExpressionNode left = parseMultiplicative(s);
+    private static ExpressionNode parseAdditive(ParseState s, Map<String,ExpressionType> symbolTable) {
+        ExpressionNode left = parseMultiplicative(s, symbolTable);
         if (s.hasError) return null;
         while (!s.hasError) {
             Token t = peek(s);
             if (t instanceof Token.Operator op) {
                 if (op.op() == ExpressionOperator.PLUS || op.op() == ExpressionOperator.MINUS) {
                     s.advance();
-                    ExpressionNode right = parseMultiplicative(s);
+                    ExpressionNode right = parseMultiplicative(s, symbolTable);
                     if (s.hasError) return null;
                     left = NodeFactory.buildBinaryNode(s, op.op(), left, right);
                     if (s.hasError) return null;
@@ -236,15 +237,15 @@ public class ExpressionParser {
         return left;
     }
 
-    private ExpressionNode parseMultiplicative(ParseState s) {
-        ExpressionNode left = parseExponent(s);
+    private static ExpressionNode parseMultiplicative(ParseState s, Map<String,ExpressionType> symbolTable) {
+        ExpressionNode left = parseExponent(s, symbolTable);
         if (s.hasError) return null;
         while (!s.hasError) {
             Token t = peek(s);
             if (t instanceof Token.Operator op) {
                 if (op.op() == ExpressionOperator.MULTIPLY || op.op() == ExpressionOperator.DIVIDE) {
                     s.advance();
-                    ExpressionNode right = parseExponent(s);
+                    ExpressionNode right = parseExponent(s, symbolTable);
                     if (s.hasError) return null;
                     left = NodeFactory.buildBinaryNode(s, op.op(), left, right);
                     if (s.hasError) return null;
@@ -258,15 +259,15 @@ public class ExpressionParser {
         return left;
     }
 
-    private ExpressionNode parseExponent(ParseState s) {
-        ExpressionNode left = parseUnary(s);
+    private static ExpressionNode parseExponent(ParseState s, Map<String,ExpressionType> symbolTable) {
+        ExpressionNode left = parseUnary(s, symbolTable);
         if (s.hasError) return null;
         while (!s.hasError) {
             Token t = peek(s);
             if (t instanceof Token.Operator op) {
                 if (op.op() == ExpressionOperator.POW) {
                     s.advance();
-                    ExpressionNode right = parseUnary(s);
+                    ExpressionNode right = parseUnary(s, symbolTable);
                     if (s.hasError) return null;
                     left = NodeFactory.buildBinaryNode(s, op.op(), left, right);
                     if (s.hasError) return null;
@@ -280,19 +281,19 @@ public class ExpressionParser {
         return left;
     }
 
-    private ExpressionNode parseUnary(ParseState s) {
+    private static ExpressionNode parseUnary(ParseState s, Map<String,ExpressionType> symbolTable) {
         Token t = peek(s);
 
         // Unary minus, Tokenizer can't tell difference between ExpressionOperator.MINUS and ExpressionOperator.NEGATE, repeated code necessary
         if (t instanceof Token.Operator op && (op.op() == ExpressionOperator.MINUS)) {
             s.advance();
-            ExpressionNode child = parseUnary(s);
+            ExpressionNode child = parseUnary(s, symbolTable);
             if (s.hasError) return null;
             return NodeFactory.buildUnaryNode(s, ExpressionOperator.NEGATE, child);
         }
         if (t instanceof Token.Operator op && op.op() == ExpressionOperator.NOT) {
             s.advance();
-            ExpressionNode child = parseUnary(s);
+            ExpressionNode child = parseUnary(s, symbolTable);
             if (s.hasError) return null;
             return NodeFactory.buildUnaryNode(s, op.op(), child);
         }
@@ -306,13 +307,13 @@ public class ExpressionParser {
                 // Check for functional syntax ABS(x) or prefix syntax ABS x
                 if (peek(s) instanceof Token.LeftParen) {
                     s.advance();
-                    ExpressionNode child = parseExpression(s);
+                    ExpressionNode child = parseExpression(s, symbolTable);
                     if (s.hasError) return null;
                     expect(s, Token.RightParen.class, "')'");
                     if (s.hasError) return null;
                     return NodeFactory.buildUnaryNode(s, fn.op(), child);
                 } else {
-                    ExpressionNode child = parseUnary(s);
+                    ExpressionNode child = parseUnary(s, symbolTable);
                     if (s.hasError) return null;
                     return NodeFactory.buildUnaryNode(s, fn.op(), child);
                 }
@@ -323,16 +324,16 @@ public class ExpressionParser {
         if (t instanceof Token.Operator op2) {
             if (op2.op() == ExpressionOperator.ABS || op2.op() == ExpressionOperator.FLOOR || op2.op() == ExpressionOperator.CEILING) {
                 s.advance();
-                ExpressionNode child = parseUnary(s);
+                ExpressionNode child = parseUnary(s, symbolTable);
                 if (s.hasError) return null;
                 return NodeFactory.buildUnaryNode(s, op2.op(), child);
             }
         }
 
-        return parsePrimary(s);
+        return parsePrimary(s, symbolTable);
     }
 
-    private ExpressionNode parsePrimary(ParseState s) {
+    private static ExpressionNode parsePrimary(ParseState s, Map<String,ExpressionType> symbolTable) {
         Token t = peek(s);
         if (t == null) {
             setError(s, currentPos(s), "Unexpected end of input", "");
@@ -348,11 +349,28 @@ public class ExpressionParser {
             return new IntegerConstantNode(num.value());
         }
         if (t instanceof Token.Variable var) {
-            // TODO: In a full implementation, look up 'var.name()' in a SymbolTable
-            // to determine the correct variable type (Int, Double, Boolean).
-            // Defaulting to DoubleVariableNode for backward compatibility.
-            // TODO: check type using var.name() and create variablenode accordingly
-            return new DoubleVariableNode(var.name());
+            if (symbolTable.containsKey(var.name())){
+                ExpressionType et = symbolTable.get(var.name());
+                if(et==ExpressionType.DOUBLE){
+                    return new DoubleVariableNode(var.name());
+                }else if(et==ExpressionType.INTEGER){
+                    return new IntegerVariableNode(var.name());
+                }else if(et==ExpressionType.DATE){
+                    return new DateTimeVariableNode(var.name());
+                }else if(et==ExpressionType.BOOLEAN){
+                    return new BooleanVariableNode(var.name());
+                }else if(et==ExpressionType.STRING){
+                    return new StringVariableNode(var.name());
+                }else{
+                    setError(s, currentPos(s), "variable name " + var.name() + " type not recognized", "");
+                    return null;
+                }
+                
+            }else{
+                setError(s, currentPos(s), "variable name " + var.name() + " not found", "");
+                return null;
+            }
+
         }
         if (t instanceof Token.StringLiteral sl) {
             return new StringConstantNode(sl.value());
@@ -361,21 +379,21 @@ public class ExpressionParser {
             return new BooleanConstantNode(bl.value());
         }
         if (t instanceof Token.LeftParen) {
-            ExpressionNode node = parseExpression(s);
+            ExpressionNode node = parseExpression(s, symbolTable);
             if (s.hasError) return null;
             expect(s, Token.RightParen.class, "')'");
             if (s.hasError) return null;
             return node;
         }
         if (t instanceof Token.Function fn) {
-            return parseFunctionCall(s, fn.op());
+            return parseFunctionCall(s, fn.op(), symbolTable);
         }
 
         setError(s, t.position(), "Unexpected token: " + t, remainingInput(s.input, t.position()));
         return null;
     }
 
-    private ExpressionNode parseFunctionCall(ParseState s, ExpressionOperator fn) {
+    private static ExpressionNode parseFunctionCall(ParseState s, ExpressionOperator fn, Map<String,ExpressionType> symbolTable) {
         expect(s, Token.LeftParen.class, "'(' after function name");
         if (s.hasError) return null;
 
@@ -386,12 +404,12 @@ public class ExpressionParser {
             return NodeFactory.buildFunctionNode(s, fn, args);
         }
 
-        args.add(parseExpression(s));
+        args.add(parseExpression(s, symbolTable));
         if (s.hasError) return null;
 
         while (!s.hasError && peek(s) instanceof Token.Comma) {
             s.advance();
-            args.add(parseExpression(s));
+            args.add(parseExpression(s, symbolTable));
             if (s.hasError) return null;
         }
 
@@ -405,16 +423,16 @@ public class ExpressionParser {
     // Helpers
     // -----------------------------------------------------------------
 
-    private Token peek(ParseState s) {
+    private static Token peek(ParseState s) {
         return (s.pos < s.tokens.size()) ? s.tokens.get(s.pos) : null;
     }
 
-    private int currentPos(ParseState s) {
+    private static int currentPos(ParseState s) {
         Token t = peek(s);
         return (t != null) ? t.position() : -1;
     }
 
-    private void expect(ParseState s, Class<?> expectedClass, String description) {
+    private static void expect(ParseState s, Class<?> expectedClass, String description) {
         Token t = peek(s);
         if (t == null) {
             setError(s, currentPos(s), "Unexpected end of input, expected " + description, "");
@@ -427,7 +445,7 @@ public class ExpressionParser {
         s.advance();
     }
 
-    private void setError(ParseState s, int position, String message, String remaining) {
+    private static void setError(ParseState s, int position, String message, String remaining) {
         if (s != null) {
             s.hasError = true;
             s.errorPosition = position;
