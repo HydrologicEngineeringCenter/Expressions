@@ -24,7 +24,11 @@ public class DoubleMultiplyNode extends DoubleBinaryExpressionNode {
 
     @Override
     public double evaluate() {
-        return left.evaluate()*right.evaluate();
+        ee.clear();
+        double leftVal = left.evaluate();
+        double rightVal = right.evaluate();
+        checkErrors();
+        return leftVal * rightVal;
     }
 
     @Override

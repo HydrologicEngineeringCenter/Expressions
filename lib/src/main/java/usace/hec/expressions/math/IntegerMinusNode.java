@@ -23,8 +23,11 @@ public class IntegerMinusNode extends IntegerBinaryExpressionNode {
     }
     @Override
     public int evaluate() {
-
-        return left.evaluate() - right.evaluate();
+        ee.clear();
+        int l = left.evaluate();
+        int r = right.evaluate();
+        checkErrors();
+        return l - r;
     }
     @Override
     public ExpressionOperator Operator() {

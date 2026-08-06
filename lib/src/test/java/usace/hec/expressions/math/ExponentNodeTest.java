@@ -1,6 +1,8 @@
 package usace.hec.expressions.math;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 import usace.hec.expressions.DataHub;
 import usace.hec.expressions.DataProvider;
@@ -39,9 +41,11 @@ public class ExponentNodeTest {
         result = exp.evaluate();
         assertEquals(3.0, result, 0.0);
 
-        dp.setDouble("X", -1000.0);
+        dp.setDouble("Y", -1000.0);
         result = exp.evaluate();
-        assertEquals(result, Double.NaN,0.0);
+        assertEquals(0.0, result,0.0);
+        boolean error = exp.hasError();
+        assertTrue(exp.hasError());
     }
 
     @Test

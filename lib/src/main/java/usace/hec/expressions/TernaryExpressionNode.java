@@ -1,12 +1,13 @@
 package usace.hec.expressions;
 
-public interface TernaryExpressionNode extends ExpressionNode {
-    ExpressionNode left();
-    ExpressionNode middle();
-    ExpressionNode right();
+public abstract class TernaryExpressionNode implements ExpressionNode {
+    protected abstract ExpressionNode left();
+    protected abstract ExpressionNode middle();
+    protected abstract ExpressionNode right();
+    protected EvaluationError ee = new EvaluationError();
 
     @Override
-    public default String PreFixSyntax() {
+    public String PreFixSyntax() {
         StringBuilder sb = new StringBuilder();
         sb.append(Operator().getPrefixName());
         sb.append('(');
@@ -19,7 +20,7 @@ public interface TernaryExpressionNode extends ExpressionNode {
         return sb.toString();
     }
     @Override
-    public default String ExcelSyntax(){
+    public String ExcelSyntax(){
         StringBuilder sb = new StringBuilder();
         sb.append(Operator().getInfixSyntax());
         sb.append(left().ExcelSyntax());
@@ -31,9 +32,19 @@ public interface TernaryExpressionNode extends ExpressionNode {
         return sb.toString();
     }
     @Override
-    public default void setProvider(DataProvider dp){
+    public void setProvider(DataProvider dp){
         left().setProvider(dp);
         middle().setProvider(dp);
         right().setProvider(dp);
     }
+    @Override
+    public EvaluationError getEvaluationError(){
+        return this.ee;
+    }
+    public void checkErrors(){
+        if (left().hasError()) {ee = left().getEvaluationError();}
+        else if (middle().hasError()) {ee = middle().getEvaluationError();}
+        else if (right().hasError()) {ee = right().getEvaluationError();}
+    }
+
 }

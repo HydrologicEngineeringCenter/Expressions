@@ -16,11 +16,15 @@ public class WaterYearNode extends CalendarYearNode {
     }
     @Override
     public int evaluate() {
+        ee.clear();
         int year = super.evaluate();
-        if (((DateTimeExpressionNode) super.child()).evaluate().isAfter(LocalDateTime.of(year, Month.SEPTEMBER,30,23,59))){
-            return year + 1;
+        if (!super.hasError()) {
+            if (((DateTimeExpressionNode) super.child()).evaluate().isAfter(LocalDateTime.of(year, Month.SEPTEMBER, 30, 23, 59))) {
+                return year + 1;
+            }
+            return year;
         }
-        return year;
+        return 0;
     }
     @Override
     public ExpressionOperator Operator() {

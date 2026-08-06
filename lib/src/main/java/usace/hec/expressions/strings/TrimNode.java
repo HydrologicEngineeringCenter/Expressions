@@ -5,9 +5,8 @@ import java.io.Serial;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.StringExpressionNode;
-import usace.hec.expressions.UnaryExpressionNode;
 
-public class TrimNode implements StringExpressionNode, UnaryExpressionNode {
+public class TrimNode extends StringUnaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -16,7 +15,12 @@ public class TrimNode implements StringExpressionNode, UnaryExpressionNode {
     public TrimNode(StringExpressionNode source) { this.source = source; }
 
     @Override
-    public String evaluate() { return source.evaluate().trim(); }
+    public String evaluate() {
+        ee.clear();
+        String sourceVal = source.evaluate();
+        checkErrors();
+        return sourceVal.trim();
+    }
 
     @Override
     public String PreFixSyntax() { return Operator().getPrefixName() + "(" + source.PreFixSyntax() + ")"; }

@@ -3,13 +3,13 @@ package usace.hec.expressions.time;
 import usace.hec.expressions.DateTimeExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.UnaryExpressionNode;
-import usace.hec.expressions.IntegerExpressionNode;
+import usace.hec.expressions.math.IntegerUnaryExpressionNode;
 
 import java.io.Serial;
+import java.time.LocalDateTime;
 
 
-public class DayOfYearNode implements UnaryExpressionNode, IntegerExpressionNode {
+public class DayOfYearNode extends IntegerUnaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
     private DateTimeExpressionNode child;
@@ -18,7 +18,10 @@ public class DayOfYearNode implements UnaryExpressionNode, IntegerExpressionNode
     }
     @Override
     public int evaluate() {
-        return child.evaluate().getDayOfYear();
+        ee.clear();
+        LocalDateTime c = child.evaluate();
+        checkErrors();
+        return c.getDayOfYear();
     }
     @Override
     public ExpressionOperator Operator() {

@@ -20,7 +20,10 @@ public class StringLengthNode extends IntegerUnaryExpressionNode {
 
     @Override
     public int evaluate() {
-        return source.evaluate().length();
+        ee.clear();
+        String sourceVal = source.evaluate();
+        checkErrors();
+        return sourceVal.length();
     }
 
     @Override

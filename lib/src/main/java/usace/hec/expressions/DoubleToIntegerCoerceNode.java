@@ -1,5 +1,7 @@
 package usace.hec.expressions;
 
+import usace.hec.expressions.math.IntegerUnaryExpressionNode;
+
 /**
  * Wraps an {@link DoubleExpressionNode} and exposes it as a {@link IntegerExpressionNode}.
  * <p>
@@ -10,7 +12,7 @@ package usace.hec.expressions;
  *
  * @see ExpressionType#canWiden(ExpressionType, ExpressionType)
  */
-public class DoubleToIntegerCoerceNode implements UnaryExpressionNode, IntegerExpressionNode {
+public class DoubleToIntegerCoerceNode extends IntegerUnaryExpressionNode {
 
     private final DoubleExpressionNode child;
 
@@ -20,6 +22,7 @@ public class DoubleToIntegerCoerceNode implements UnaryExpressionNode, IntegerEx
 
     @Override
     public int evaluate() {
+        ee.clear();
         // Primitive cast, zero allocation, zero boxing
         return (int) child.evaluate();
     }

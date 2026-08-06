@@ -23,7 +23,11 @@ public class IntegerMinNode extends IntegerBinaryExpressionNode {
     }
     @Override
     public int evaluate() {
-        return Math.min(left.evaluate(),right.evaluate());
+        ee.clear();
+        int l = left.evaluate();
+        int r = right.evaluate();
+        checkErrors();
+        return Math.min(l,r);
     }
     @Override
     public ExpressionOperator Operator() {

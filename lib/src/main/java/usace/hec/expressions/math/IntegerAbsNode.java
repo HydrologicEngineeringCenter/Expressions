@@ -22,7 +22,10 @@ public class IntegerAbsNode extends IntegerUnaryExpressionNode {
 
     @Override
     public int evaluate() {
-        return Math.abs(child.evaluate());
+        ee.clear();
+        int childVal = child.evaluate();
+        checkErrors();
+        return Math.abs(childVal);
 
     }
 

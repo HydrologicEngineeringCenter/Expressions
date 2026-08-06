@@ -1,9 +1,12 @@
 package usace.hec.expressions.math;
 
+
+
 import usace.hec.expressions.DoubleExpressionNode;
-import usace.hec.expressions.ExpressionNode;
-import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.BinaryExpressionNode;
+import usace.hec.expressions.ErrorState;
+import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.ExpressionNode;
 
 import java.io.Serial;
 
@@ -23,11 +26,17 @@ public class DoubleDivideNode extends DoubleBinaryExpressionNode {
     }
     @Override
     public double evaluate() {
-        double r = right.evaluate();
-        if (r == 0.0){
-            throw new ArithmeticException("Division by zero");
+        ee.clear();
+        double leftVal = left.evaluate();
+        double rightVal = right.evaluate();
+        checkErrors();
+        if (rightVal == 0.0){
+            if (!right.hasError()) {
+                ee.report(ErrorState.INVALID, this, "Division by 0.0");
+            }
+            return 0.0; //exit early
         }
-        return left.evaluate() / r;
+        return leftVal / rightVal;
     }
     @Override
     public ExpressionOperator Operator() {

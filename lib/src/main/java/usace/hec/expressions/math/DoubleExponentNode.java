@@ -1,9 +1,10 @@
 package usace.hec.expressions.math;
 
 import usace.hec.expressions.DoubleExpressionNode;
-import usace.hec.expressions.ExpressionNode;
-import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.BinaryExpressionNode;
+import usace.hec.expressions.ErrorState;
+import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.ExpressionNode;
 
 import java.io.Serial;
 
@@ -23,8 +24,16 @@ public class DoubleExponentNode extends DoubleBinaryExpressionNode {
     }
     @Override
     public double evaluate() {
-        double l=left.evaluate();
+        ee.clear();
+        double l = left.evaluate();
         double r = right.evaluate();
+        checkErrors();
+        if (r < 0.0){
+            if (!right.hasError()) {
+                ee.report(ErrorState.INVALID, this, "Imaginary numbers unsupported");
+            }
+            return 0.0; //exit early
+        }
         return Math.pow(l, r);
     }
 

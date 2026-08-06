@@ -1,17 +1,19 @@
 package usace.hec.expressions.time;
 
 
+import usace.hec.expressions.DateTimeExpressionNode;
+import usace.hec.expressions.ErrorState;
+import usace.hec.expressions.IntegerExpressionNode;
+import usace.hec.expressions.TernaryExpressionNode;
+import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.ExpressionNode;
+
 import java.io.Serial;
 
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 
-import usace.hec.expressions.DateTimeExpressionNode;
-import usace.hec.expressions.ExpressionNode;
-import usace.hec.expressions.ExpressionOperator;
-import usace.hec.expressions.TernaryExpressionNode;
-import usace.hec.expressions.IntegerExpressionNode;
-
-public class DateNode implements TernaryExpressionNode, DateTimeExpressionNode {
+public class DateNode extends TernaryExpressionNode implements DateTimeExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -27,7 +29,22 @@ public class DateNode implements TernaryExpressionNode, DateTimeExpressionNode {
 
     @Override
     public LocalDateTime evaluate() {
-        return LocalDateTime.of(_yyyy.evaluate(),_mm.evaluate(),_dd.evaluate(),0,0);
+        ee.clear();
+        LocalDateTime dateTime;
+        int year = _yyyy.evaluate();
+        int month = _mm.evaluate();
+        int day = _dd.evaluate();
+        checkErrors();
+        if (!_yyyy.hasError() && !_mm.hasError() && !_dd.hasError()) {
+            try {
+                dateTime = LocalDateTime.of(year, month, day, 0, 0);
+            } catch (DateTimeException e) {
+                dateTime = LocalDateTime.MIN;
+                ee.report(ErrorState.INVALID, this, "Invalid Date Entered");
+            }
+            return dateTime;
+        }
+        return LocalDateTime.MIN;
 
     }
 
@@ -67,4 +84,5 @@ public class DateNode implements TernaryExpressionNode, DateTimeExpressionNode {
     public ExpressionNode right() {
         return _yyyy;
     }
+
 }

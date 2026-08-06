@@ -20,7 +20,11 @@ public class StringNotEqualToNode extends BooleanBinaryExpressionNode {
     }
     @Override
     public boolean evaluate() {
-        return !left.evaluate().equals(right.evaluate());
+        ee.clear();
+        String leftVal = left.evaluate();
+        String rightVal = right.evaluate();
+        checkErrors();
+        return !leftVal.equals(rightVal);
     }
     @Override
     public ExpressionOperator Operator() {

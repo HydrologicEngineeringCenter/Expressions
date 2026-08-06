@@ -1,6 +1,5 @@
 package usace.hec.expressions.logical;
 
-
 import usace.hec.expressions.BooleanExpressionNode;
 
 public class BooleanIfNode extends IfNode implements BooleanExpressionNode {
@@ -11,9 +10,22 @@ public class BooleanIfNode extends IfNode implements BooleanExpressionNode {
 
     @Override
     public boolean evaluate() {
+        ee.clear();
         BooleanExpressionNode thenBranch = (BooleanExpressionNode) thenNode;
         BooleanExpressionNode elseBranch = (BooleanExpressionNode) elseNode;
 
-        return conditionNode.evaluate() ? thenBranch.evaluate() : elseBranch.evaluate();
+        boolean conditionVal = conditionNode.evaluate();
+        boolean thenBranchVal = false;
+        boolean elseBranchVal = false;
+        if (conditionVal && !conditionNode.hasError()) {
+            thenBranchVal = thenBranch.evaluate();
+            ee = thenBranch.getEvaluationError();
+        } else if (!conditionNode.hasError()) {
+            elseBranchVal = elseBranch.evaluate();
+            ee= elseBranch.getEvaluationError();
+        } else {
+            ee = conditionNode.getEvaluationError();
+        }
+        return conditionVal ? thenBranchVal : elseBranchVal;
     }
 }

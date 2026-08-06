@@ -1,16 +1,16 @@
-package usace.hec.expressions.math;
+package usace.hec.expressions.strings;
 
 
-import usace.hec.expressions.DoubleExpressionNode;
 import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.EvaluationError;
 import usace.hec.expressions.ExpressionType;
+import usace.hec.expressions.StringExpressionNode;
 
-public abstract class  DoubleBinaryExpressionNode implements BinaryExpressionNode, DoubleExpressionNode {
+public abstract class StringBinaryExpressionNode implements BinaryExpressionNode, StringExpressionNode {
     protected EvaluationError ee = new EvaluationError();
     @Override
     public ExpressionType resultType() {
-        return ExpressionType.DOUBLE;
+        return ExpressionType.STRING;
     }
     @Override
     public EvaluationError getEvaluationError(){

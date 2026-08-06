@@ -4,6 +4,7 @@ package usace.hec.expressions.logical;
 import usace.hec.expressions.BooleanExpressionNode;
 import usace.hec.expressions.StringExpressionNode;
 
+
 public class StringIfNode extends IfNode implements StringExpressionNode {
 
     public StringIfNode(BooleanExpressionNode condition, StringExpressionNode thenn, StringExpressionNode elsee) {
@@ -12,9 +13,22 @@ public class StringIfNode extends IfNode implements StringExpressionNode {
 
     @Override
     public String evaluate() {
+        ee.clear();
         StringExpressionNode thenBranch = (StringExpressionNode) thenNode;
         StringExpressionNode elseBranch = (StringExpressionNode) elseNode;
 
-        return conditionNode.evaluate() ? thenBranch.evaluate() : elseBranch.evaluate();
+        boolean conditionVal = conditionNode.evaluate();
+        String thenBranchVal = "";
+        String elseBranchVal = "";
+        if (conditionVal && !conditionNode.hasError()) {
+            thenBranchVal = thenBranch.evaluate();
+            ee = thenBranch.getEvaluationError();
+        } else if (!conditionNode.hasError()) {
+            elseBranchVal = elseBranch.evaluate();
+            ee= elseBranch.getEvaluationError();
+        } else {
+            ee = conditionNode.getEvaluationError();
+        }
+        return conditionVal ? thenBranchVal : elseBranchVal;
     }
 }

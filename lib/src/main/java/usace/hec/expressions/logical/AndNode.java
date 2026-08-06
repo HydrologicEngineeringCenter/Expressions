@@ -24,7 +24,11 @@ public class AndNode extends BooleanBinaryExpressionNode {
     }
     @Override
     public boolean evaluate() {
-        return left.evaluate() && right.evaluate();
+        ee.clear();
+        boolean leftVal = left.evaluate();
+        boolean rightVal = right.evaluate();
+        checkErrors();
+        return leftVal && rightVal;
     }
     @Override
     public ExpressionOperator Operator() {

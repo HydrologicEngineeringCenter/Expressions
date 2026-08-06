@@ -1,13 +1,12 @@
 package usace.hec.expressions.math;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-
 import org.junit.Test;
 import usace.hec.expressions.DataHub;
 import usace.hec.expressions.DataProvider;
 import usace.hec.expressions.DoubleExpressionNode;
 import usace.hec.expressions.DoubleVariableNode;
+
+import static org.junit.Assert.*;
 
 public class MultiDivTest {
 
@@ -48,8 +47,9 @@ public class MultiDivTest {
         assertEquals(6.0, result, 0.0);
 
         dp.setDouble("Y", 0.0);
-        ArithmeticException ex = assertThrows(ArithmeticException.class, () -> div.evaluate());
-        assertEquals("Division by zero", ex.getMessage());
+        result = div.evaluate();
+        assertEquals(0.0,result,0.0);
+        assertTrue(div.hasError());
     }
 
     @Test

@@ -1,9 +1,10 @@
 package usace.hec.expressions.math;
 
-import usace.hec.expressions.ExpressionNode;
-import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.IntegerExpressionNode;
 import usace.hec.expressions.BinaryExpressionNode;
+import usace.hec.expressions.ErrorState;
+import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.ExpressionNode;
 
 import java.io.Serial;
 
@@ -23,12 +24,19 @@ public class IntegerDivideNode extends IntegerBinaryExpressionNode {
     }
     @Override
     public int evaluate() {
-        int r = right.evaluate();
-        if (r == 0){
-            throw new ArithmeticException("Division by zero");
+        ee.clear();
+        int leftVal = left.evaluate();
+        int rightVal = right.evaluate();
+        checkErrors();
+        if (rightVal == 0){
+            if (!right.hasError()) {
+                ee.report(ErrorState.INVALID, this, "Division by 0");
+            }
+            return 0; //exit early
         }
-        return left.evaluate() /r;
+        return leftVal / rightVal;
     }
+
     @Override
     public ExpressionOperator Operator() {
         return StaticOperator();

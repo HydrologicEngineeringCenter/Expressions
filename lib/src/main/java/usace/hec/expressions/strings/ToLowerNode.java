@@ -2,10 +2,11 @@ package usace.hec.expressions.strings;
 
 import java.io.Serial;
 
+import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.StringExpressionNode;
 
-public class ToLowerNode implements StringExpressionNode {
+public class ToLowerNode extends StringUnaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -15,7 +16,15 @@ public class ToLowerNode implements StringExpressionNode {
 
     @Override
     public String evaluate() {
-        return source.evaluate().toLowerCase();
+        ee.clear();
+        String sourceVal = source.evaluate();
+        checkErrors();
+        return sourceVal.toLowerCase();
+    }
+
+    @Override
+    public ExpressionNode child() {
+        return source;
     }
 
     @Override

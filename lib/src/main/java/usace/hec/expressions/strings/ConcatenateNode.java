@@ -1,6 +1,5 @@
 package usace.hec.expressions.strings;
 
-import usace.hec.expressions.BinaryExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.StringExpressionNode;
@@ -9,7 +8,7 @@ import java.io.Serial;
 
 
 
-public class ConcatenateNode implements StringExpressionNode, BinaryExpressionNode {
+public class ConcatenateNode extends StringBinaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -23,7 +22,11 @@ public class ConcatenateNode implements StringExpressionNode, BinaryExpressionNo
 
     @Override
     public String evaluate() {
-        return left.evaluate().toString() + right.evaluate().toString();
+        ee.clear();
+        String leftVal = left.evaluate().toString();
+        String rightVal = right.evaluate().toString();
+        checkErrors();
+        return leftVal + rightVal;
     }
 
     @Override

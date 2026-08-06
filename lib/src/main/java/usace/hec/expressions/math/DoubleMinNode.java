@@ -23,7 +23,11 @@ public class DoubleMinNode extends DoubleBinaryExpressionNode {
     }
     @Override
     public double evaluate() {
-        return Math.min(left.evaluate(),right.evaluate());
+        ee.clear();
+        double l = left.evaluate();
+        double r = right.evaluate();
+        checkErrors();
+        return Math.min(l,r);
     }
     @Override
     public ExpressionOperator Operator() {

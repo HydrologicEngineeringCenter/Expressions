@@ -2,13 +2,13 @@ package usace.hec.expressions.strings;
 
 import java.io.Serial;
 
-import usace.hec.expressions.BinaryExpressionNode;
-import usace.hec.expressions.BooleanExpressionNode;
+
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.StringExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
+import usace.hec.expressions.comparison.BooleanBinaryExpressionNode;
 
-public class StartsWithNode implements BooleanExpressionNode, BinaryExpressionNode {
+public class StartsWithNode extends BooleanBinaryExpressionNode {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -22,7 +22,11 @@ public class StartsWithNode implements BooleanExpressionNode, BinaryExpressionNo
 
     @Override
     public boolean evaluate() {
-        return source.evaluate().startsWith(search.evaluate());
+        ee.clear();
+        String sourceVal = source.evaluate();
+        String searchVal = search.evaluate();
+        checkErrors();
+        return sourceVal.startsWith(searchVal);
     }
 
     @Override
