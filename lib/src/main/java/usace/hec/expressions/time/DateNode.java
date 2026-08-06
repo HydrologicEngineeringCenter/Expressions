@@ -15,7 +15,6 @@ public class DateNode extends TernaryExpressionNode implements DateTimeExpressio
     private final IntegerExpressionNode _dd;
     private final IntegerExpressionNode _mm;
     private final IntegerExpressionNode _yyyy;
-    private EvaluationError ee = new EvaluationError();
  
     public DateNode(IntegerExpressionNode yyyy, IntegerExpressionNode mm, IntegerExpressionNode dd) {
         _dd = dd;

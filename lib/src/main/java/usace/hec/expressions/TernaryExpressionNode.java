@@ -37,6 +37,10 @@ public abstract class TernaryExpressionNode implements ExpressionNode {
         middle().setProvider(dp);
         right().setProvider(dp);
     }
+    @Override
+    public EvaluationError getEvaluationError(){
+        return this.ee;
+    }
     public void checkErrors(){
         if (left().hasError()) {ee = left().getEvaluationError();}
         else if (middle().hasError()) {ee = middle().getEvaluationError();}

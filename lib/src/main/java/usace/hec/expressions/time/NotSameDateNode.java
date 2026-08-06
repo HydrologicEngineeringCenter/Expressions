@@ -30,7 +30,7 @@ public class NotSameDateNode extends BooleanBinaryExpressionNode {
         return StaticOperator();
     }
     public static ExpressionOperator StaticOperator(){
-        return ExpressionOperator.EQ;
+        return ExpressionOperator.NEQ;
     }
     @Override
     public ExpressionNode left() {
