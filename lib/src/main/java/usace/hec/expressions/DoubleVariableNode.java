@@ -15,6 +15,7 @@ public class DoubleVariableNode implements DoubleExpressionNode, DataRequester {
 
     @Override
     public double evaluate() {
+        ee.clear();
         return dp.provideDouble(name);
     }
 

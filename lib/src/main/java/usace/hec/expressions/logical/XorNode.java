@@ -25,6 +25,7 @@ public class XorNode extends BooleanBinaryExpressionNode{
     }
     @Override
     public boolean evaluate() {
+        ee.clear();
         boolean leftVal = left.evaluate();
         boolean rightVal = right.evaluate();
         checkErrors();

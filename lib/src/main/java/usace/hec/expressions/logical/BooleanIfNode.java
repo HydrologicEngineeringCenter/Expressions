@@ -10,6 +10,7 @@ public class BooleanIfNode extends IfNode implements BooleanExpressionNode {
 
     @Override
     public boolean evaluate() {
+        ee.clear();
         BooleanExpressionNode thenBranch = (BooleanExpressionNode) thenNode;
         BooleanExpressionNode elseBranch = (BooleanExpressionNode) elseNode;
 

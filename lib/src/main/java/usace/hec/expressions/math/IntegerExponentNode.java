@@ -24,6 +24,7 @@ public class IntegerExponentNode extends IntegerBinaryExpressionNode {
     }
     @Override
     public int evaluate() {
+        ee.clear();
         int l = left.evaluate();
         int r = right.evaluate();
         checkErrors();

@@ -11,6 +11,7 @@ public class IntegerIfNode extends IfNode implements IntegerExpressionNode {
 
     @Override
     public int evaluate() {
+        ee.clear();
         IntegerExpressionNode thenBranch = (IntegerExpressionNode) thenNode;
         IntegerExpressionNode elseBranch = (IntegerExpressionNode) elseNode;
         boolean conditionVal = conditionNode.evaluate();

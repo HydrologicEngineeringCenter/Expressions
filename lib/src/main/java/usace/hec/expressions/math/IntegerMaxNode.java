@@ -23,6 +23,7 @@ public class IntegerMaxNode extends IntegerBinaryExpressionNode{
     }
     @Override
     public int evaluate() {
+        ee.clear();
         int l = left.evaluate();
         int r = right.evaluate();
         checkErrors();

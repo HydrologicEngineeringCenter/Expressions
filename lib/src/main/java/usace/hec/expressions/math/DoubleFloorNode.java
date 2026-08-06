@@ -20,6 +20,7 @@ public class DoubleFloorNode extends DoubleUnaryExpressionNode {
 
     @Override
     public double evaluate() {
+        ee.clear();
         double childVal = child.evaluate();
         checkErrors();
         return Math.floor(childVal);

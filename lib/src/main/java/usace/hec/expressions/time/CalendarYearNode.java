@@ -19,6 +19,7 @@ public class CalendarYearNode extends IntegerUnaryExpressionNode {
     }
     @Override
     public int evaluate() {
+        ee.clear();
         LocalDateTime c = child.evaluate();
         checkErrors();
         return c.getYear();

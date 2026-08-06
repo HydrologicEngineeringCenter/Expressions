@@ -17,6 +17,7 @@ public class MonthNode extends IntegerUnaryExpressionNode {
     }
     @Override
     public int evaluate() {
+        ee.clear();
         LocalDateTime c = child.evaluate();
         checkErrors();
         return c.getMonthValue();

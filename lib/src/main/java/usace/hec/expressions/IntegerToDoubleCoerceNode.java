@@ -22,6 +22,7 @@ public class IntegerToDoubleCoerceNode extends DoubleUnaryExpressionNode {
 
     @Override
     public double evaluate() {
+        ee.clear();
         // Primitive cast, zero allocation, zero boxing
         return (double) child.evaluate();
     }

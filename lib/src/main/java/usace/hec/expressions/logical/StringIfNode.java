@@ -13,6 +13,7 @@ public class StringIfNode extends IfNode implements StringExpressionNode {
 
     @Override
     public String evaluate() {
+        ee.clear();
         StringExpressionNode thenBranch = (StringExpressionNode) thenNode;
         StringExpressionNode elseBranch = (StringExpressionNode) elseNode;
 

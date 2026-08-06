@@ -23,6 +23,7 @@ public class DoubleCeilingNode extends DoubleUnaryExpressionNode {
 
     @Override
     public double evaluate() {
+        ee.clear();
         double childVal = child.evaluate();
         checkErrors();
         return Math.ceil(childVal);

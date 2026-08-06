@@ -23,6 +23,7 @@ public class DoubleMinusNode extends DoubleBinaryExpressionNode {
     }
     @Override
     public double evaluate() {
+        ee.clear();
         double leftVal = left.evaluate();
         double rightVal = right.evaluate();
         checkErrors();

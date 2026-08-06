@@ -25,6 +25,7 @@ public class DoubleGreaterThanNode extends BooleanBinaryExpressionNode {
     }
     @Override
     public boolean evaluate() {
+        ee.clear();
         double leftVal = left.evaluate();
         double rightVal = right.evaluate();
         checkErrors();

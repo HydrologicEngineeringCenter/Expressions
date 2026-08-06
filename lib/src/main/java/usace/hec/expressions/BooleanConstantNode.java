@@ -14,6 +14,7 @@ public class BooleanConstantNode implements BooleanExpressionNode {
 
     @Override
     public boolean evaluate() {
+        ee.clear();
         return value; // Zero boxing: returns primitive Boolean
     }
 

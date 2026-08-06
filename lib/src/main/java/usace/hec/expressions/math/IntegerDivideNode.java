@@ -24,6 +24,7 @@ public class IntegerDivideNode extends IntegerBinaryExpressionNode {
     }
     @Override
     public int evaluate() {
+        ee.clear();
         int leftVal = left.evaluate();
         int rightVal = right.evaluate();
         checkErrors();

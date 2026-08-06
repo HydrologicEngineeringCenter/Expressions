@@ -20,6 +20,7 @@ public class NotSameDateNode extends BooleanBinaryExpressionNode {
     }
     @Override
     public boolean evaluate() {
+        ee.clear();
         LocalDateTime l = left.evaluate();
         LocalDateTime r = right.evaluate();
         checkErrors();

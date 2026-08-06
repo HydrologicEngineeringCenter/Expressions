@@ -21,6 +21,7 @@ public class IntegerNegateNode extends IntegerUnaryExpressionNode {
 
     @Override
     public int evaluate() {
+        ee.clear();
         int c = child.evaluate();
         checkErrors();
         return -c;

@@ -23,6 +23,7 @@ public class DoubleMaxNode extends DoubleBinaryExpressionNode{
     }
     @Override
     public double evaluate() {
+        ee.clear();
         double l = left.evaluate();
         double r = right.evaluate();
         checkErrors();

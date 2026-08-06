@@ -15,6 +15,7 @@ public class IntegerVariableNode implements IntegerExpressionNode, DataRequester
 
     @Override
     public int evaluate() {
+        ee.clear();
         return dp.provideInt(name);
     }
 

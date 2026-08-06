@@ -11,6 +11,7 @@ public class DoubleIfNode extends IfNode implements DoubleExpressionNode {
 
     @Override
     public double evaluate() {
+        ee.clear();
         DoubleExpressionNode thenBranch = (DoubleExpressionNode) thenNode;
         DoubleExpressionNode elseBranch = (DoubleExpressionNode) elseNode;
         boolean conditionVal = conditionNode.evaluate();

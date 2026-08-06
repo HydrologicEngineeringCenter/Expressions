@@ -24,6 +24,7 @@ public class ReplaceNode extends TernaryExpressionNode implements StringExpressi
 
     @Override
     public String evaluate() {
+        ee.clear();
         String sourceVal = source.evaluate();
         String targetVal = target.evaluate();
         String replacementVal = replacement.evaluate();

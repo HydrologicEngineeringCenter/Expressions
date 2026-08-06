@@ -27,6 +27,7 @@ public class SubstringNode extends TernaryExpressionNode implements StringExpres
 
     @Override
     public String evaluate() {
+        ee.clear();
         String sourceString = source.evaluate();
         int startIndex = beginIndex.evaluate();
         int endingIndex = endIndex.evaluate();

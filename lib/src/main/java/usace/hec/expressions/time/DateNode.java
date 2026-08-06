@@ -29,6 +29,7 @@ public class DateNode extends TernaryExpressionNode implements DateTimeExpressio
 
     @Override
     public LocalDateTime evaluate() {
+        ee.clear();
         LocalDateTime dateTime;
         int year = _yyyy.evaluate();
         int month = _mm.evaluate();

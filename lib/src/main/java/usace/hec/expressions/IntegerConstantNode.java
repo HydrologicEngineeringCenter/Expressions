@@ -14,6 +14,7 @@ public class IntegerConstantNode implements IntegerExpressionNode {
 
     @Override
     public int evaluate() {
+        ee.clear();     ee.clear();
         return value; // Zero boxing: returns primitive Integer
     }
 

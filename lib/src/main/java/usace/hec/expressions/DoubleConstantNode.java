@@ -14,6 +14,7 @@ public class DoubleConstantNode implements DoubleExpressionNode {
 
     @Override
     public double evaluate() {
+        ee.clear();
         return value; // Zero boxing: returns primitive double
     }
 

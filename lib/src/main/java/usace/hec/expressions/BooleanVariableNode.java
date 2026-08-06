@@ -15,6 +15,7 @@ public class BooleanVariableNode implements BooleanExpressionNode, DataRequester
 
     @Override
     public boolean evaluate() {
+        ee.clear();
         return dp.provideBoolean(name);
     }
 

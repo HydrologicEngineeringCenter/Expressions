@@ -12,6 +12,7 @@ public class DateTimeIfNode extends IfNode implements DateTimeExpressionNode {
 
     @Override
     public LocalDateTime evaluate() {
+        ee.clear();
         DateTimeExpressionNode thenBranch = (DateTimeExpressionNode) thenNode;
         DateTimeExpressionNode elseBranch = (DateTimeExpressionNode) elseNode;
 

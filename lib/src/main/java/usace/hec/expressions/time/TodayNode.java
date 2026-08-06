@@ -14,6 +14,7 @@ public class TodayNode implements DateTimeExpressionNode {
 
     @Override
     public LocalDateTime evaluate() {
+        ee.clear();
         return LocalDateTime.now();
     }
 

@@ -22,6 +22,7 @@ public class NotNode extends BooleanUnaryExpressionNode {
     }
     @Override
     public boolean evaluate() {
+        ee.clear();
         boolean childVal = !child.evaluate();
         checkErrors();
         return childVal;

@@ -20,6 +20,7 @@ public class StringEqualToNode extends BooleanBinaryExpressionNode {
     }
     @Override
     public boolean evaluate() {
+        ee.clear();
         String leftVal = left.evaluate();
         String rightVal = right.evaluate();
         checkErrors();

@@ -14,6 +14,7 @@ public class StringConstantNode implements StringExpressionNode {
 
     @Override
     public String evaluate() {
+        ee.clear();
         return value; // Zero boxing: returns primitive String
     }
 

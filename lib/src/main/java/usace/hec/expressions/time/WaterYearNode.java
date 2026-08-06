@@ -16,6 +16,7 @@ public class WaterYearNode extends CalendarYearNode {
     }
     @Override
     public int evaluate() {
+        ee.clear();
         int year = super.evaluate();
         if (!super.hasError()) {
             if (((DateTimeExpressionNode) super.child()).evaluate().isAfter(LocalDateTime.of(year, Month.SEPTEMBER, 30, 23, 59))) {

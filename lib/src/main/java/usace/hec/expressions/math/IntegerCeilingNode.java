@@ -21,6 +21,7 @@ public class IntegerCeilingNode extends IntegerUnaryExpressionNode {
 
     @Override
     public int evaluate() {
+        ee.clear();
         double childVal = child.evaluate();
         checkErrors();
         return (int) Math.ceil(childVal);
