@@ -18,17 +18,17 @@ public class StringIfNode extends IfNode implements StringExpressionNode {
         StringExpressionNode elseBranch = (StringExpressionNode) elseNode;
 
         boolean conditionVal = conditionNode.evaluate();
-        String thenBranchVal = "";
-        String elseBranchVal = "";
         if (conditionVal && !conditionNode.hasError()) {
-            thenBranchVal = thenBranch.evaluate();
+            String thenBranchVal = thenBranch.evaluate();
             ee = thenBranch.getEvaluationError();
+            return thenBranchVal;
         } else if (!conditionNode.hasError()) {
-            elseBranchVal = elseBranch.evaluate();
+            String elseBranchVal = elseBranch.evaluate();
             ee= elseBranch.getEvaluationError();
+            return elseBranchVal;
         } else {
             ee = conditionNode.getEvaluationError();
         }
-        return conditionVal ? thenBranchVal : elseBranchVal;
+        return "";
     }
 }

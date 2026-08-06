@@ -15,17 +15,17 @@ public class IntegerIfNode extends IfNode implements IntegerExpressionNode {
         IntegerExpressionNode thenBranch = (IntegerExpressionNode) thenNode;
         IntegerExpressionNode elseBranch = (IntegerExpressionNode) elseNode;
         boolean conditionVal = conditionNode.evaluate();
-        int thenBranchVal = 0;
-        int elseBranchVal = 0;
         if (conditionVal && !conditionNode.hasError()) {
-            thenBranchVal = thenBranch.evaluate();
+            int thenBranchVal = thenBranch.evaluate();
             ee = thenBranch.getEvaluationError();
+            return thenBranchVal;
         } else if (!conditionNode.hasError()) {
-            elseBranchVal = elseBranch.evaluate();
+            int elseBranchVal = elseBranch.evaluate();
             ee= elseBranch.getEvaluationError();
+            return elseBranchVal;
         } else {
             ee = conditionNode.getEvaluationError();
         }
-        return conditionVal ? thenBranchVal : elseBranchVal;
+        return 0;
     }
 }
