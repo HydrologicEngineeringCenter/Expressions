@@ -7,6 +7,7 @@ import usace.hec.expressions.math.IntegerUnaryExpressionNode;
 
 
 import java.io.Serial;
+import java.time.LocalDateTime;
 
 
 public class CalendarYearNode extends IntegerUnaryExpressionNode {
@@ -18,7 +19,9 @@ public class CalendarYearNode extends IntegerUnaryExpressionNode {
     }
     @Override
     public int evaluate() {
-        return child.evaluate().getYear();
+        LocalDateTime c = child.evaluate();
+        checkErrors();
+        return c.getYear();
     }
     @Override
     public ExpressionOperator Operator() {

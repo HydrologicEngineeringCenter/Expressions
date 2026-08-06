@@ -6,6 +6,7 @@ import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.comparison.BooleanBinaryExpressionNode;
 
 import java.io.Serial;
+import java.time.LocalDateTime;
 
 
 public class NotSameDateNode extends BooleanBinaryExpressionNode {
@@ -19,7 +20,10 @@ public class NotSameDateNode extends BooleanBinaryExpressionNode {
     }
     @Override
     public boolean evaluate() {
-        return !left.evaluate().isEqual(right.evaluate());
+        LocalDateTime l = left.evaluate();
+        LocalDateTime r = right.evaluate();
+        checkErrors();
+        return !l.isEqual(r);
     }
     @Override
     public ExpressionOperator Operator() {

@@ -1,6 +1,7 @@
 package usace.hec.expressions.time;
 
 import java.io.Serial;
+import java.time.LocalDateTime;
 
 import usace.hec.expressions.DateTimeExpressionNode;
 import usace.hec.expressions.ExpressionNode;
@@ -19,7 +20,10 @@ public class AfterNode extends BooleanBinaryExpressionNode {
     }
     @Override
     public boolean evaluate() {
-        return left.evaluate().isAfter(right.evaluate());
+        LocalDateTime l = left.evaluate();
+        LocalDateTime r = right.evaluate();
+        checkErrors();
+        return l.isAfter(r);
     }
     @Override
     public ExpressionOperator Operator() {

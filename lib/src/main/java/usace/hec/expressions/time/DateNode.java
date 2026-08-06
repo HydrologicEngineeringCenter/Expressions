@@ -26,13 +26,20 @@ public class DateNode extends TernaryExpressionNode implements DateTimeExpressio
     @Override
     public LocalDateTime evaluate() {
         LocalDateTime dateTime;
-        try {
-            dateTime = LocalDateTime.of(_yyyy.evaluate(), _mm.evaluate(), _dd.evaluate(), 0, 0);
-        } catch (DateTimeException e) {
-            dateTime = LocalDateTime.now();
-            ee.report(ErrorState.INVALID, this, "Invalid Date Entered");
+        int year = _yyyy.evaluate();
+        int month = _mm.evaluate();
+        int day = _dd.evaluate();
+        checkErrors();
+        if (!_yyyy.hasError() || !_mm.hasError()|| !_dd.hasError()) {
+            try {
+                dateTime = LocalDateTime.of(year, month, day, 0, 0);
+            } catch (DateTimeException e) {
+                dateTime = LocalDateTime.now();
+                ee.report(ErrorState.INVALID, this, "Invalid Date Entered");
+            }
+            return dateTime;
         }
-        return dateTime;
+        return LocalDateTime.now();
 
     }
 

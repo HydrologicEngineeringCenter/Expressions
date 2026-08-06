@@ -6,6 +6,7 @@ import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.math.IntegerUnaryExpressionNode;
 
 import java.io.Serial;
+import java.time.LocalDateTime;
 
 
 public class DayOfYearNode extends IntegerUnaryExpressionNode {
@@ -17,7 +18,9 @@ public class DayOfYearNode extends IntegerUnaryExpressionNode {
     }
     @Override
     public int evaluate() {
-        return child.evaluate().getDayOfYear();
+        LocalDateTime c = child.evaluate();
+        checkErrors();
+        return c.getDayOfYear();
     }
     @Override
     public ExpressionOperator Operator() {

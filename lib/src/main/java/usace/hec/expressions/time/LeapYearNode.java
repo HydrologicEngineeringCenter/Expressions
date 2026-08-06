@@ -6,6 +6,7 @@ import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.logical.BooleanUnaryExpressionNode;
 
 import java.io.Serial;
+import java.time.LocalDateTime;
 
 public class LeapYearNode extends BooleanUnaryExpressionNode {
     @Serial
@@ -16,7 +17,9 @@ public class LeapYearNode extends BooleanUnaryExpressionNode {
     }
     @Override
     public boolean evaluate() {
-        return child.evaluate().getYear() % 4 == 0;
+        LocalDateTime c = child.evaluate();
+        checkErrors();
+        return c.getYear() % 4 == 0;
     }
     @Override
     public ExpressionOperator Operator() {
