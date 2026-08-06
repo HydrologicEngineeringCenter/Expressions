@@ -162,17 +162,7 @@ public class EvaluationErrorHandlingTest {
     public void testSubstringNodeErrorStatePersistsAcrossReevaluation() {
         System.out.print("SubstringNode stale-error-state Test\n");
 
-        // KNOWN BUG: EvaluationError (EvaluationError.java) has no reset/clear
-        // method. Self-reporting nodes like SubstringNode call ee.report(...) on
-        // their existing EvaluationError instance rather than being handed a
-        // fresh OK one on each evaluate() call, and checkErrors() only replaces
-        // `ee` when a CHILD currently has an error. So once a node instance has
-        // reported an error, hasError() stays true for that instance forever,
-        // even after a later evaluate() call with fully valid inputs computes and
-        // returns the correct value. This matters a lot in this codebase because
-        // the whole DataProvider/VariableNode design (see DataHub, and every
-        // *VariableNode) is built around reusing the same node instance across
-        // repeated evaluate() calls with changing data.
+        //Current implementation clears errors at the start of every evaluate.1
         IntegerVariableNode begin = new IntegerVariableNode("BEGIN");
         IntegerVariableNode end = new IntegerVariableNode("END");
         StringExpressionNode substr = new SubstringNode(new StringConstantNode("hello"), begin, end);
@@ -187,8 +177,8 @@ public class EvaluationErrorHandlingTest {
         dp.setInt("BEGIN", 0);
         dp.setInt("END", 5);
         String result = substr.evaluate();
-        assertEquals("hello", result); // the returned VALUE is correct...
-        assertFalse(substr.hasError()); // ...but this currently fails: hasError() is stuck true
+        assertEquals("hello", result); // returned value has no errors
+        assertFalse(substr.hasError()); // hasError is back to False
     }
 
     // DateNode

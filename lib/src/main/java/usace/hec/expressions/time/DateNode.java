@@ -35,7 +35,7 @@ public class DateNode extends TernaryExpressionNode implements DateTimeExpressio
         int month = _mm.evaluate();
         int day = _dd.evaluate();
         checkErrors();
-        if (!_yyyy.hasError() || !_mm.hasError()|| !_dd.hasError()) {
+        if (!_yyyy.hasError() && !_mm.hasError() && !_dd.hasError()) {
             try {
                 dateTime = LocalDateTime.of(year, month, day, 0, 0);
             } catch (DateTimeException e) {
