@@ -16,6 +16,7 @@ public abstract class  BooleanBinaryExpressionNode implements BinaryExpressionNo
     public EvaluationError getEvaluationError(){
         return this.ee;
     }
+    @Override
     public void checkErrors(){
         if (left().hasError()) {
             ee = left().getEvaluationError();

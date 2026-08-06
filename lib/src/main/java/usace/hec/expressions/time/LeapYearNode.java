@@ -19,6 +19,9 @@ public class LeapYearNode extends BooleanUnaryExpressionNode {
     public boolean evaluate() {
         LocalDateTime c = child.evaluate();
         checkErrors();
+        if (c.getYear() % 100 == 0){
+            return c.getYear() % 400 == 0;
+        }
         return c.getYear() % 4 == 0;
     }
     @Override

@@ -17,6 +17,13 @@ public final class EvaluationError implements Serializable {
         this.node = node;
         this.message = message;
     }
+
+    public void clear(){
+        this.state = ErrorState.OK;
+        this.node = null;
+        this.message = "";
+    }
+
     public boolean isOk(){ return state == ErrorState.OK; }
     public boolean warning(){return state == ErrorState.WARN;}
     public boolean isInvalid() { return state == ErrorState.INVALID; }

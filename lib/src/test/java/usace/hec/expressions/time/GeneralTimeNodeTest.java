@@ -1,15 +1,16 @@
 package usace.hec.expressions.time;
 
-import static org.junit.Assert.assertEquals;
-
 import java.time.LocalDateTime;
 import org.junit.Test;
 import usace.hec.expressions.DateTimeExpressionNode;
 import usace.hec.expressions.DoubleConstantNode;
+import usace.hec.expressions.IntegerConstantNode;
 import usace.hec.expressions.IntegerExpressionNode;
 import usace.hec.expressions.logical.DoubleIfNode;
 import usace.hec.expressions.math.DoubleAddNode;
 import usace.hec.expressions.math.DoubleMultiplyNode;
+
+import static org.junit.Assert.*;
 
 public class GeneralTimeNodeTest {
 
@@ -99,5 +100,90 @@ public class GeneralTimeNodeTest {
         assertEquals(now.getYear(), result.getYear());
         assertEquals(now.getMonthValue(), result.getMonthValue());
         assertEquals(now.getDayOfMonth(), result.getDayOfMonth());
+    }
+
+    private static DateTimeExpressionNode date(int year, int month, int day) {
+        return new DateNode(
+                new IntegerConstantNode(year),
+                new IntegerConstantNode(month),
+                new IntegerConstantNode(day));
+    }
+
+    @Test
+    public void testCalendarYearEvaluate() {
+        System.out.print("CalendarYear Test\n");
+
+        IntegerExpressionNode calYear = new CalendarYearNode(date(2026, 8, 6));
+        assertEquals(2026, calYear.evaluate());
+
+        IntegerExpressionNode calYearB = new CalendarYearNode(date(1999, 12, 31));
+        assertEquals(1999, calYearB.evaluate());
+    }
+
+    @Test
+    public void testDayOfMonthEvaluate() {
+        System.out.print("DayOfMonth Test\n");
+
+        IntegerExpressionNode dom = new DayOfMonthNode(date(2026, 8, 6));
+        assertEquals(6, dom.evaluate());
+
+        IntegerExpressionNode domEndOfMonth = new DayOfMonthNode(date(2026, 1, 31));
+        assertEquals(31, domEndOfMonth.evaluate());
+    }
+
+    @Test
+    public void testMonthEvaluate() {
+        System.out.print("Month Test\n");
+
+        IntegerExpressionNode month = new MonthNode(date(2026, 8, 6));
+        assertEquals(8, month.evaluate());
+
+        IntegerExpressionNode monthDec = new MonthNode(date(2026, 12, 1));
+        assertEquals(12, monthDec.evaluate());
+    }
+
+    @Test
+    public void testLeapYearEvaluate() {
+        System.out.print("LeapYear Test\n");
+
+        LeapYearNode leap2000 = new LeapYearNode(date(2000, 1, 1));
+        assertTrue(leap2000.evaluate());
+
+        LeapYearNode leap1900 = new LeapYearNode(date(1900, 1, 1));
+        assertFalse(leap1900.evaluate());
+
+        LeapYearNode notLeap2023 = new LeapYearNode(date(2023, 1, 1));
+        assertFalse(notLeap2023.evaluate());
+
+        LeapYearNode leap2024 = new LeapYearNode(date(2024, 6, 15));
+        assertTrue(leap2024.evaluate());
+    }
+
+    @Test
+    public void testDateNodeInvalidDateReportsError() {
+        System.out.print("DateNode Invalid Date Test\n");
+
+        // Month 13 does not exist.
+        DateTimeExpressionNode invalidDate = date(2026, 13, 1);
+        invalidDate.evaluate();
+        assertTrue(invalidDate.hasError());
+
+        // February 30th does not exist.
+        DateTimeExpressionNode invalidDayForMonth = date(2026, 2, 30);
+        invalidDayForMonth.evaluate();
+        assertTrue(invalidDayForMonth.hasError());
+    }
+
+    @Test
+    public void testWaterYearEvaluate() {
+        System.out.print("WaterYear Test\n");
+
+        // Aug 6, 2026 is before Oct 1, so water year == calendar year.
+        WaterYearNode beforeOctober = new WaterYearNode(date(2026, 8, 6));
+        assertEquals(2026, beforeOctober.evaluate());
+
+        // Nov 15, 2026 is after Sept 30, so water year == calendar year + 1.
+        WaterYearNode afterSeptember = new WaterYearNode(date(2026, 11, 15));
+        assertEquals(2027, afterSeptember.evaluate());
     }
 }
