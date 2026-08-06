@@ -36,4 +36,5 @@ public interface BinaryExpressionNode extends ExpressionNode{
         left().setProvider(dp);
         right().setProvider(dp);
     }
+    public void checkErrors();
 }

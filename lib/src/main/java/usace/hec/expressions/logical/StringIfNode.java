@@ -4,7 +4,6 @@ package usace.hec.expressions.logical;
 import usace.hec.expressions.BooleanExpressionNode;
 import usace.hec.expressions.StringExpressionNode;
 
-import java.time.LocalDateTime;
 
 public class StringIfNode extends IfNode implements StringExpressionNode {
 
@@ -18,9 +17,17 @@ public class StringIfNode extends IfNode implements StringExpressionNode {
         StringExpressionNode elseBranch = (StringExpressionNode) elseNode;
 
         boolean conditionVal = conditionNode.evaluate();
-        String thenBranchVal = thenBranch.evaluate();
-        String elseBranchVal = elseBranch.evaluate();
-        checkErrors();
+        String thenBranchVal = "";
+        String elseBranchVal = "";
+        if (conditionVal && !conditionNode.hasError()) {
+            thenBranchVal = thenBranch.evaluate();
+            ee = thenBranch.getEvaluationError();
+        } else if (!conditionNode.hasError()) {
+            elseBranchVal = elseBranch.evaluate();
+            ee= elseBranch.getEvaluationError();
+        } else {
+            ee = conditionNode.getEvaluationError();
+        }
         return conditionVal ? thenBranchVal : elseBranchVal;
     }
 }

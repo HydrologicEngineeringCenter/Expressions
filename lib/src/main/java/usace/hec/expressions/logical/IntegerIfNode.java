@@ -1,6 +1,5 @@
 package usace.hec.expressions.logical;
 
-
 import usace.hec.expressions.BooleanExpressionNode;
 import usace.hec.expressions.IntegerExpressionNode;
 
@@ -15,9 +14,17 @@ public class IntegerIfNode extends IfNode implements IntegerExpressionNode {
         IntegerExpressionNode thenBranch = (IntegerExpressionNode) thenNode;
         IntegerExpressionNode elseBranch = (IntegerExpressionNode) elseNode;
         boolean conditionVal = conditionNode.evaluate();
-        int thenBranchVal = thenBranch.evaluate();
-        int elseBranchVal = elseBranch.evaluate();
-        checkErrors();
-        return conditionNode.evaluate() ? thenBranch.evaluate() : elseBranch.evaluate();
+        int thenBranchVal = 0;
+        int elseBranchVal = 0;
+        if (conditionVal && !conditionNode.hasError()) {
+            thenBranchVal = thenBranch.evaluate();
+            ee = thenBranch.getEvaluationError();
+        } else if (!conditionNode.hasError()) {
+            elseBranchVal = elseBranch.evaluate();
+            ee= elseBranch.getEvaluationError();
+        } else {
+            ee = conditionNode.getEvaluationError();
+        }
+        return conditionVal ? thenBranchVal : elseBranchVal;
     }
 }

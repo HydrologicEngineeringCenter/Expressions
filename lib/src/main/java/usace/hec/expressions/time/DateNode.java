@@ -38,12 +38,12 @@ public class DateNode extends TernaryExpressionNode implements DateTimeExpressio
             try {
                 dateTime = LocalDateTime.of(year, month, day, 0, 0);
             } catch (DateTimeException e) {
-                dateTime = LocalDateTime.now();
+                dateTime = LocalDateTime.MIN;
                 ee.report(ErrorState.INVALID, this, "Invalid Date Entered");
             }
             return dateTime;
         }
-        return LocalDateTime.now();
+        return LocalDateTime.MIN;
 
     }
 

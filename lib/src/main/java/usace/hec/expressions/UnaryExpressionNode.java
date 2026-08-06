@@ -27,4 +27,6 @@ public interface UnaryExpressionNode  extends ExpressionNode {
     public default void setProvider(DataProvider dp){
         child().setProvider(dp);
     }
+
+    public void checkErrors();
 }
