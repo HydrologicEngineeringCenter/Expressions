@@ -15,7 +15,6 @@ public class StringVariableNode implements StringExpressionNode, DataRequester {
 
     @Override
     public String evaluate() {
-        ee.clear();
         return dp.provideString(name);
     }
 

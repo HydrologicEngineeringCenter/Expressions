@@ -16,7 +16,6 @@ public class DateTimeVariableNode implements DateTimeExpressionNode, DataRequest
 
     @Override
     public LocalDateTime evaluate() {
-        ee.clear();
         return dp.provideDate(name);
     }
 
