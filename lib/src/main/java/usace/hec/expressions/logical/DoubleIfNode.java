@@ -15,17 +15,17 @@ public class DoubleIfNode extends IfNode implements DoubleExpressionNode {
         DoubleExpressionNode thenBranch = (DoubleExpressionNode) thenNode;
         DoubleExpressionNode elseBranch = (DoubleExpressionNode) elseNode;
         boolean conditionVal = conditionNode.evaluate();
-        double thenBranchVal = 0.0;
-        double elseBranchVal = 0.0;
         if (conditionVal && !conditionNode.hasError()) {
-            thenBranchVal = thenBranch.evaluate();
+            double thenBranchVal = thenBranch.evaluate();
             ee = thenBranch.getEvaluationError();
+            return thenBranchVal;
         } else if (!conditionNode.hasError()) {
-            elseBranchVal = elseBranch.evaluate();
+            double elseBranchVal = elseBranch.evaluate();
             ee= elseBranch.getEvaluationError();
+            return elseBranchVal;
         } else {
             ee = conditionNode.getEvaluationError();
         }
-        return conditionVal ? thenBranchVal : elseBranchVal;
+        return 0.0;
     }
 }

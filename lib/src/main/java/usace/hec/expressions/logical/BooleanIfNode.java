@@ -15,17 +15,17 @@ public class BooleanIfNode extends IfNode implements BooleanExpressionNode {
         BooleanExpressionNode elseBranch = (BooleanExpressionNode) elseNode;
 
         boolean conditionVal = conditionNode.evaluate();
-        boolean thenBranchVal = false;
-        boolean elseBranchVal = false;
         if (conditionVal && !conditionNode.hasError()) {
-            thenBranchVal = thenBranch.evaluate();
+            boolean thenBranchVal = thenBranch.evaluate();
             ee = thenBranch.getEvaluationError();
+            return thenBranchVal;
         } else if (!conditionNode.hasError()) {
-            elseBranchVal = elseBranch.evaluate();
+            boolean elseBranchVal = elseBranch.evaluate();
             ee= elseBranch.getEvaluationError();
+            return elseBranchVal;
         } else {
             ee = conditionNode.getEvaluationError();
         }
-        return conditionVal ? thenBranchVal : elseBranchVal;
+        return false;
     }
 }

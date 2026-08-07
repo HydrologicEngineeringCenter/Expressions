@@ -17,17 +17,17 @@ public class DateTimeIfNode extends IfNode implements DateTimeExpressionNode {
         DateTimeExpressionNode elseBranch = (DateTimeExpressionNode) elseNode;
 
         boolean conditionVal = conditionNode.evaluate();
-        LocalDateTime thenBranchVal = LocalDateTime.MIN;
-        LocalDateTime elseBranchVal = LocalDateTime.MIN;
         if (conditionVal && !conditionNode.hasError()) {
-            thenBranchVal = thenBranch.evaluate();
+            LocalDateTime thenBranchVal = thenBranch.evaluate();
             ee = thenBranch.getEvaluationError();
+            return thenBranchVal;
         } else if (!conditionNode.hasError()) {
-            elseBranchVal = elseBranch.evaluate();
+            LocalDateTime elseBranchVal = elseBranch.evaluate();
             ee= elseBranch.getEvaluationError();
+            return elseBranchVal;
         } else {
             ee = conditionNode.getEvaluationError();
         }
-        return conditionVal ? thenBranchVal : elseBranchVal;
+        return LocalDateTime.MIN;
     }
 }
