@@ -55,6 +55,7 @@ public class TokenizerAndParserTest {
         TEST_CASES.add(Map.of("input", "LTE(3.0, 5.0)", "error", false, "msg", "", "result", true));
         TEST_CASES.add(Map.of("input", "LT(3.0, 5.0)", "error", false, "msg", "", "result", true));
         TEST_CASES.add(Map.of("input", "EQ(5.0, 5.0)", "error", false, "msg", "", "result", true));
+        TEST_CASES.add(Map.of("input", "BETWEEN(1,2,3)", "error", false, "msg", "", "result", true));
         TEST_CASES.add(Map.of("input", "AND(TRUE, FALSE)", "error", false, "msg", "", "result", false));
         TEST_CASES.add(Map.of("input", "XOR(TRUE, TRUE)", "error", false, "msg", "", "result", false));
         TEST_CASES.add(Map.of("input", "XOR(TRUE, FALSE)", "error", false, "msg", "", "result", true));
@@ -80,6 +81,7 @@ public class TokenizerAndParserTest {
         TEST_CASES.add(Map.of("input", "LEAPYEAR(Date(1984,12,25))", "error", false, "msg", "", "result", true));
         TEST_CASES.add(Map.of("input", "AFTER(Date(1983,12,25),Date(1982,12,25))", "error", false, "msg", "", "result", true));
         TEST_CASES.add(Map.of("input", "BEFORE(Date(1983,12,25),Date(1982,12,25))", "error", false, "msg", "", "result", false));
+        TEST_CASES.add(Map.of("input", "Date(1983,12,25) != Date(1982,12,25)", "error", false, "msg", "", "result", true));
         TEST_CASES.add(Map.of("input", "IF(AFTER(TODAY(),Date(1982,12,25)), TODAY(), Date(1982,12,25))", "error", false, "msg", "", "result", LocalDateTime.now()));
         TEST_CASES.add(Map.of("input", "YEAR(IF(TRUE, Date(1999,1,1), Date(2000,1,1)))", "error", false, "msg", "", "result", 1999));
         TEST_CASES.add(Map.of("input", "DOY(IF(AFTER(Date(2000,1,1),Date(1999,1,1)), Date(2000,3,1), Date(1999,3,1)))", "error", false, "msg", "", "result", 61));

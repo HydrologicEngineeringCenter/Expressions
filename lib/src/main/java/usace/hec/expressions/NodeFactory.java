@@ -64,7 +64,7 @@ public class NodeFactory {
      * @return a typed unary node, or {@code null} if types are incompatible
      */
         public static ExpressionNode buildTernaryNode(ExpressionParser.ParseState s, ExpressionOperator op, ExpressionNode left, ExpressionNode middle, ExpressionNode right) {
-            //All arguments have been validated beforehand
+            //All arguments have been validated beforehand to follow assumptions
 
             ExpressionNode lNode = left;
             ExpressionNode mNode = middle;
@@ -96,6 +96,17 @@ public class NodeFactory {
             }
             else if (op == ExpressionOperator.DATE){
                 return new DateNode((IntegerExpressionNode) lNode, (IntegerExpressionNode) mNode, (IntegerExpressionNode) rNode);
+            } else if (op == ExpressionOperator.BETWEEN){
+                if (commonType == ExpressionType.INTEGER){
+                    return new IntegerBetweenNode((IntegerExpressionNode) lNode, (IntegerExpressionNode) mNode, (IntegerExpressionNode) rNode);
+                } else if (commonType == ExpressionType.DOUBLE){
+                    return new DoubleBetweenNode((DoubleExpressionNode) lNode, (DoubleExpressionNode) mNode, (DoubleExpressionNode) rNode);
+                } else if (commonType == ExpressionType.DATE){
+                    return new DateBetweenNode((DateTimeExpressionNode) lNode, (DateTimeExpressionNode) mNode, (DateTimeExpressionNode) rNode);
+                } else{
+                    setError(s, currentPos(s), "Ternary " + op + " not implemented for " + commonType, "");
+                    return null;
+                }
             }
 
             setError(s, currentPos(s), "Unsupported ternary operator type: " + commonType, "");
@@ -255,6 +266,7 @@ public class NodeFactory {
      */
     public static ExpressionNode buildFunctionNode(ExpressionParser.ParseState s, ExpressionOperator fn, List<ExpressionNode> args) {
         switch (fn) {
+            //Resolves every type of if statement call
             case IF: {
                 if (args.size() != 3) {
                     setError(s, currentPos(s), "IF requires exactly 3 arguments, got " + args.size(), "");
@@ -291,6 +303,39 @@ public class NodeFactory {
                 return buildTernaryNode(s, fn, cond, promotedThen, promotedElse);
             }
 
+            case BETWEEN: {
+                if (args.size() != 3) {
+                    setError(s, currentPos(s), "IF requires exactly 3 arguments, got " + args.size(), "");
+                    return null;
+                }
+                ExpressionNode before = args.get(0);
+                ExpressionNode middle = args.get(1);
+                ExpressionNode after = args.get(2);
+
+
+                // Promote branches to match
+                ExpressionNode promotedBefore = before;
+                ExpressionNode promotedMiddle = middle;
+                ExpressionNode promotedAfter = after;
+
+                if (before.resultType() == ExpressionType.DOUBLE || middle.resultType() == ExpressionType.DOUBLE || after.resultType() == ExpressionType.DOUBLE){
+                    promotedBefore = coerceTo(before, ExpressionType.DOUBLE);
+                    promotedMiddle = coerceTo(middle, ExpressionType.DOUBLE);
+                    promotedAfter = coerceTo(after, ExpressionType.DOUBLE);
+                } else if (before.resultType() != middle.resultType() || middle.resultType() != after.resultType() || before.resultType() != after.resultType()) {
+                    setError(s, currentPos(s), "BETWEEN not supported for at least one argument: " + before.resultType() + " vs " + middle.resultType()+ " vs " + after.resultType(), "");
+                    return null;
+                }
+
+                if (promotedBefore == null || promotedMiddle == null || promotedAfter == null) {
+                    setError(s, currentPos(s), "BETWEEN args must have compatible types: " + before.resultType() + " vs " + middle.resultType()+ " vs " + after.resultType(), "");
+                    return null;
+                }
+
+                return buildTernaryNode(s, fn, promotedBefore, promotedMiddle, promotedAfter);
+            }
+
+            //resolves MAX and MIN calls with any amount of arguments
             case MAX:
             case MIN: {
                 if (args.isEmpty()) {

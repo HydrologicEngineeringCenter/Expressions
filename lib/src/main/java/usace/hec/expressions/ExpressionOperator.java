@@ -32,6 +32,7 @@ public enum ExpressionOperator {
     GTE("Comparison", ">=", "GTE",">=", "GTE(,)", Arity.BINARY),
     LT("Comparison", "<", "LT","<", "LT(,)", Arity.BINARY),
     LTE("Comparison", "<=", "LTE","<=", "LTE(,)", Arity.BINARY),
+    BETWEEN("Comparison", "BETWEEN", "BETWEEN","BETWEEN(,,)" ,"BETWEEN(,,)" ,Arity.TERNARY),
 
     // --- Date / time ---
     AFTER("Time", "AFTER", "AFTER","AFTER(,)", "AFTER(,)", Arity.BINARY),
@@ -73,7 +74,6 @@ public enum ExpressionOperator {
     // --- Leaf nodes ---
     CONSTANT("LEAF", "", "","", "", Arity.LEAF),
     VARIABLE("LEAF", "[", "[","[\"a\"]", "[\"a\"]", Arity.UNARY);
-
     private final String category;
     private final String infix;
     private final String prefix;
