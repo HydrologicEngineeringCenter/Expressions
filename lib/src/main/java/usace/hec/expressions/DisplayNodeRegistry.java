@@ -48,9 +48,10 @@ public class DisplayNodeRegistry implements DisplayNodeProvider{
     }
 
     private void generateDisplayNodesList() {
-        // Accumulate result types per operator
+        // Accumulate result types and backing classes per operator
         Map<ExpressionOperator, Set<ExpressionType>> operatorTypes = new EnumMap<>(ExpressionOperator.class);
-        
+        Map<ExpressionOperator, Set<Class<?>>> operatorClasses = new EnumMap<>(ExpressionOperator.class);
+
         // 1. Scan package for concrete ExpressionNode implementations
         List<Class<?>> nodeClasses = scanPackageForNodes();
 
@@ -58,13 +59,14 @@ public class DisplayNodeRegistry implements DisplayNodeProvider{
             try {
                 // 2. Determine Operator using the static method (no instantiation)
                 ExpressionOperator op = (ExpressionOperator) clazz.getMethod("StaticOperator").invoke(null);
-                
+
                 if (op != null) {
                     // 3. Determine Result Type by checking implemented interfaces
                     ExpressionType type = getResultTypeFromInterfaces(clazz);
-                    
+
                     if (type != null) {
                         operatorTypes.computeIfAbsent(op, k -> new HashSet<>()).add(type);
+                        operatorClasses.computeIfAbsent(op, k -> new HashSet<>()).add(clazz);
                     }
                 }
             } catch (Exception e) {
@@ -77,7 +79,8 @@ public class DisplayNodeRegistry implements DisplayNodeProvider{
         List<DisplayNode> nodes = new ArrayList<>();
         for (ExpressionOperator op : ExpressionOperator.values()) {
             Set<ExpressionType> types = operatorTypes.getOrDefault(op, Collections.emptySet());
-            nodes.add(wrap(op, types));
+            Set<Class<?>> classes = operatorClasses.getOrDefault(op, Collections.emptySet());
+            nodes.add(wrap(op, types, classes));
         }
         this.displayNodes = Collections.unmodifiableList(nodes);
     }
@@ -146,28 +149,33 @@ public class DisplayNodeRegistry implements DisplayNodeProvider{
         }
     }
 
-    private DisplayNode wrap(ExpressionOperator op, Set<ExpressionType> types) {
+    private DisplayNode wrap(ExpressionOperator op, Set<ExpressionType> types, Set<Class<?>> classes) {
         List<ExpressionType> immutableTypes = Collections.unmodifiableList(new ArrayList<>(types));
+        List<Class<?>> immutableClasses = Collections.unmodifiableList(new ArrayList<>(classes));
         return new DisplayNode() {
-            @Override 
-            public String displayName(boolean infix) { 
-                return infix ? op.getInfixName() : op.getPrefixName(); 
+            @Override
+            public String displayName(boolean infix) {
+                return infix ? op.getInfixName() : op.getPrefixName();
             }
-            @Override 
-            public String category() { 
-                return op.getCategory(); 
+            @Override
+            public String category() {
+                return op.getCategory();
             }
-            @Override 
-            public String defaultSyntax(boolean infix) { 
-                return infix ? op.getInfixSyntax() : op.getPrefixSyntax(); 
+            @Override
+            public String defaultSyntax(boolean infix) {
+                return infix ? op.getInfixSyntax() : op.getPrefixSyntax();
             }
-            @Override 
+            @Override
             public List<ExpressionType> getExpressionResultTypes() {
                 return immutableTypes;
             }
             @Override
             public ExpressionOperator getOperator() {
                 return op;
+            }
+            @Override
+            public List<Class<?>> getNodeClasses() {
+                return immutableClasses;
             }
         };
     }
