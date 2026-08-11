@@ -8,4 +8,5 @@ public interface DisplayNode {
     String defaultSyntax(boolean infix);
     List<ExpressionType> getExpressionResultTypes();
     ExpressionOperator getOperator();
+    String getDescription();
 }

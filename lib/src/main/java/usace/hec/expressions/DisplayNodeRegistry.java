@@ -169,6 +169,11 @@ public class DisplayNodeRegistry implements DisplayNodeProvider{
             public ExpressionOperator getOperator() {
                 return op;
             }
+
+            @Override
+            public String getDescription() {
+                return op.getPrefixName() + ": " + op.getDescription();
+            }
         };
     }
 }
