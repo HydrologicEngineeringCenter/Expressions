@@ -41,13 +41,13 @@ public class IntegerToDoubleCoerceNode extends DoubleUnaryExpressionNode {
     @Override
     public String PreFixSyntax() {
         // Explicit cast representation for debugging/prefix output
-        return Operator().getInfixName() +"(" + child.PreFixSyntax() + ")";
+        return Operator().getPrefixName() +"(" + child.PreFixSyntax() + ")";
     }
 
     @Override
     public String ExcelSyntax() {
         // Excel doesn't require explicit widening casts, so we just render the child.
-        return child.ExcelSyntax();
+        return Operator().getInfixName() +"(" + child.ExcelSyntax() + ")";
     }
 
     @Override
