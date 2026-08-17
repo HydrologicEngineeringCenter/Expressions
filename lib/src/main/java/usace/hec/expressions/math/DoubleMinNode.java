@@ -38,8 +38,16 @@ public class DoubleMinNode extends DoubleBinaryExpressionNode {
     }
     @Override
     public String ExcelSyntax() {
-        return PreFixSyntax(); //for excel syntax in this case prefix is the correct syntax
+        StringBuilder sb = new StringBuilder();
+        sb.append(Operator().getPrefixName());
+        sb.append('(');
+        sb.append(left().ExcelSyntax());
+        sb.append(',');
+        sb.append(right().ExcelSyntax());
+        sb.append(')');
+        return sb.toString();
     }
+
     @Override
     public ExpressionNode left() {
         return this.left;
