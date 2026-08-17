@@ -37,7 +37,12 @@ public class IntegerCeilingNode extends IntegerUnaryExpressionNode {
 
     @Override
     public String ExcelSyntax() {
-        return PreFixSyntax(); //for excel syntax in this case prefix is the correct syntax
+        StringBuilder sb = new StringBuilder();
+        sb.append(Operator().getPrefixName());
+        sb.append('(');
+        sb.append(child().ExcelSyntax());
+        sb.append(')');
+        return sb.toString(); //same as Prefix, but must propogate excelSyntax to children
     }
 
     @Override
