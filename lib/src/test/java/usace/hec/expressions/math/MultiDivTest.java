@@ -1,10 +1,7 @@
 package usace.hec.expressions.math;
 
 import org.junit.Test;
-import usace.hec.expressions.DataHub;
-import usace.hec.expressions.DataProvider;
-import usace.hec.expressions.DoubleExpressionNode;
-import usace.hec.expressions.DoubleVariableNode;
+import usace.hec.expressions.*;
 
 import static org.junit.Assert.*;
 
@@ -49,6 +46,48 @@ public class MultiDivTest {
         dp.setDouble("Y", 0.0);
         result = div.evaluate();
         assertEquals(0.0,result,0.0);
+        assertTrue(div.hasError());
+    }
+
+    @Test
+    public void testIntegerEvaluate() {
+        IntegerVariableNode x = new IntegerVariableNode("X");
+        IntegerVariableNode y = new IntegerVariableNode("Y");
+        DataProvider dp = new DataHub();
+
+        IntegerExpressionNode multi = new IntegerMultiplyNode(x, y);
+        IntegerExpressionNode div = new IntegerDivideNode(x, y);
+
+        multi.setProvider(dp);
+        div.setProvider(dp);
+
+        dp.setInt("X", 1);
+        dp.setInt("Y", 1);
+
+        double result = multi.evaluate();
+        double result2 = div.evaluate();
+        assertEquals(1, result, 0);
+        assertEquals(1, result2, 0);
+
+        dp.setInt("Y", 2);
+        result = multi.evaluate();
+        result2 = div.evaluate();
+        assertEquals(2, result, 0);
+        assertEquals(0, result2, 0);
+
+        dp.setInt("X", 16);
+        result = multi.evaluate();
+        result2 = div.evaluate();
+        assertEquals(32, result, 0);
+        assertEquals(8, result2, 0);
+
+        dp.setInt("X", 3);
+        result = multi.evaluate();
+        assertEquals(6, result, 0);
+
+        dp.setInt("Y", 0);
+        result = div.evaluate();
+        assertEquals(0,result,0);
         assertTrue(div.hasError());
     }
 

@@ -140,7 +140,7 @@ public class Tokenizer {
                 continue;
             }
 
-            // Check multi-character infix operators (>=, <=, ==, &&, ||, ^^, !=)
+            // Check multi-character infix operators (>=, <=, ==, &&, ||, ^^, !=, //)
             boolean matchedMulti = false;
             for (String sym : MULTI_CHAR_OPS) {
                 if (input.startsWith(sym, pos)) {

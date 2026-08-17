@@ -42,7 +42,7 @@ public class IntegerDivideNode extends IntegerBinaryExpressionNode {
         return StaticOperator();
     }
     public static ExpressionOperator StaticOperator() {
-        return ExpressionOperator.DIVIDE;
+        return ExpressionOperator.INT_DIVIDE;
     }
     @Override
     public ExpressionNode left() {

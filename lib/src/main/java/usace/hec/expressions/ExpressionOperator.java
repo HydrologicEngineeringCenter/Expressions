@@ -7,6 +7,7 @@ public enum ExpressionOperator {
     MINUS("Math", "-", "MINUS", "-", "MINUS(,)",Arity.BINARY, "Subtracts the second numeric value from the first."),
     MULTIPLY("Math", "*", "MULTIPLY", "*", "MULTIPLY(,)", Arity.BINARY, "Multiplies two numeric values."),
     DIVIDE("Math", "/", "DIVIDE",  "/", "DIVIDE(,)",Arity.BINARY, "Divides the first numeric value by the second."),
+    INT_DIVIDE("Math", "//", "INT_DIVIDE",  "//", "INT_DIVIDE(,)",Arity.BINARY, "Divides the first numeric value by the second, then floor into integer."),
     POW("Math", "^", "POW", "^", "POW(,)", Arity.BINARY, "Raises the first numeric value to the power of the second."),
 
     // --- Aggregate (Math) ---
