@@ -154,11 +154,16 @@ public class NodeFactory {
             }
         }
 
+        if (op.equals(ExpressionOperator.DIVIDE)){
+            lNode = coerceTo(left, ExpressionType.DOUBLE);
+            rNode = coerceTo(right, ExpressionType.DOUBLE);
+        }
+
         // 3. Instantiate specialized node
         ExpressionType commonType = lNode.resultType();
 
         if (commonType == ExpressionType.DOUBLE) {
-            return createDoubleBinaryNode(op, (DoubleExpressionNode) lNode, (DoubleExpressionNode) rNode);
+            return createDoubleBinaryNode(op, (DoubleExpressionNode) coerceTo(lNode,ExpressionType.DOUBLE), (DoubleExpressionNode) coerceTo(rNode,ExpressionType.DOUBLE));
         } else if (commonType == ExpressionType.INTEGER) {
             return createIntegerBinaryNode(op, (IntegerExpressionNode) lNode, (IntegerExpressionNode) rNode);
         } else if (commonType == ExpressionType.BOOLEAN) {

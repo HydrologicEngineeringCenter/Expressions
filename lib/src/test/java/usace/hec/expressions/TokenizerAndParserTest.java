@@ -16,7 +16,7 @@ public class TokenizerAndParserTest {
     static {
         // VALID EXPRESSIONS
         TEST_CASES.add(Map.of("input", "(1 + 2) * (3 - 1)", "error", false, "msg", "", "result", 6));
-        TEST_CASES.add(Map.of("input", "((2 + 3) * 4 - 5) / 3", "error", false, "msg", "", "result", 5));
+        TEST_CASES.add(Map.of("input", "((2 + 3) * 4 - 5) / 3", "error", false, "msg", "", "result", 5.0));
         TEST_CASES.add(Map.of("input", "2 + 3 * 4 ^ 2", "error", false, "msg", "", "result", 50));
         TEST_CASES.add(Map.of("input", "(2.0 + 3.0) * (4.0 - 1.0)", "error", false, "msg", "", "result", 15.0));
         TEST_CASES.add(Map.of("input", "-(3 + 4)", "error", false, "msg", "", "result", -7));
