@@ -243,7 +243,7 @@ public class ExpressionParser {
         while (!s.hasError) {
             Token t = peek(s);
             if (t instanceof Token.Operator op) {
-                if (op.op() == ExpressionOperator.MULTIPLY || op.op() == ExpressionOperator.DIVIDE) {
+                if (op.op() == ExpressionOperator.MULTIPLY || op.op() == ExpressionOperator.DIVIDE || op.op() == ExpressionOperator.INT_DIVIDE) {
                     s.advance();
                     ExpressionNode right = parseExponent(s, symbolTable);
                     if (s.hasError) return null;

@@ -16,7 +16,10 @@ public class TokenizerAndParserTest {
     static {
         // VALID EXPRESSIONS
         TEST_CASES.add(Map.of("input", "(1 + 2) * (3 - 1)", "error", false, "msg", "", "result", 6));
+        TEST_CASES.add(Map.of("input", "2 / 3", "error", false, "msg", "", "result", 2.0/3.0));
+        TEST_CASES.add(Map.of("input", "2 // 3", "error", false, "msg", "", "result", 0));
         TEST_CASES.add(Map.of("input", "((2 + 3) * 4 - 5) / 3", "error", false, "msg", "", "result", 5.0));
+        TEST_CASES.add(Map.of("input", "((2 + 3) * 4 - 5) // 3", "error", false, "msg", "", "result", 5));
         TEST_CASES.add(Map.of("input", "2 + 3 * 4 ^ 2", "error", false, "msg", "", "result", 50));
         TEST_CASES.add(Map.of("input", "(2.0 + 3.0) * (4.0 - 1.0)", "error", false, "msg", "", "result", 15.0));
         TEST_CASES.add(Map.of("input", "-(3 + 4)", "error", false, "msg", "", "result", -7));
@@ -150,6 +153,8 @@ public class TokenizerAndParserTest {
             String input = (String) testCase.get("input");
             boolean expectError = (boolean) testCase.get("error");
             String expectedMsg = (String) testCase.get("msg");
+
+            System.out.println(testCase);
 
             ParseResult result = ExpressionParser.parse(input, null);
 

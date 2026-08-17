@@ -160,10 +160,11 @@ public class NodeFactory {
         }
 
         // 3. Instantiate specialized node
+
         ExpressionType commonType = lNode.resultType();
 
         if (commonType == ExpressionType.DOUBLE) {
-            return createDoubleBinaryNode(op, (DoubleExpressionNode) coerceTo(lNode,ExpressionType.DOUBLE), (DoubleExpressionNode) coerceTo(rNode,ExpressionType.DOUBLE));
+            return createDoubleBinaryNode(op, (DoubleExpressionNode) lNode, (DoubleExpressionNode) rNode);
         } else if (commonType == ExpressionType.INTEGER) {
             return createIntegerBinaryNode(op, (IntegerExpressionNode) lNode, (IntegerExpressionNode) rNode);
         } else if (commonType == ExpressionType.BOOLEAN) {
@@ -444,6 +445,7 @@ public class NodeFactory {
             case MINUS:
             case MULTIPLY:
             case DIVIDE:
+            case INT_DIVIDE:
             case POW:
             case GT:
             case GTE:
@@ -550,7 +552,7 @@ public class NodeFactory {
         if (l == r) return true;
         // Numeric binary ops
         if ((op == ExpressionOperator.PLUS || op == ExpressionOperator.MINUS ||
-                op == ExpressionOperator.MULTIPLY || op == ExpressionOperator.DIVIDE ||
+                op == ExpressionOperator.MULTIPLY || op == ExpressionOperator.DIVIDE || op == ExpressionOperator.INT_DIVIDE ||
                 op == ExpressionOperator.POW || op == ExpressionOperator.MAX || op == ExpressionOperator.MIN) &&
                 l.isNumeric() && r.isNumeric()) {
             return true;
@@ -602,7 +604,7 @@ public class NodeFactory {
             case PLUS -> new IntegerAddNode(left, right);
             case MINUS -> new IntegerMinusNode(left, right);
             case MULTIPLY -> new IntegerMultiplyNode(left, right);
-            case DIVIDE -> new IntegerDivideNode(left, right);
+            case INT_DIVIDE -> new IntegerDivideNode(left, right);
             case POW -> new IntegerExponentNode(left, right);
             case MAX -> new IntegerMaxNode(left, right);
             case MIN -> new IntegerMinNode(left, right);
