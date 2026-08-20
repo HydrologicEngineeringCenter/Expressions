@@ -46,8 +46,8 @@ public enum ExpressionOperator {
     WATERYEAR("Time","WATERYEAR", "WATERYEAR", "WATERYEAR()", "WATERYEAR()", Arity.UNARY, "Returns the water year for a date."),
     LEAPYEAR("Time","LEAPYEAR", "LEAPYEAR", "LEAPYEAR()", "LEAPYEAR()", Arity.UNARY, "Returns true if the year of a date is a leap year."),
     MONTH("Time","MONTH", "MONTH", "MONTH()", "MONTH()", Arity.UNARY, "Returns the month for a date."),
-    WEEKDAY("Time", "WEEKDAY", "WEEKDAY", "WEEKDAY()", "WEEKDAY()", Arity.UNARY, "Returns the day of week using ISO-8601 standard, from 1 (Monday) to 7 (Sunday)."),
-    IS_WEEKDAY("Time", "IS_WEEKDAY", "IS_WEEKDAY", "IS_WEEKDAY()", "IS_WEEKDAY()", Arity.UNARY, "Returns if the input date falls on a Monday through Friday."),
+    WEEKDAY("Time", "WEEKDAY", "WEEKDAY", "WEEKDAY()", "WEEKDAY()", Arity.UNARY, "Returns the day of week as a string, for example: \"Monday\"."),
+    IS_WEEKDAY("Time", "IS_WEEKDAY", "IS_WEEKDAY", "IS_WEEKDAY()", "IS_WEEKDAY()", Arity.UNARY, "Returns true if the input date falls on a Monday through Friday, false otherwise."),
 
     // --- Statisticalal / random ---
     LAG("Statistical", "LAG", "LAG", "LAG(,)", "LAG(,)", Arity.BINARY, "Returns the value of a variable from a prior time step, offset by a given amount."),
