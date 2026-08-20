@@ -22,8 +22,7 @@ public class IsWeekdayNode extends BooleanUnaryExpressionNode {
         ee.clear();
         LocalDateTime c = child.evaluate();
         checkErrors();
-        int weekDay = c.getDayOfWeek().getValue(); // returns 1 = Monday, 7 = Sunday.
-        return weekDay <= 5;
+        return c.getDayOfWeek().getValue() <= 5; // getValue returns 1 = Monday, 7 = Sunday.;
     }
     @Override
     public ExpressionOperator Operator() {

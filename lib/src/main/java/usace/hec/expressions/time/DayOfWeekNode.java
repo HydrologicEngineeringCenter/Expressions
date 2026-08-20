@@ -23,8 +23,7 @@ public class DayOfWeekNode extends StringUnaryExpressionNode {
         ee.clear();
         LocalDateTime c = child.evaluate();
         checkErrors();
-        String weekDay = c.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault());
-        return weekDay;
+        return c.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault());
     }
     @Override
     public ExpressionOperator Operator() {

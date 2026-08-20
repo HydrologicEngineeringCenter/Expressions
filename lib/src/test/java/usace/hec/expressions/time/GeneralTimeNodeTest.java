@@ -190,11 +190,11 @@ public class GeneralTimeNodeTest {
     @Test
     public void testWeekdayEvaluate() {
         System.out.print("Weekday test\n");
-        DayOfWeekNode thursdayNode = new DayOfWeekNode(date(2026,8,20));
-        assertEquals("Thursday", thursdayNode.evaluate());
+        DayOfWeekNode fridayNode = new DayOfWeekNode(date(2026,8,21));
+        assertEquals("Friday", fridayNode.evaluate());
         DayOfWeekNode sundayNode = new DayOfWeekNode(date(2026, 8, 23));
         assertEquals("Sunday", sundayNode.evaluate());
-        IsWeekdayNode isWeekdayNodeTrue = new IsWeekdayNode(date(2026,8,20));
+        IsWeekdayNode isWeekdayNodeTrue = new IsWeekdayNode(date(2026,8,21));
         assertTrue(isWeekdayNodeTrue.evaluate());
         IsWeekdayNode isWeekdayNodeFalse = new IsWeekdayNode(date(2026,8,22));
         assertFalse(isWeekdayNodeFalse.evaluate());
