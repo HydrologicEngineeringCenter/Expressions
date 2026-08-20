@@ -22,7 +22,7 @@ public abstract class TernaryExpressionNode implements ExpressionNode {
     @Override
     public String ExcelSyntax(){
         StringBuilder sb = new StringBuilder();
-        sb.append(Operator().getInfixSyntax());
+        sb.append(Operator().getInfixName());
         sb.append(left().ExcelSyntax());
         sb.append(',');
         sb.append(middle().ExcelSyntax());
