@@ -186,4 +186,17 @@ public class GeneralTimeNodeTest {
         WaterYearNode afterSeptember = new WaterYearNode(date(2026, 11, 15));
         assertEquals(2027, afterSeptember.evaluate());
     }
+
+    @Test
+    public void testWeekdayEvaluate() {
+        System.out.print("Weekday test\n");
+        DayOfWeekNode fridayNode = new DayOfWeekNode(date(2026,8,21));
+        assertEquals("Friday", fridayNode.evaluate());
+        DayOfWeekNode sundayNode = new DayOfWeekNode(date(2026, 8, 23));
+        assertEquals("Sunday", sundayNode.evaluate());
+        IsWeekdayNode isWeekdayNodeTrue = new IsWeekdayNode(date(2026,8,21));
+        assertTrue(isWeekdayNodeTrue.evaluate());
+        IsWeekdayNode isWeekdayNodeFalse = new IsWeekdayNode(date(2026,8,22));
+        assertFalse(isWeekdayNodeFalse.evaluate());
+    }
 }
