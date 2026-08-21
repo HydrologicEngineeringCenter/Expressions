@@ -223,6 +223,8 @@ public class NodeFactory {
                 case WATERYEAR -> new WaterYearNode((DateTimeExpressionNode)child);
                 case LEAPYEAR -> new LeapYearNode((DateTimeExpressionNode)child);
                 case MONTH -> new MonthNode((DateTimeExpressionNode)child);
+                case WEEKDAY -> new DayOfWeekNode((DateTimeExpressionNode)child);
+                case ISWEEKDAY -> new IsWeekdayNode((DateTimeExpressionNode)child);
                 default -> { setError(s, currentPos(s), "Unary " + op + " not implemented for DATE", ""); yield new IntegerConstantNode(0); }
             };
         } else if (type == ExpressionType.STRING){
@@ -408,6 +410,8 @@ public class NodeFactory {
             case WATERYEAR:
             case LEAPYEAR:
             case MONTH:
+            case WEEKDAY:
+            case ISWEEKDAY:
                 if (args.size() != 1) {
                     setError(s, currentPos(s), fn.name() + "expects exactly 1 argument", "");
                     return null;
