@@ -91,6 +91,10 @@ public class TokenizerAndParserTest {
         TEST_CASES.add(Map.of("input", "WATERYEAR(IF(LEAPYEAR(Date(2000,1,1)), Date(1983,10,1), Date(1983,9,30)))", "error", false, "msg", "", "result", 1984));
         TEST_CASES.add(Map.of("input", "DOY(Date(1983,12,25)) + DOM(Date(1983,12,25))", "error", false, "msg", "", "result", 384));
         TEST_CASES.add(Map.of("input", "YEAR(Date(1983,12,25)) - MONTH(Date(1983,12,25))", "error", false, "msg", "", "result", 1971));
+        TEST_CASES.add(Map.of("input", "WEEKDAY(Date(2026,8,21))", "error", false, "msg", "", "result", "Friday"));
+        TEST_CASES.add(Map.of("input", "ISWEEKDAY(Date(2026,8,21))", "error", false, "msg", "", "result", true));
+        TEST_CASES.add(Map.of("input", "ISWEEKDAY(Date(2026,8,22))", "error", false, "msg", "", "result", false));
+
         //Coercion Tests
         TEST_CASES.add(Map.of("input", "TOINT(2^2^3)", "error", false, "msg", "", "result", 64));
         TEST_CASES.add(Map.of("input", "TODOUBLE(2^2^3)", "error", false, "msg", "", "result", 64.0));

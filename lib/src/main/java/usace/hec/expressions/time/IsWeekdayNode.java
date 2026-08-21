@@ -4,7 +4,6 @@ import usace.hec.expressions.DateTimeExpressionNode;
 import usace.hec.expressions.ExpressionNode;
 import usace.hec.expressions.ExpressionOperator;
 import usace.hec.expressions.logical.BooleanUnaryExpressionNode;
-import usace.hec.expressions.math.IntegerUnaryExpressionNode;
 
 import java.io.Serial;
 import java.time.LocalDateTime;
@@ -29,7 +28,7 @@ public class IsWeekdayNode extends BooleanUnaryExpressionNode {
         return StaticOperator();
     }
     public static ExpressionOperator StaticOperator(){
-        return ExpressionOperator.IS_WEEKDAY;
+        return ExpressionOperator.ISWEEKDAY;
     }
 
     @Override

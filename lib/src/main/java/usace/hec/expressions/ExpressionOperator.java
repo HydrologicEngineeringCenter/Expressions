@@ -47,7 +47,7 @@ public enum ExpressionOperator {
     LEAPYEAR("Time","LEAPYEAR", "LEAPYEAR", "LEAPYEAR()", "LEAPYEAR()", Arity.UNARY, "Returns true if the year of a date is a leap year."),
     MONTH("Time","MONTH", "MONTH", "MONTH()", "MONTH()", Arity.UNARY, "Returns the month for a date."),
     WEEKDAY("Time", "WEEKDAY", "WEEKDAY", "WEEKDAY()", "WEEKDAY()", Arity.UNARY, "Returns the day of week as a string, for example: \"Monday\"."),
-    IS_WEEKDAY("Time", "IS_WEEKDAY", "IS_WEEKDAY", "IS_WEEKDAY()", "IS_WEEKDAY()", Arity.UNARY, "Returns true if the input date falls on a Monday through Friday, false otherwise."),
+    ISWEEKDAY("Time", "ISWEEKDAY", "ISWEEKDAY", "ISWEEKDAY()", "ISWEEKDAY()", Arity.UNARY, "Returns true if the input date falls on a Monday through Friday, false otherwise."),
 
     // --- Statisticalal / random ---
     LAG("Statistical", "LAG", "LAG", "LAG(,)", "LAG(,)", Arity.BINARY, "Returns the value of a variable from a prior time step, offset by a given amount."),

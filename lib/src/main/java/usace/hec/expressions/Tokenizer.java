@@ -69,7 +69,7 @@ public class Tokenizer {
                         try{
                             tokens.add(new Token.DoubleLiteral(Double.parseDouble(numStr), pos, ""));
                         }catch (NumberFormatException e2){
-                            tokens.add(new Token.Unknown(input, pos, "Uable to parse input string to number",input));
+                            tokens.add(new Token.Unknown(input, pos, "Unable to parse input string to number",input));
                             return tokens;
                         }
                 } else {
@@ -80,7 +80,7 @@ public class Tokenizer {
                         try{
                             tokens.add(new Token.DoubleLiteral(Double.parseDouble(numStr), pos, ""));
                         }catch (NumberFormatException e2){
-                            tokens.add(new Token.Unknown(input, pos, "Uable to parse input string to number",input));
+                            tokens.add(new Token.Unknown(input, pos, "Unable to parse input string to number",input));
                             return tokens;
                         }
                         
